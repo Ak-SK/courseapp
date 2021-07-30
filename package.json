@@ -7,9 +7,13 @@
   "dependencies": {
     "aws-sdk": "2.954.0",
     "bootstrap": "5.0.2",
+    "firebase": "8.8.0",
     "jquery": "3.6.0",
     "react": "17.0.2",
+    "react-bootstrap": "1.6.1",
+    "react-code-snippet": "0.6.13",
     "react-dom": "17.0.2",
+    "react-owl-carousel": "2.3.3",
     "react-router": "5.2.0",
     "react-router-dom": "5.2.0",
     "react-scripts": "4.0.0"
@@ -24,10 +28,5 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "browserslist": [">0.2%", "not dead", "not ie <= 11", "not op_mini all"]
 }
