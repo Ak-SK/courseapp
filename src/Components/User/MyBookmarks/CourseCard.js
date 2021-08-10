@@ -5,7 +5,7 @@ const CourseCard = () => {
     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-3">
       <div class="card">
         <div class="thumb">
-          <img class="card-img" src="images/s6.jpg" alt="Card image" />
+          <img class="card-img" src="/images/s6.jpg" alt="Card image" />
           <div class="fav">
             <span>
               <i

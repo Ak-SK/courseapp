@@ -11,6 +11,9 @@ import Contactus from "./Contact/Contactus";
 import Footer from "./Footer/Footer";
 import Scroller from "../UI/Scroller";
 import SingleCourseDetails from "./Courses/SingleCoursedt/SingleCourseDetails";
+import SingleInstitutionDetails from "./Institution/InstitutionSingle/SingleInstitutionDetails";
+import { CoursesContextProvider } from "../Context/courses-context";
+import { InstitutionContextProvider } from "../Context/institution-context";
 
 const Dashboard = (props) => {
   // console.log("dashboard", props.history);
@@ -18,29 +21,36 @@ const Dashboard = (props) => {
     <>
       <Navbar {...props} />
       {/* <p>Navbar</p> */}
-      <Switch>
-        <Route path={`${props.match.url}/home`}>
-          <Home {...props} />
-        </Route>
-        <Route path={`${props.match.url}/courses/:courseId`}>
-          <SingleCourseDetails />
-        </Route>
-        <Route path={`${props.match.url}/courses`}>
-          <Courses {...props} />
-        </Route>
-        <Route path={`${props.match.url}/institution`}>
-          <Institution {...props} />
-        </Route>
-        <Route path={`${props.match.url}/exams`}>
-          <Exams {...props} />
-        </Route>
-        <Route path={`${props.match.url}/aboutus`}>
-          <Aboutus {...props} />
-        </Route>
-        <Route path={`${props.match.url}/contactus`}>
-          <Contactus {...props} />
-        </Route>
-      </Switch>
+      <InstitutionContextProvider>
+        <CoursesContextProvider>
+          <Switch>
+            <Route path={`${props.match.url}/home`}>
+              <Home {...props} />
+            </Route>
+            <Route path={`${props.match.url}/courses/:courseId`}>
+              <SingleCourseDetails />
+            </Route>
+            <Route path={`${props.match.url}/courses`}>
+              <Courses {...props} />
+            </Route>
+            <Route path={`${props.match.url}/institution/:institutionId`}>
+              <SingleInstitutionDetails />
+            </Route>
+            <Route path={`${props.match.url}/institution`}>
+              <Institution {...props} />
+            </Route>
+            <Route path={`${props.match.url}/exams`}>
+              <Exams {...props} />
+            </Route>
+            <Route path={`${props.match.url}/aboutus`}>
+              <Aboutus {...props} />
+            </Route>
+            <Route path={`${props.match.url}/contactus`}>
+              <Contactus {...props} />
+            </Route>
+          </Switch>
+        </CoursesContextProvider>
+      </InstitutionContextProvider>
       <Footer />
       <Scroller />
     </>

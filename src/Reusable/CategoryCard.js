@@ -2,10 +2,10 @@ import React from "react";
 const CategoryCard = () => {
   return (
     <>
-      <div class="col-lg-3">
-        <img class="crs_img" src="images/t1.jpg" alt="IAS" />
-        <div class="img_overlay"></div>
-        <div class="crs_caption">
+      <div className="col-lg-3">
+        <img class="card-img" src="/images/s6.jpg" alt="Card image" />
+        <div className="img_overlay"></div>
+        <div className="crs_caption">
           <p>
             <b>IAS</b>
           </p>

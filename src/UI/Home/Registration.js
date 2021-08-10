@@ -2,9 +2,9 @@ import React from "react";
 const Registration = () => {
   return (
     <>
-      <section class="reg_sect">
-        <div class="container-fluid">
-          <div class="inner_container">
+      <section className="reg_sect">
+        <div className="container-fluid">
+          <div className="inner_container">
             <p>STARTING ONLINE LEARNING</p>
             <h3>
               ENHANCE YOUR SKILLS WITH BEST
@@ -12,9 +12,9 @@ const Registration = () => {
               ONLINE COURSES
             </h3>
             <form action="#blankpage" method="get">
-              <button type="submit" class="reg_btn">
+              <a className="reg_btn" href="/">
                 Get Started Now
-              </button>
+              </a>
             </form>
           </div>
         </div>

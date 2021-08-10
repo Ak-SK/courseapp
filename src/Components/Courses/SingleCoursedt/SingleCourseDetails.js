@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import CourseOverview from "./CourseOverview";
 import CourseContent from "./CourseContent";
@@ -8,36 +8,40 @@ import CourseReview from "./CourseReview";
 import CoursePriceBox from "./CoursePriceBox";
 import CourseFeatures from "./CourseFeatures";
 import CourseHeading from "./CourseHeading";
+import CarouselView from "../../../Reusable/CarouselView";
 import "../../../styles.css";
+import CoursesContext from "../../../Context/courses-context";
 
 const SingleCourseDetials = () => {
-  const params = useParams();
-  console.log(params.courseId);
-  // useEffect(() => {
-  //   console.log("dynamicCourseId", props.param);
-  // });
+  // const params = useParams();
+  const ctx = useContext(CoursesContext);
+  // console.log(params.courseId, ctx.course.CName);
+
   return (
     <>
-      <CourseHeading />
-      <div class="crs_sl">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-sm-8 col-lg-8 col-xl-9">
-              <CourseOverview />
+      <CourseHeading ctx={ctx} />
+      <div className="crs_sl">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-sm-8 col-lg-8 col-xl-9">
+              <CourseOverview ctx={ctx} />
               <CourseContent />
-              <div class="course_review">
+              <div className="course_review">
                 <CourseReview />
                 <StudentFeedbackList />
               </div>
               {/* <StudentFeedbackForm /> */}
             </div>
-            <div class="col-sm-4 col-lg-4 col-xl-3">
+            <div className="col-sm-4 col-lg-4 col-xl-3">
               <CoursePriceBox />
               <CourseFeatures />
             </div>
           </div>
         </div>
       </div>
+      <section className="rltd_crs">
+        <CarouselView />
+      </section>
     </>
   );
 };

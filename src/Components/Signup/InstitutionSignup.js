@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Alert } from "react-bootstrap";
-import firebase from "../../Services/Firebase";
+import firebase from "../../Services/firebaseInstitute";
 import "./Signup.css";
 
 const InstitutionSignup = () => {

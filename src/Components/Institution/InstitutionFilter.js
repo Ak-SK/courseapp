@@ -1,8 +1,10 @@
 import React from "react";
 import FilterCategory from "../../Reusable/FilterCategory";
 import FilterSubcategory from "../../Reusable/FilterSubcategory";
+import $ from "jquery";
 
 const InstitutionFilter = (props) => {
+  // $(document).ready(function () {
   var coll = document.getElementsByClassName("collapsible");
   var i;
 
@@ -22,10 +24,11 @@ const InstitutionFilter = (props) => {
       }
     });
   }
-  //
+  // });
+
   return (
-    <div class="col-md-4 col-lg-3 col-xl-3">
-      <div class="scroll_sect">
+    <div className="col-md-4 col-lg-3 col-xl-3">
+      <div className="scroll_sect">
         {/* Filter based on Category */}
         <FilterCategory />
 
@@ -33,58 +36,78 @@ const InstitutionFilter = (props) => {
         <FilterSubcategory />
 
         {/* Filter based on Price */}
-        <div class="filter filter3">
-          <button type="button" class="collapsible">
+        <div className="filter filter3">
+          <button type="button" className="collapsible">
             Price
           </button>
-          <div class="content">
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" value="free" />
+          <div className="content">
+            <div className="form-check">
+              <label className="form-check-label">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  value="free"
+                />
                 Free
               </label>
             </div>
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" value="paid" />
+            <div className="form-check">
+              <label className="form-check-label">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  value="paid"
+                />
                 Paid
               </label>
             </div>
-            <div class="form-check">
-              <label class="form-check-label">
+            <div className="form-check">
+              <label className="form-check-label">
                 <input
                   type="checkbox"
-                  class="form-check-input"
+                  className="form-check-input"
                   value="English"
                 />
                 Very Low (0-250)
               </label>
             </div>
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" value="Tamil" />
+            <div className="form-check">
+              <label className="form-check-label">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  value="Tamil"
+                />
                 Low (250-500)
               </label>
             </div>
-            <div class="form-check">
-              <label class="form-check-label">
+            <div className="form-check">
+              <label className="form-check-label">
                 <input
                   type="checkbox"
-                  class="form-check-input"
+                  className="form-check-input"
                   value="English"
                 />
                 Medium (500-1000)
               </label>
             </div>
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" value="Tamil" />
+            <div className="form-check">
+              <label className="form-check-label">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  value="Tamil"
+                />
                 High (1000-2500)
               </label>
             </div>
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" value="Tamil" />
+            <div className="form-check">
+              <label className="form-check-label">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  value="Tamil"
+                />
                 Very High (More than 2500)
               </label>
             </div>
@@ -92,30 +115,38 @@ const InstitutionFilter = (props) => {
         </div>
 
         {/* Filter based on Language */}
-        <div class="filter filter4">
-          <button type="button" class="collapsible">
+        <div className="filter filter4">
+          <button type="button" className="collapsible">
             Language
           </button>
-          <div class="content">
-            <div class="form-check">
-              <label class="form-check-label">
+          <div className="content">
+            <div className="form-check">
+              <label className="form-check-label">
                 <input
                   type="checkbox"
-                  class="form-check-input"
+                  className="form-check-input"
                   value="English"
                 />
                 English
               </label>
             </div>
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" value="Tamil" />
+            <div className="form-check">
+              <label className="form-check-label">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  value="Tamil"
+                />
                 Tamil
               </label>
             </div>
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" value="Hindi" />
+            <div className="form-check">
+              <label className="form-check-label">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  value="Hindi"
+                />
                 Hindi
               </label>
             </div>
@@ -123,66 +154,66 @@ const InstitutionFilter = (props) => {
         </div>
 
         {/* Filter based on Rating */}
-        <div class="filter filter5">
-          <button type="button" class="collapsible">
+        <div className="filter filter5">
+          <button type="button" className="collapsible">
             Rating
           </button>
-          <div class="content">
-            <div class="form-check">
-              <label class="form-check-label">
+          <div className="content">
+            <div className="form-check">
+              <label className="form-check-label">
                 <input
                   type="checkbox"
-                  class="form-check-input"
+                  className="form-check-input"
                   value="Show All"
                 />
                 Show All
               </label>
             </div>
-            <div class="form-check">
-              <label class="form-check-label">
+            <div className="form-check">
+              <label className="form-check-label">
                 <input
                   type="checkbox"
-                  class="form-check-input"
+                  className="form-check-input"
                   value="1 Star & Above"
                 />
                 1 Star & Above
               </label>
             </div>
-            <div class="form-check">
-              <label class="form-check-label">
+            <div className="form-check">
+              <label className="form-check-label">
                 <input
                   type="checkbox"
-                  class="form-check-input"
+                  className="form-check-input"
                   value="2 Star & Above"
                 />
                 2 Star & Above
               </label>
             </div>
-            <div class="form-check">
-              <label class="form-check-label">
+            <div className="form-check">
+              <label className="form-check-label">
                 <input
                   type="checkbox"
-                  class="form-check-input"
+                  className="form-check-input"
                   value="3 Star & Above"
                 />
                 3 Star & Above
               </label>
             </div>
-            <div class="form-check">
-              <label class="form-check-label">
+            <div className="form-check">
+              <label className="form-check-label">
                 <input
                   type="checkbox"
-                  class="form-check-input"
+                  className="form-check-input"
                   value="4 Star & Above"
                 />
                 4 Star & Above
               </label>
             </div>
-            <div class="form-check">
-              <label class="form-check-label">
+            <div className="form-check">
+              <label className="form-check-label">
                 <input
                   type="checkbox"
-                  class="form-check-input"
+                  className="form-check-input"
                   value="5 Star"
                 />
                 5 Star
@@ -190,11 +221,11 @@ const InstitutionFilter = (props) => {
             </div>
           </div>
         </div>
-        <div class="apply-filter">
-          <button type="submit" class="btn" style={{ marginRight: "10px" }}>
+        <div className="apply-filter">
+          <button type="submit" className="btn" style={{ marginRight: "10px" }}>
             Apply
           </button>
-          <button type="submit" class="btn">
+          <button type="submit" className="btn">
             Clear
           </button>
         </div>

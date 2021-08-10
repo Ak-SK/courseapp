@@ -2,26 +2,26 @@ import React from "react";
 const CourseFeatures = () => {
   return (
     <>
-      <div class="course-feature">
-        <ul class="list-group">
-          <h4 class="title">Course Features</h4>
+      <div className="course-feature">
+        <ul className="list-group">
+          <h4 className="title">Course Features</h4>
           <li>
-            Lectures <span class="float-right">6</span>
+            Lectures <span className="float-right">6</span>
           </li>
           <li>
-            Pdfs <span class="float-right">1</span>
+            Pdfs <span className="float-right">1</span>
           </li>
           <li>
-            Duration <span class="float-right">3 hours</span>
+            Duration <span className="float-right">3 hours</span>
           </li>
           <li>
-            Skill level <span class="float-right">All level</span>
+            Skill level <span className="float-right">All level</span>
           </li>
           <li>
-            Language <span class="float-right">English</span>
+            Language <span className="float-right">English</span>
           </li>
           <li>
-            Assessments <span class="float-right">Yes</span>
+            Assessments <span className="float-right">Yes</span>
           </li>
         </ul>
       </div>

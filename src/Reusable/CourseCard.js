@@ -1,59 +1,71 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import CoursesContext from "../Context/courses-context";
+// import { Link } from "react-router-dom";
 const CourseCard = (props) => {
+  const ctx = useContext(CoursesContext);
+
+  const courseUpdate = (course) => {
+    ctx.setCourse(course);
+    props.history.push(`${props.match.url}/courses/${props.course.CrsId}`);
+  };
+
   return (
     <>
-      {/* <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-3 filter"> */}
-      {/* <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4"> */}
-      <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
-        <div class="card">
-          <div class="thumb">
+      {/* <div className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-3 filter"> */}
+      {/* <div className="col-sm-6 col-md-6 col-lg-4 col-xl-4"> */}
+      <div className="item col-sm-6 col-md-6 col-lg-4 col-xl-4">
+        <div className="card">
+          <div className="thumb">
             <img
-              class="card-img"
+              className="card-img"
               src={props.course.TNUrl}
               alt={props.course.CName}
             />
-            <div class="fav">
+            <div className="fav">
               <span>
-                <i onClick="myFunction(this)" class="far fa-bookmark"></i>
+                <i onClick="myFunction(this)" className="far fa-bookmark"></i>
               </span>
             </div>
-            <div class="img_overlay">
-              <div class="tag">Best Seller</div>
-              <div class="center">
+            <div className="img_overlay">
+              <div className="tag">Best Seller</div>
+              <div className="center">
                 <span>Preview Course</span>
               </div>
             </div>
-            {/* <a href="#c" class="stretched-link"></a> */}
-            <Link
+            {/* <a href="#c" className="stretched-link"></a> */}
+            {/* <Link
               to={`${props.match.url}/courses/${props.course.CrsId}`}
-              class="stretched-link"
-            ></Link>
+              className="stretched-link"
+            ></Link> */}
+            <div
+              onClick={() => courseUpdate(props.course)}
+              className="stretched-link"
+            ></div>
           </div>
-          <div class="card-body">
+          <div className="card-body">
             <p>
               Faculty: {props.course.CouFaculties}
               <span>
-                <a class="view_more" href="#courses">
+                <a className="view_more" href="#courses">
                   {props.course.MCategory}
                 </a>
               </span>
             </p>
-            <h3 class="card-title">{props.course.CName}</h3>
-            <p class="card-text">
-              <span class="fa fa-star"></span>
-              <span class="fa fa-star"></span>
-              <span class="fa fa-star"></span>
-              <span class="fa fa-star"></span>
-              <span class="fa fa-star"></span>
+            <h3 className="card-title">{props.course.CName}</h3>
+            <p className="card-text">
+              <span className="fa fa-star"></span>
+              <span className="fa fa-star"></span>
+              <span className="fa fa-star"></span>
+              <span className="fa fa-star"></span>
+              <span className="fa fa-star"></span>
             </p>
             <hr />
-            <p class="card_footer">
-              <a class="sdt" href="#">
-                <i class="far fa-user"></i>121
+            <p className="card_footer">
+              <a className="sdt" href="#">
+                <i className="far fa-user"></i>121
               </a>
-              <a class="price" href="#">
-                <i class="fas fa-rupee-sign"></i>875.25
+              <a className="price" href="#">
+                <i className="fas fa-rupee-sign"></i>875.25
               </a>
             </p>
           </div>

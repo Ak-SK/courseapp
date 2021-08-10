@@ -1,10 +1,10 @@
 import React from "react";
 import ProfileCard from "./ProfileCard";
 
-const MyProfile = () => {
+const MyProfile = (props) => {
   return (
     <div class="row m-0">
-      <ProfileCard />
+      <ProfileCard {...props} />
     </div>
   );
 };

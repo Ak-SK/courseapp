@@ -1,23 +1,19 @@
 import React from "react";
-const Testimonal = () => {
-  //Get the button
-  var mybutton = document.getElementById("myBtn");
+import $ from "jquery";
 
-  // When the user scrolls down 20px from the top of the document, show the button
-  window.onScroll = function () {
-    scrollFunction();
-  };
-
-  function scrollFunction() {
-    if (
-      document.body.scrollTop > 20 ||
-      document.documentElement.scrollTop > 20
-    ) {
-      mybutton.style.display = "block";
+const Scroller = () => {
+  // // When the user scrolls down 20px from the top of the document, show the button
+  $(window).scroll(function () {
+    if ($(this).scrollTop()) {
+      $("#myBtn").fadeIn();
     } else {
-      mybutton.style.display = "none";
+      $("#myBtn").fadeOut();
     }
-  }
+  });
+  // $(".scroller_icon").click(function () {
+  //   $("html, body").animate({ scrollTop: 0 }, 800);
+  //   return false;
+  // });
 
   // When the user clicks on the button, scroll to the top of the document
   function topFunction() {
@@ -26,12 +22,12 @@ const Testimonal = () => {
   }
   return (
     <>
-      <section class="scroller_icon">
+      <section className="scroller_icon">
         <button onClick={topFunction} id="myBtn" title="Go to top">
-          <i class="fas fa-long-arrow-alt-up"></i>
+          <i className="fas fa-long-arrow-alt-up"></i>
         </button>
       </section>
     </>
   );
 };
-export default Testimonal;
+export default Scroller;

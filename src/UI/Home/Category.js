@@ -1,7 +1,7 @@
 import React from "react";
 import CategoryCard from "../../Reusable/CategoryCard";
 
-const Category = () => {
+const Category = (props) => {
   return (
     <section className="crs_sect" id="ourcourse">
       <div className="container-fluid">
@@ -93,11 +93,11 @@ const Category = () => {
             </div>
           </div>
         </div>
-        <form action="courses.html" method="get">
-          <button type="submit" className="crs_btn">
-            View All Courses
-          </button>
-        </form>
+        {/* <form action="courses.html" method="get"> */}
+        <a className="crs_btn" href={`${props.match.url}/courses`}>
+          View All Courses
+        </a>
+        {/* </form> */}
       </div>
     </section>
   );

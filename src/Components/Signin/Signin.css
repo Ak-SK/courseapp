@@ -23,6 +23,7 @@ body {
 
 .left-slide > div {
   height: 100%;
+  position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -48,6 +49,7 @@ body {
 .left-slide h1 {
   position: absolute;
   font-size: 40px;
+  font-family: inherit;
   margin-bottom: 10px;
   margin-top: -30px;
   color: #fff;
@@ -73,9 +75,22 @@ body {
   margin-top: 0px; */
   width: 95px;
   height: 85px;
-  margin-top: -55px;
-  right: -84px;
+  margin-top: -26%;
+  left: 95%;
 }
+
+.left-slide .float {
+  position: absolute;
+  z-index: 100;
+  bottom: 10px;
+  right: 20px;
+}
+
+.left-slide .float .homelink {
+  font-size: 18px;
+  color: #fff;
+}
+
 .right-slide {
   height: 100%;
   position: absolute;
@@ -152,10 +167,12 @@ button:focus {
 }
 
 .container form .title {
+  position: relative;
   font-size: 30px;
+  color: #000;
   font-weight: 600;
   margin: 0px 0 10px 0;
-  position: relative;
+  text-shadow: none;
 }
 .container form .title:before {
   content: "";
@@ -248,7 +265,7 @@ button:focus {
   display: flex;
   width: max-content;
   justify-content: center;
-  margin-left: -75px;
+  margin-left: -20%;
   gap: 5px;
 }
 

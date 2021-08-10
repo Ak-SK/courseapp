@@ -5,6 +5,7 @@ const MyCourses = () => {
   return (
     <>
       <CourseList />
+      <CourseList />
     </>
   );
 };

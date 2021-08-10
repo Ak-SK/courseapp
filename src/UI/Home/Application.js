@@ -2,32 +2,32 @@ import React from "react";
 const Application = () => {
   return (
     <>
-      <section class="app_sect">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-lg-8">
-              <div class="app_links">
+      <section className="app_sect">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-lg-8">
+              <div className="app_links">
                 <form action="#" method="get">
                   <h3>Download & Enjoy</h3>
                   <p>
                     Access your courses anywhere, anytime & prepare <br /> with
                     practice tests.
                   </p>
-                  <button type="submit" class="btn btn_ios" value="">
-                    <p class="btn_logo">
-                      <i class="fab fa-apple"></i>
+                  <button type="submit" className="btn btn_ios" value="">
+                    <p className="btn_logo">
+                      <i className="fab fa-apple"></i>
                     </p>
-                    <p class="para">
+                    <p className="para">
                       App Store
                       <br />
                       <span>Available now on the</span>
                     </p>
                   </button>
-                  <button type="submit" class="btn btn_android" value="">
-                    <p class="btn_logo">
-                      <i class="fab fa-google-play"></i>
+                  <button type="submit" className="btn btn_android" value="">
+                    <p className="btn_logo">
+                      <i className="fab fa-google-play"></i>
                     </p>
-                    <p class="para" style={{ marginRight: "43px" }}>
+                    <p className="para" style={{ marginRight: "43px" }}>
                       Google Play
                       <br />
                       <span>Get it on</span>
@@ -36,10 +36,10 @@ const Application = () => {
                 </form>
               </div>
             </div>
-            <div class="col-lg-4">
-              <div class="phn_image">
+            <div className="col-lg-4">
+              <div className="phn_image">
                 <img
-                  class="phn_img"
+                  className="phn_img"
                   src="/images/phone_home.png"
                   alt="mobile"
                 />

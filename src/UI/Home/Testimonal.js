@@ -1,136 +1,142 @@
 import React from "react";
+import $ from "jquery";
+
 const Testimonal = () => {
   // vars
-  // var testim = document.getElementById("testim"),
-  //   testimDots = Array.prototype.slice.call(
-  //     document.getElementById("testim-dots").children
-  //   ),
-  //   testimContent = Array.prototype.slice.call(
-  //     document.getElementById("testim-content").children
-  //   ),
-  //   testimLeftArrow = document.getElementById("left-arrow"),
-  //   testimRightArrow = document.getElementById("right-arrow"),
-  //   testimSpeed = 4500,
-  //   currentSlide = 0,
-  //   currentActive = 0,
-  //   testimTimer,
-  //   touchStartPos,
-  //   touchEndPos,
-  //   touchPosDiff,
-  //   ignoreTouch = 30;
-  // window.onload = function () {
-  //   // Testim Script
-  //   function playSlide(slide) {
-  //     for (var k = 0; k < testimDots.length; k++) {
-  //       testimContent[k].classList.remove("active");
-  //       testimContent[k].classList.remove("inactive");
-  //       testimDots[k].classList.remove("active");
-  //     }
+  $(document).ready(function () {
+    var testim = document.getElementById("testim"),
+      testimDots = Array.prototype.slice.call(
+        document.getElementById("testim-dots").children
+      ),
+      testimContent = Array.prototype.slice.call(
+        document.getElementById("testim-content").children
+      ),
+      testimLeftArrow = document.getElementById("left-arrow"),
+      testimRightArrow = document.getElementById("right-arrow"),
+      testimSpeed = 4500,
+      currentSlide = 0,
+      currentActive = 0,
+      testimTimer,
+      touchStartPos,
+      touchEndPos,
+      touchPosDiff,
+      ignoreTouch = 30;
 
-  //     if (slide < 0) {
-  //       slide = currentSlide = testimContent.length - 1;
-  //     }
+    $(document).ready(function () {
+      // Testim Script
+      function playSlide(slide) {
+        for (var k = 0; k < testimDots.length; k++) {
+          testimContent[k].classList.remove("active");
+          testimContent[k].classList.remove("inactive");
+          testimDots[k].classList.remove("active");
+        }
 
-  //     if (slide > testimContent.length - 1) {
-  //       slide = currentSlide = 0;
-  //     }
+        if (slide < 0) {
+          slide = currentSlide = testimContent.length - 1;
+        }
 
-  //     if (currentActive !== currentSlide) {
-  //       testimContent[currentActive].classList.add("inactive");
-  //     }
-  //     testimContent[slide].classList.add("active");
-  //     testimDots[slide].classList.add("active");
+        if (slide > testimContent.length - 1) {
+          slide = currentSlide = 0;
+        }
 
-  //     currentActive = currentSlide;
+        if (currentActive !== currentSlide) {
+          testimContent[currentActive].classList.add("inactive");
+        }
+        testimContent[slide].classList.add("active");
+        testimDots[slide].classList.add("active");
 
-  //     clearTimeout(testimTimer);
-  //     testimTimer = setTimeout(function () {
-  //       playSlide((currentSlide += 1));
-  //     }, testimSpeed);
-  //   }
+        currentActive = currentSlide;
 
-  //   testimLeftArrow.addEventListener("click", function () {
-  //     playSlide((currentSlide -= 1));
-  //   });
+        clearTimeout(testimTimer);
+        testimTimer = setTimeout(function () {
+          playSlide((currentSlide += 1));
+        }, testimSpeed);
+      }
 
-  //   testimRightArrow.addEventListener("click", function () {
-  //     playSlide((currentSlide += 1));
-  //   });
+      testimLeftArrow.addEventListener("click", function () {
+        playSlide((currentSlide -= 1));
+      });
 
-  //   for (var l = 0; l < testimDots.length; l++) {
-  //     testimDots[l].addEventListener("click", function () {
-  //       playSlide((currentSlide = testimDots.indexOf(this)));
-  //     });
-  //   }
+      testimRightArrow.addEventListener("click", function () {
+        playSlide((currentSlide += 1));
+      });
 
-  //   playSlide(currentSlide);
+      for (var l = 0; l < testimDots.length; l++) {
+        testimDots[l].addEventListener("click", function () {
+          playSlide((currentSlide = testimDots.indexOf(this)));
+        });
+      }
 
-  //   // keyboard shortcuts
-  //   document.addEventListener("keyup", function (e) {
-  //     switch (e.keyCode) {
-  //       case 37:
-  //         testimLeftArrow.click();
-  //         break;
+      playSlide(currentSlide);
 
-  //       case 39:
-  //         testimRightArrow.click();
-  //         break;
+      // keyboard shortcuts
+      document.addEventListener("keyup", function (e) {
+        switch (e.keyCode) {
+          case 37:
+            testimLeftArrow.click();
+            break;
 
-  //       default:
-  //         break;
-  //     }
-  //   });
+          case 39:
+            testimRightArrow.click();
+            break;
 
-  //   testim.addEventListener("touchstart", function (e) {
-  //     touchStartPos = e.changedTouches[0].clientX;
-  //   });
+          default:
+            break;
+        }
+      });
 
-  //   testim.addEventListener("touchend", function (e) {
-  //     touchEndPos = e.changedTouches[0].clientX;
+      testim.addEventListener("touchstart", function (e) {
+        touchStartPos = e.changedTouches[0].clientX;
+      });
 
-  //     touchPosDiff = touchStartPos - touchEndPos;
+      testim.addEventListener("touchend", function (e) {
+        touchEndPos = e.changedTouches[0].clientX;
 
-  //     console.log(touchPosDiff);
-  //     console.log(touchStartPos);
-  //     console.log(touchEndPos);
+        touchPosDiff = touchStartPos - touchEndPos;
 
-  //     if (touchPosDiff > 0 + ignoreTouch) {
-  //       testimLeftArrow.click();
-  //     } else if (touchPosDiff < 0 - ignoreTouch) {
-  //       testimRightArrow.click();
-  //     } else {
-  //       return;
-  //     }
-  //   });
-  // };
+        console.log(touchPosDiff);
+        console.log(touchStartPos);
+        console.log(touchEndPos);
+
+        if (touchPosDiff > 0 + ignoreTouch) {
+          testimLeftArrow.click();
+        } else if (touchPosDiff < 0 - ignoreTouch) {
+          testimRightArrow.click();
+        } else {
+          return;
+        }
+      });
+    });
+  });
+
   return (
     <>
-      <section class="testim" id="testim">
-        <div class="container">
-          <div class="header">
+      <section className="testim" id="testim">
+        <div className="container">
+          <div className="header">
             <h1>What People Say</h1>
           </div>
-          <div class="background"></div>
-          <div class="testim-cover">
-            <div class="wrap">
+          <div className="background"></div>
+          <div className="testim-cover">
+            <div className="wrap">
               <span
                 id="right-arrow"
-                class="arrow right fa fa-chevron-right"
+                className="arrow right fa fa-chevron-right"
               ></span>
               <span
                 id="left-arrow"
-                class="arrow left fa fa-chevron-left "
+                className="arrow left fa fa-chevron-left "
               ></span>
-              <ul id="testim-dots" class="dots">
-                <li class="dot active"></li>
-                <li class="dot"></li>
-                <li class="dot"></li>
-                <li class="dot"></li>
-                <li class="dot"></li>
+              <ul id="testim-dots" className="dots">
+                <li className="dot active"></li>
+                <li className="dot"></li>
+                <li className="dot"></li>
+                <li className="dot"></li>
+                <li className="dot"></li>
               </ul>
-              <div id="testim-content" class="cont">
-                <div class="active">
-                  <div class="img">
+              <div id="testim-content" className="cont">
+                <div className="active">
+                  <div className="img">
                     <img src="/images/team5.jpg" alt="" />
                   </div>
                   <h2>Lorem P. Ipsum</h2>
@@ -143,7 +149,7 @@ const Testimonal = () => {
                 </div>
 
                 <div>
-                  <div class="img">
+                  <div className="img">
                     <img src="/images/team6.jpg" alt="" />
                   </div>
                   <h2>Mr. Lorem Ipsum</h2>
@@ -156,7 +162,7 @@ const Testimonal = () => {
                 </div>
 
                 <div>
-                  <div class="img">
+                  <div className="img">
                     <img src="/images/team7.jpg" alt="" />
                   </div>
                   <h2>Lorem Ipsum</h2>
@@ -169,7 +175,7 @@ const Testimonal = () => {
                 </div>
 
                 <div>
-                  <div class="img">
+                  <div className="img">
                     <img src="/images/team8.jpg" alt="" />
                   </div>
                   <h2>Lorem De Ipsum</h2>
@@ -182,7 +188,7 @@ const Testimonal = () => {
                 </div>
 
                 <div>
-                  <div class="img">
+                  <div className="img">
                     <img src="/images/team5.jpg" alt="" />
                   </div>
                   <h2>Ms. Lorem R. Ipsum</h2>

@@ -3,22 +3,26 @@ import React from "react";
 const FilterSubcategory = () => {
   return (
     <>
-      <div class="filter filter2">
-        <button type="button" class="collapsible">
+      <div className="filter filter2">
+        <button type="button" className="collapsible">
           Sub Category
         </button>
-        <div class="content">
-          <div class="form-check">
-            <label class="form-check-label">
-              <input type="checkbox" class="form-check-input" value="mains" />
+        <div className="content">
+          <div className="form-check">
+            <label className="form-check-label">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                value="mains"
+              />
               MAINS
             </label>
           </div>
-          <div class="form-check">
-            <label class="form-check-label">
+          <div className="form-check">
+            <label className="form-check-label">
               <input
                 type="checkbox"
-                class="form-check-input"
+                className="form-check-input"
                 value="preliminary"
               />
               PRELIMINARY

@@ -1,28 +1,47 @@
-import React from "react";
-const InstitutionCard = () => {
+import React, { useContext } from "react";
+import InstitutionContext from "../Context/institution-context";
+// import { Link } from "react-router-dom";
+const InstitutionCard = (props) => {
+  const ctx = useContext(InstitutionContext);
+
+  const instituteUpdate = (institute) => {
+    // console.log(institute);
+    ctx.setInstitute(institute);
+    props.history.push(`${props.match.url}/institution/${institute.id}`);
+  };
+
   return (
     <>
-      <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
-        <div class="card">
-          <img class="card-img" src="/images/inst5.jpg" alt="Card" />
-          <a href="single.html" class="stretched-link"></a>
-          <div class="card-body text-center">
-            <h3 class="card-title">Institute Name</h3>
-            <p class="card-text">
-              <span class="fa fa-star"></span>
-              <span class="fa fa-star"></span>
-              <span class="fa fa-star"></span>
-              <span class="fa fa-star"></span>
-              <span class="fa fa-star"></span>
+      <div className="item col-sm-6 col-md-4 col-lg-3 col-xl-3">
+        <div className="card">
+          <img
+            className="card-img"
+            src={props.institution.logoUrl}
+            alt={props.institution.instituteName}
+            // src={props.institution.Logourl}
+            // alt={props.institution.InstituteName}
+          />
+          <div
+            onClick={() => instituteUpdate(props.institution)}
+            className="stretched-link"
+          ></div>
+          <div className="card-body text-center">
+            <h3 className="card-title">{props.institution.instituteName}</h3>
+            <p className="card-text">
+              <span className="fa fa-star"></span>
+              <span className="fa fa-star"></span>
+              <span className="fa fa-star"></span>
+              <span className="fa fa-star"></span>
+              <span className="fa fa-star"></span>
             </p>
-            <p class="inst_place">Chennai</p>
+            {/* <p className="inst_place">{props.institution.address.district}</p> */}
             <hr />
-            <p class="card_footer">
-              <a class="sdt" href="#l">
-                56,178 students
+            <p className="card_footer">
+              <a className="sdt" href="#a">
+                {props.institution.noOfStudents} Students
               </a>
-              <a class="cor" href="courses.html">
-                22 courses
+              <a className="cor" href="#s">
+                {props.institution.noOfCourses} Courses
               </a>
             </p>
           </div>

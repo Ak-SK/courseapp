@@ -1,31 +1,44 @@
-// import AWS from "../../Services/AWS";
-import * as AWS from "aws-sdk";
+import { dbInstitute } from "../../Services/firebaseInstitute";
 
-const configuration = {
-  region: "ap-south-1",
-  // secretAccessKey: localStorage.getItem("secretAccessKey"),
-  // accessKeyId: localStorage.getItem("accessKeyId")
-  secretAccessKey: "j7uacGWvcCsri9w9QspywqEGSAxCHLjbyFu7HA5D",
-  accessKeyId: "AKIAVXBBB54RSF2RUKC4"
+const getInstitutions = (institution) => {
+  // const db = firebaseInstitute.firestore();
+  dbInstitute
+    .collection("institutes")
+    .where("isVerified", "==", true)
+    .limit(9)
+    .get()
+    .then((data) => {
+      let fromCache = data.metadata.fromCache;
+
+      let list = [];
+      data.forEach((doc) => {
+        // console.log(doc.data());
+        list.push(doc.data());
+      });
+      institution(list, fromCache);
+    })
+    .catch((e) => console.log(e));
 };
 
-AWS.config.update(configuration);
-const docClient = new AWS.DynamoDB.DocumentClient();
-const getCourses = async () => {
-  var params = {
-    TableName: "Courses"
-  };
-  let datas = null;
-  await docClient.scan(params, function (err, data) {
-    if (!err) {
-      console.log("from dynamo", data);
-      datas = data;
-    } else {
-      console.log(err);
-    }
-  });
-  // console.log("docCLient", docClient);
-  return datas;
-};
+export default getInstitutions;
 
-export default getCourses;
+// AWS DB Code:
+
+// const docClient = new AWS.DynamoDB.DocumentClient();
+// const getInstitutions = async (institution) => {
+//   var params = {
+//     TableName: "Institutes"
+//   };
+//   let datas = null;
+//   await docClient.scan(params, function (err, data) {
+//     if (!err) {
+//       console.log("from dynamo", data);
+//       datas = data;
+//       institution(datas);
+//     } else {
+//       console.log(err);
+//     }
+//   });
+// console.log("docCLient", docClient);
+// return datas;
+// };

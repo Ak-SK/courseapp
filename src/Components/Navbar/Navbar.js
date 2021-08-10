@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
-// import "./Navbar.css";
+import { NavLink, Link } from "react-router-dom";
+import $ from "jquery";
 
 const Overlay = (props) => {
   return (
@@ -51,16 +51,77 @@ const Overlay = (props) => {
   );
 };
 
+// const navigateToAllCourses = (props) => {
+//   props.history.push(`${props.match.url}/courses`);
+// };
+
 const Navbar = (props) => {
+  if (window.matchMedia("(min-width: 768px)").matches) {
+    $(document).ready(function () {
+      $(window).scroll(function () {
+        if ($(window).scrollTop() > 100) {
+          $(".fixed-top").css("background-color", "#fff");
+          $("#navigation").css("box-shadow", "0px 0px 30px rgb(0 0 0 / 10%)");
+          $(".navbar_img").css(
+            "background-image",
+            "url(/images/logo_black.png)"
+          );
+          $(".navbar-brand").css(
+            "border-right",
+            "1px solid rgba(0, 0, 0, 0.2)"
+          );
+          $(".nav-link").css("color", "#000");
+          $("#usericon").css("color", "#000");
+        } else {
+          $(".fixed-top").css("background-color", "");
+          $("#navigation").css("box-shadow", "");
+          $(".navbar_img").css("background-image", "");
+          $(".navbar-brand").css("border-right", "");
+          $(".nav-link").css("color", "");
+          $("#usericon").css("color", "");
+        }
+        if ($(window).scrollTop() > 100) {
+          $(".nav-link").hover(
+            function () {
+              $(this).css("color", "#2441e7");
+            },
+            function () {
+              $(this).css("color", "#000");
+            }
+          );
+        } else {
+          $(".nav-link").hover(
+            function () {
+              $(this).css("color", "");
+            },
+            function () {
+              $(this).css("color", "");
+            }
+          );
+        }
+      });
+
+      // Mobile Device
+      // $("nav.navbar div.collapse ul.navbar-nav li.dropdown").hover(
+      //   function () {
+      //     $(this).find(".dropdown-menu").slideToggle(300);
+      //   },
+      //   function () {
+      //     $(this).find(".dropdown-menu").slideToggle(100);
+      //   }
+      // );
+    });
+  }
+
   const [isOverlay, setIsOverlay] = useState(false);
   // console.log(props.userDetails.name, "navbar");
-  let user = JSON.parse(localStorage.getItem("userDetail"));
+  // let user = JSON.parse(localStorage.getItem("userDetail"));
 
-  useEffect(() => {
-    // user.current = JSON.parse(localStorage.getItem("userDetail"));
-    console.log("Navbar", props.userDetail);
-    console.log("Navbar", user);
-  }, []);
+  // useEffect(() => {
+  //   // user.current = JSON.parse(localStorage.getItem("userDetail"));
+  //   console.log("Navbar", props.userDetail);
+  //   console.log("Navbar", user);
+  // }, []);
 
   const overlayHandler = () => {
     setIsOverlay((prevState) => {
@@ -88,22 +149,23 @@ const Navbar = (props) => {
         <div className="collapse navbar-collapse" id="collapsibleNavbar">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <NavLink
+              <Link
+                action="push"
                 className="nav-link"
                 to={`${props.match.url}/home`}
                 style={{ paddingLeft: "0px" }}
               >
                 Home
-              </NavLink>
+              </Link>
             </li>
             <li className="nav-item dropdown">
-              {/* <NavLink
+              {/* <Link
                 className="nav-link dropdown-toggle"
                 id="navbardrop"
                 data-toggle="dropdown"
               >
                 Courses
-              </NavLink> */}
+              </Link> */}
               <a
                 className="nav-link dropdown-toggle"
                 href="#courses"
@@ -238,13 +300,21 @@ const Navbar = (props) => {
                   </ul>
                 </li>
                 <li>
-                  <NavLink
+                  {/* <a
+                    className="dropdown-item"
+                    href={`${props.match.url}/courses`}
+                    style={{ paddingLeft: "0px" }}
+                  >
+                    View All
+                  </a> */}
+                  <Link
+                    action="push"
                     className="dropdown-item"
                     to={`${props.match.url}/courses`}
                     style={{ paddingLeft: "0px" }}
                   >
                     View All
-                  </NavLink>
+                  </Link>
                 </li>
               </ul>
             </li>
@@ -310,12 +380,19 @@ const Navbar = (props) => {
                   </a>
                 </li>
                 <li>
-                  <NavLink
+                  {/* <a
+                    className="dropdown-item"
+                    href={`${props.match.url}/institution`}
+                  >
+                    View All
+                  </a> */}
+                  <Link
+                    action="push"
                     className="dropdown-item"
                     to={`${props.match.url}/institution`}
                   >
                     View All
-                  </NavLink>
+                  </Link>
                 </li>
               </ul>
             </li>
@@ -426,27 +503,39 @@ const Navbar = (props) => {
                   </ul>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/dashboard/exams">
+                  <Link
+                    action="push"
+                    className="dropdown-item"
+                    to="/dashboard/exams"
+                  >
                     View All
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to={`${props.match.url}/aboutus`}>
+              <Link
+                action="push"
+                className="nav-link"
+                to={`${props.match.url}/aboutus`}
+              >
                 Aboutus
-              </NavLink>
+              </Link>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to={`${props.match.url}/contactus`}>
+              <Link
+                action="push"
+                className="nav-link"
+                to={`${props.match.url}/contactus`}
+              >
                 Contact
-              </NavLink>
+              </Link>
             </li>
             <li className="nav-item">
               <i className="far fa-user" id="usericon"></i>
-              <NavLink className="nav-link" to={`/`}>
+              <Link action="push" className="nav-link" to={`/`}>
                 Login&nbsp;/&nbsp;Register
-              </NavLink>
+              </Link>
             </li>
             <li className="nav-item">
               <a

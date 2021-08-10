@@ -1,6 +1,8 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
+import classes from "./Sidebar.module.css";
 
-const Sidebar = () => {
+const Sidebar = (props) => {
   return (
     <div class="sidebar col-md-3 col-lg-2 col-xl-2 p-0">
       <button type="button" class="btn">
@@ -9,38 +11,62 @@ const Sidebar = () => {
       <div class="content">
         <h3>Dashboard</h3>
         <ul class="prfl_list p-0">
-          <li class="active">
-            <a class="list-link" href="user-dashboard.html">
+          <li>
+            <NavLink
+              activeClassName={classes.activeLink}
+              class="list-link"
+              to={`${props.match.url}/myprofile`}
+            >
               <i class="far fa-user"></i>My Profile
-            </a>
+            </NavLink>
           </li>
           <li>
-            <a class="list-link" href="user-courses.html">
+            <NavLink
+              activeClassName={classes.activeLink}
+              class="list-link"
+              to={`${props.match.url}/mycourses`}
+            >
               <i class="fas fa-tv"></i>My Courses
-            </a>
+            </NavLink>
           </li>
           <li>
-            <a class="list-link" href="user-bookmarks.html">
+            <NavLink
+              activeClassName={classes.activeLink}
+              class="list-link"
+              to={`${props.match.url}/mybookmarks`}
+            >
               <i class="far fa-heart"></i>My Bookmarks
-            </a>
+            </NavLink>
           </li>
           <li>
-            <a class="list-link" href="user-cart.html">
+            <NavLink
+              activeClassName={classes.activeLink}
+              class="list-link"
+              to={`${props.match.url}/mycart`}
+            >
               <i class="fas fa-shopping-cart"></i>My Cart
-            </a>
+            </NavLink>
           </li>
           <li>
-            <a class="list-link" href="user-order.html">
+            <NavLink
+              activeClassName={classes.activeLink}
+              class="list-link"
+              to={`${props.match.url}/myorder`}
+            >
               <i class="fas fa-receipt"></i>My Orders
-            </a>
+            </NavLink>
           </li>
         </ul>
         <h3>Account</h3>
         <ul class="prfl_list p-0">
           <li class="list-item">
-            <a class="list-link" href="user-settings.html">
+            <NavLink
+              activeClassName={classes.activeLink}
+              class="list-link"
+              to={`${props.match.url}/mysettings`}
+            >
               <i class="fas fa-user-cog"></i>Settings
-            </a>
+            </NavLink>
           </li>
           <li class="list-item">
             <a class="list-link" href="login.html">

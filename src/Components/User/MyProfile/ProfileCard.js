@@ -1,12 +1,16 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
-const ProfileCard = () => {
+const ProfileCard = (props) => {
   return (
     <>
       <div class="col-sm-6 col-md-6 col-lg-3">
         <div class="details-box">
           <div class="details">
-            <p class="title">Certifications</p>
+            <NavLink class="list-link" to={`${props.match.url}/myCertificates`}>
+              Certifications
+            </NavLink>
+            {/* <p class="title">Certifications</p> */}
             <p class="counter value" data-target="1">
               0
             </p>
@@ -19,7 +23,10 @@ const ProfileCard = () => {
       <div class="col-sm-6 col-md-6 col-lg-3">
         <div class="details-box">
           <div class="details">
-            <p class="title">Courses</p>
+            {/* <p class="title">Courses</p> */}
+            <NavLink class="list-link" to={`${props.match.url}/mycourses`}>
+              Courses
+            </NavLink>
             <p class="counter value" data-target="11">
               0
             </p>
@@ -47,7 +54,10 @@ const ProfileCard = () => {
       <div class="col-sm-6 col-md-6 col-lg-3">
         <div class="details-box">
           <div class="details">
-            <p class="title">Bookmarks</p>
+            {/* <p class="title">Bookmarks</p> */}
+            <NavLink class="list-link" to={`${props.match.url}/mybookmarks`}>
+              Bookmarks
+            </NavLink>
             <p class="counter value" data-target="98">
               0
             </p>
@@ -61,7 +71,10 @@ const ProfileCard = () => {
       <div class="col-sm-6 col-md-6 col-lg-3">
         <div class="details-box">
           <div class="details">
-            <p class="title">Ongoing</p>
+            {/* <p class="title">Ongoing</p> */}
+            <NavLink class="list-link" to={`${props.match.url}/mycourses`}>
+              Ongoing
+            </NavLink>
             <p class="counter value" data-target="4">
               0
             </p>
@@ -75,7 +88,10 @@ const ProfileCard = () => {
       <div class="col-sm-6 col-md-6 col-lg-3">
         <div class="details-box">
           <div class="details">
-            <p class="title">Completed</p>
+            {/* <p class="title">Completed</p> */}
+            <NavLink class="list-link" to={`${props.match.url}/mycourses`}>
+              Completed
+            </NavLink>
             <p class="counter value" data-target="26">
               0
             </p>

@@ -40,14 +40,14 @@ const CarouselView = () => {
         </h3>
         <div className="uk-section">
           <OwlCarousel className="owl-carousel owl-theme" {...options}>
-            {/* <InstitutionCard />
             <InstitutionCard />
             <InstitutionCard />
             <InstitutionCard />
             <InstitutionCard />
             <InstitutionCard />
             <InstitutionCard />
-            <InstitutionCard /> */}
+            <InstitutionCard />
+            <InstitutionCard />
           </OwlCarousel>
         </div>
       </div>
