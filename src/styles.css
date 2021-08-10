@@ -174,6 +174,13 @@ body {
 /*===========================================Media Query==================================*/
 
 @media only screen and (min-width: 768px) {
+
+  /* .navbar-dark .navbar-nav .nav-link:hover + .dropdown-menu {
+    display: block;
+  }
+  .navbar-dark .navbar-nav .nav-link .dropdown-menu:hover {
+    display: block;
+  } */
   .navbar-expand-md {
     flex-wrap: wrap;
   }
@@ -1994,29 +2001,29 @@ body {
   }
 }
 /*======================================================*/
-.sect3 .container-fluid .row .col-lg-9 {
+.sect3 .container-fluid .inst-view {
   padding: 50px 20px 20px;
 }
-.sect3 .container-fluid .row .col-lg-9 .row_head {
+.sect3 .container-fluid .inst-view .row_head {
   margin: 0 0 20px;
   padding: 0 10px;
 }
-.sect3 .container-fluid .row .col-lg-9 .row_head span.noi {
+.sect3 .container-fluid .inst-view .row_head span.noi {
   display: inline-block;
   padding-top: 10px;
   color: #0a0a0a;
 }
-.sect3 .container-fluid .row .col-lg-9 i {
+.sect3 .container-fluid .inst-view i {
   font-style: normal;
   color: #6f7074;
 }
-.sect3 .container-fluid .row .col-lg-9 .row_head .form-control {
+.sect3 .container-fluid .inst-view .row_head .form-control {
   width: 30%;
   display: initial;
   position: relative;
   float: right;
 }
-.sect3 .container-fluid .row .col-lg-9 .row_head .form-control:focus {
+.sect3 .container-fluid .inst-view .row_head .form-control:focus {
   border-color: #cbe54f;
   box-shadow: 0 0 0 0;
 }
@@ -2045,30 +2052,30 @@ body {
   color: #cbe54f;
 }
 /* style for institution card */
-.sect3 .container-fluid .row .col-lg-9 .row .card {
+.sect3 .container-fluid .inst-view .row .card {
   border-radius: 8px;
   margin: 0 0 20px;
   border: 2px solid #edeff7;
   transition: all 0.3s ease;
 }
-.sect3 .container-fluid .row .col-lg-9 .row .card:hover {
+.sect3 .container-fluid .inst-view .row .card:hover {
   box-shadow: 0px 0px 30px 0px rgb(32 32 32 / 15%);
 }
-.sect3 .container-fluid .row .col-lg-9 .row .card-img {
+.sect3 .container-fluid .inst-view .row .card-img {
   width: 100%;
   height: 200px;
 }
-.sect3 .container-fluid .row .col-lg-9 .row .card-body {
+.sect3 .container-fluid .inst-view .row .card-body {
   padding: 10px;
 }
-.sect3 .container-fluid .row .col-lg-9 .row .card .card-title {
+.sect3 .container-fluid .inst-view .row .card .card-title {
   color: #333333 !important;
   margin: 0;
   height: 60px;
   padding: 0 0 10px;
   text-align: left;
 }
-.sect3 .container-fluid .row .col-lg-9 .row .card .card-text {
+.sect3 .container-fluid .inst-view .row .card .card-text {
   margin: 0;
   font-size: 14px;
   color: #d0d23c !important;
@@ -2077,181 +2084,38 @@ body {
   text-align: left;
   float: left;
 }
-.sect3 .container-fluid .row .col-lg-9 .row .card .inst_place {
+.sect3 .container-fluid .inst-view .row .card .inst_place {
   margin: 0;
   color: #000 !important;
   padding: 0;
   word-spacing: 3px;
   text-align: right;
 }
-.sect3 .container-fluid .row .col-lg-9 .row .card .card-body .card_footer {
+.sect3 .container-fluid .inst-view .row .card .card-body .card_footer {
   margin: 0;
 }
-.sect3 .container-fluid .row .col-lg-9 .row .card .card-body .sdt,
-.sect3 .container-fluid .row .col-lg-9 .row .card .card-body .cor {
+.sect3 .container-fluid .inst-view .row .card .card-body .sdt,
+.sect3 .container-fluid .inst-view .row .card .card-body .cor {
   color: #000;
 }
-.sect3 .container-fluid .row .col-lg-9 .row .card .card-body .sdt:hover,
-.sect3 .container-fluid .row .col-lg-9 .row .card .card-body .cor:hover {
+.sect3 .container-fluid .inst-view .row .card .card-body .sdt:hover,
+.sect3 .container-fluid .inst-view .row .card .card-body .cor:hover {
   color: #333333 !important;
   text-decoration: none;
 }
-.container-fluid .row .col-lg-9 .row .card .sdt {
+.container-fluid .inst-view .row .card .sdt {
   float: left;
 }
-.container-fluid .row .col-lg-9 .row .card .cor {
+.container-fluid .inst-view .row .card .cor {
   float: right;
 }
-.container-fluid .row .col-lg-9 .row .card hr {
+.container-fluid .inst-view .row .card hr {
   border-color: #ccc !important;
   margin: 20px 0 10px;
 }
-.sect3 .container-fluid .row .col-lg-9 .mbp_pagination {
-  display: inline-block;
-  position: relative;
-  width: 100%;
-}
-.sect3 .container-fluid .row .col-lg-9 .mbp_pagination ul.page_navigation {
-  margin: 20px 0;
-  padding: 0;
-  text-align: center;
-  width: 100%;
-}
-.sect3
-  .container-fluid
-  .row
-  .col-lg-9
-  .mbp_pagination
-  ul.page_navigation
-  li.page-item {
-  display: inline-block;
-  margin-top: 12px;
-}
-.sect3 .mbp_pagination ul.page_navigation li .page-link {
-  background-color: transparent;
-  border-radius: 50%;
-  border: none;
-  color: #7f7f7f;
-  height: 45px;
-  line-height: 30px;
-  overflow: hidden;
-  text-align: center;
-  width: 45px;
-  transition: all 0.3s ease;
-}
-.sect3 .mbp_pagination ul.page_navigation li .page-link:hover {
-  background-color: #cbe54f;
-  color: #ffffff !important;
-  border-color: #cbe54f;
-  text-decoration: none;
-}
-.sect3 .mbp_pagination ul.page_navigation li .page-link:hover .fas {
-  color: #fff;
-}
-.sect3 .mbp_pagination ul.page_navigation li.active .page-link {
-  background-color: #2441e7;
-  color: #ffffff;
-}
-.sect3 .mbp_pagination ul.page_navigation li.page-item:first-child .page-link,
-.sect3 .mbp_pagination ul.page_navigation li.page-item:last-child .page-link {
-  border: 2px solid #eeeeee;
-  border-radius: 22.5px;
-  color: #4f4f4f;
-  height: 45px;
-  line-height: 25px;
-  width: 104px;
-  transition: all 0.3s ease;
-}
-.sect3 .mbp_pagination ul.page_navigation li .page-link .fas {
-  color: #cbe54f;
-  padding: 0 5px;
-  transition: all 0.3s ease;
-}
-.sect3 .container-fluid .row .col-lg-3 {
-  padding: 50px 0 20px 20px;
-  height: 1166.48px;
-}
-.sect3 .container-fluid .row .col-lg-3 .scroll_sect {
-  height: inherit;
-  overflow: auto;
-  padding-right: 10px;
-}
-.sect3 .container-fluid .row .col-lg-3 .filter {
-  border: 1px solid #eee;
-  border-top: 7px solid #cbe54f;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-/* Style the button that is used to open and close the collapsible content */
-.sect3 .container-fluid .row .col-lg-3 .filter .collapsible {
-  background-color: #fff;
-  color: #444;
-  cursor: pointer;
-  padding: 20px 30px 15px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
-}
-.sect3 .container-fluid .row .col-lg-3 .filter .collapsible:after {
-  content: "+"; /* Unicode character for "plus" sign (+) */
-  font-size: 13px;
-  color: #000;
-  float: right;
-  margin-left: 5px;
-}
 
-.sect3 .container-fluid .row .col-lg-3 .filter .active:after {
-  content: "-"; /* Unicode character for "minus" sign (-) */
-}
-
-/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-.sect3 .container-fluid .row .col-lg-3 .active,
-.collapsible:hover {
-  background-color: #ccc;
-}
-
-/* Style the collapsible content. Note: hidden by default */
-.sect3 .container-fluid .row .col-lg-3 .filter .content {
-  padding: 0 25px 10px;
-  display: none;
-  overflow: hidden;
-  background-color: #fff;
-  max-height: inherit;
-  transition: max-height 0.3s ease-out;
-}
-
-.sect3 .container-fluid .apply-filter {
-  display: flex;
-  justify-content: flex-end;
-  padding: 0;
-}
-
-.sect3 .container-fluid .apply-filter .btn {
-  width: 70px;
-  text-transform: uppercase;
-  padding: 2px 5px;
-  font-size: 14px;
-  color: #fff;
-  border: 1px solid #cbe54f;
-  background: #cbe54f;
-  border-radius: 5px;
-  transition: 0.3s ease all;
-}
-
-.sect3 .container-fluid .apply-filter .btn:hover {
-  color: #cbe54f;
-  background: #fff;
-}
-
-.container-fluid .row .col-lg-3 .filter .content .form-check {
-  padding: 5px;
-  padding-left: 25px;
-  color: #4f4f4f;
-}
 @media only screen and (min-width: 576px) {
-  .sect3 .container-fluid .row .col-lg-9 .row {
+  .sect3 .container-fluid .inst-view .row {
     padding: 10px;
   }
 }

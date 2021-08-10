@@ -1,13 +1,27 @@
-import * as AWS from "aws-sdk";
+// import * as AWS from "aws-sdk";
 
-const configuration = {
-  region: "ap-south-1",
-  // secretAccessKey: localStorage.getItem("secretAccessKey"),
-  // accessKeyId: localStorage.getItem("accessKeyId")
-  secretAccessKey: "=+l8prD4qs3+DVwvqALZT0ntYhn83WlVH/CcypwyV",
-  accessKeyId: "AKIAVXBBB54RVQLPMRPG"
-};
+// const configuration = {
+//   // secretAccessKey: "j7uacGWvcCsri9w9QspywqEGSAxCHLjbyFu7HA5D",
+//   // accessKeyId: "AKIAVXBBB54RSF2RUKC4"
+//   // read-only access
+//   region: "ap-south-1",
+//   secretAccessKey: "iOxdU7GVxkOuDLeVu0SZiGlfcP/xcPg+7xtcZhuD",
+//   accessKeyId: "AKIAVXBBB54RYLUO6KLF"
 
-AWS.config.update(configuration);
+//   // set setRegion(reg) {
+//   //   this.region = reg;
+//   // },
+//   // set setSecretAccessKey(accessKey) {
+//   //   this.secretAccessKey = accessKey;
+//   // },
+//   // set setAccessKeyId(keyId) {
+//   //   this.accessKeyId = keyId;
+//   // }
+//   // firebase - encoded/dupicate format data
+//   // decode
+//   // set region, acces, id
+// };
 
-export default AWS;
+// AWS.config.update(configuration);
+
+// export default AWS;
