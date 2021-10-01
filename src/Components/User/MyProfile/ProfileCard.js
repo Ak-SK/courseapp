@@ -1,16 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import AuthContext from "../../../Context/auth-context";
 
 const ProfileCard = (props) => {
+  const authCtx = useContext(AuthContext);
+  console.log("authCtx", authCtx.user);
+  // authCtx.user === null && Spinner
   return (
     <>
-      <div class="col-sm-6 col-md-6 col-lg-3">
+      {/* <div class="col-sm-6 col-md-6 col-lg-3">
         <div class="details-box">
           <div class="details">
             <NavLink class="list-link" to={`${props.match.url}/myCertificates`}>
               Certifications
             </NavLink>
-            {/* <p class="title">Certifications</p> */}
+            // <p class="title">Certifications</p>
             <p class="counter value" data-target="1">
               0
             </p>
@@ -19,7 +23,7 @@ const ProfileCard = (props) => {
             <i class="fas fa-certificate"></i>
           </div>
         </div>
-      </div>
+      </div> */}
       <div class="col-sm-6 col-md-6 col-lg-3">
         <div class="details-box">
           <div class="details">
@@ -37,10 +41,12 @@ const ProfileCard = (props) => {
         </div>
       </div>
 
-      <div class="col-sm-6 col-md-6 col-lg-3">
+      {/* <div class="col-sm-6 col-md-6 col-lg-3">
         <div class="details-box">
           <div class="details">
-            <p class="title">Reviews</p>
+            <a class="list-link" href="#l">
+              Reviews
+            </a>
             <p class="counter value" data-target="02">
               0
             </p>
@@ -49,7 +55,7 @@ const ProfileCard = (props) => {
             <i class="far fa-star"></i>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div class="col-sm-6 col-md-6 col-lg-3">
         <div class="details-box">
@@ -59,7 +65,7 @@ const ProfileCard = (props) => {
               Bookmarks
             </NavLink>
             <p class="counter value" data-target="98">
-              0
+              {authCtx.user !== null && authCtx.user.bookmarks.length}
             </p>
           </div>
           <div class="icon style3">
@@ -76,7 +82,7 @@ const ProfileCard = (props) => {
               Ongoing
             </NavLink>
             <p class="counter value" data-target="4">
-              0
+              {authCtx.user !== null && authCtx.user.ongoingCourses.length}
             </p>
           </div>
           <div class="icon style4">
@@ -93,7 +99,7 @@ const ProfileCard = (props) => {
               Completed
             </NavLink>
             <p class="counter value" data-target="26">
-              0
+              {authCtx.user !== null && authCtx.user.completedCourses.length}
             </p>
           </div>
           <div class="icon style5">
@@ -105,9 +111,11 @@ const ProfileCard = (props) => {
       <div class="col-sm-6 col-md-6 col-lg-3">
         <div class="details-box">
           <div class="details">
-            <p class="title">Orders</p>
+            <a class="list-link" href="#l">
+              Orders
+            </a>
             <p class="counter value" data-target="06">
-              0
+              {authCtx.user !== null && authCtx.user.orders.length}
             </p>
           </div>
           <div class="icon style6">
@@ -116,10 +124,12 @@ const ProfileCard = (props) => {
         </div>
       </div>
 
-      <div class="col-sm-6 col-md-6 col-lg-3">
+      {/* <div class="col-sm-6 col-md-6 col-lg-3">
         <div class="details-box">
           <div class="details">
-            <p class="title">Others</p>
+            <a class="list-link" href="#l">
+              Others
+            </a>
             <p class="counter value" data-target="99">
               0
             </p>
@@ -128,7 +138,7 @@ const ProfileCard = (props) => {
             <i class="fas fa-ribbon"></i>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

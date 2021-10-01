@@ -1,8 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { NavLink, Link } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import $ from "jquery";
+import AuthContext from "../../Context/auth-context";
+import "./Navbar.css";
 
 const Overlay = (props) => {
+  const authCtx = useContext(AuthContext);
+
+  const logoutHandler = () => {
+    authCtx.logout();
+    // localStorage.removeItem("userId");
+  };
+
   return (
     <div className="overlay">
       <div className="header">
@@ -17,33 +26,38 @@ const Overlay = (props) => {
       </div>
       <ul className="list">
         <li className="list-item">
-          <a className="list-link" href="user-dashboard.html">
+          <Link className="list-link" to="/userDashboard/myProfile">
             My Profile
-          </a>
+          </Link>
           <i className="far fa-id-badge"></i>
         </li>
         <li className="list-item">
-          <a className="list-link" href="user-dashboard.html">
+          <Link className="list-link" to="/userDashboard/mycourses">
             My Courses
-          </a>
+          </Link>
           <i className="fas fa-tv"></i>
         </li>
         <li className="list-item">
-          <a className="list-link" href="user-order.html">
+          <Link className="list-link" to="/userDashboard/myorder">
             Purchase History
-          </a>
+          </Link>
           <i className="fas fa-history"></i>
         </li>
-        <li className="list-item">
-          <a className="list-link" href="help.html">
+        {/* <li className="list-item">
+          <Link className="list-link" to="/userDashboard/myProfile">
             Help
-          </a>
+          </Link>
           <i className="far fa-question-circle"></i>
-        </li>
+        </li> */}
         <li className="list-item">
-          <a className="list-link" href="login.html" onClick={props.logout}>
+          <button
+            type="button"
+            className="list-link"
+            style={{ background: "transparent" }}
+            onClick={logoutHandler}
+          >
             Logout
-          </a>
+          </button>
           <i className="fas fa-sign-out-alt"></i>
         </li>
       </ul>
@@ -51,15 +65,11 @@ const Overlay = (props) => {
   );
 };
 
-// const navigateToAllCourses = (props) => {
-//   props.history.push(`${props.match.url}/courses`);
-// };
-
 const Navbar = (props) => {
   if (window.matchMedia("(min-width: 768px)").matches) {
     $(document).ready(function () {
       $(window).scroll(function () {
-        if ($(window).scrollTop() > 100) {
+        if ($(window).scrollTop() > 50) {
           $(".fixed-top").css("background-color", "#fff");
           $("#navigation").css("box-shadow", "0px 0px 30px rgb(0 0 0 / 10%)");
           $(".navbar_img").css(
@@ -112,8 +122,10 @@ const Navbar = (props) => {
       // );
     });
   }
-
+  // const history = useHistory();
+  const authCtx = useContext(AuthContext);
   const [isOverlay, setIsOverlay] = useState(false);
+
   // console.log(props.userDetails.name, "navbar");
   // let user = JSON.parse(localStorage.getItem("userDetail"));
 
@@ -123,21 +135,34 @@ const Navbar = (props) => {
   //   console.log("Navbar", user);
   // }, []);
 
+  useEffect(() => {
+    console.log("navbar", authCtx.isLoggedIn, authCtx.user);
+    authCtx.setHistory(props.history);
+    // to set the history and to be used in authContext logout
+  }, []);
+
   const overlayHandler = () => {
+    console.log("overlay");
     setIsOverlay((prevState) => {
-      // console.log(userDetail, "overlay");
+      console.log("prev", prevState);
+      console.log("prev-opp", !prevState);
       return !prevState;
     });
   };
+
+  // const pushHandler = (path) => {
+  //   history.push(path);
+  // };
+
   return (
     <>
       <nav
         className="navbar navbar-expand-md navbar-dark fixed-top"
         id="navigation"
       >
-        <a className="navbar-brand" href="#l">
+        <Link action="push" className="navbar-brand" to={`/dashboard/home`}>
           <div className="navbar_img"></div>
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -149,10 +174,17 @@ const Navbar = (props) => {
         <div className="collapse navbar-collapse" id="collapsibleNavbar">
           <ul className="navbar-nav">
             <li className="nav-item">
+              {/* <div
+                className="nav-link"
+                onClick={() => pushHandler("/dashboard/home")}
+                style={{ paddingLeft: "0px" }}
+              >
+                Home
+              </div> */}
               <Link
                 action="push"
                 className="nav-link"
-                to={`${props.match.url}/home`}
+                to={`/dashboard/home`}
                 style={{ paddingLeft: "0px" }}
               >
                 Home
@@ -307,10 +339,17 @@ const Navbar = (props) => {
                   >
                     View All
                   </a> */}
+                  {/* <div
+                    className="dropdown-item"
+                    onClick={() => pushHandler("/dashboard/courses")}
+                    style={{ paddingLeft: "0px" }}
+                  >
+                    View All
+                  </div> */}
                   <Link
                     action="push"
                     className="dropdown-item"
-                    to={`${props.match.url}/courses`}
+                    to={`/dashboard/courses`}
                     style={{ paddingLeft: "0px" }}
                   >
                     View All
@@ -386,10 +425,17 @@ const Navbar = (props) => {
                   >
                     View All
                   </a> */}
+                  {/* <div
+                    className="dropdown-item"
+                    onClick={() => pushHandler("/dashboard/institution")}
+                    style={{ paddingLeft: "0px" }}
+                  >
+                    View All
+                  </div> */}
                   <Link
                     action="push"
                     className="dropdown-item"
-                    to={`${props.match.url}/institution`}
+                    to={`/dashboard/institution`}
                   >
                     View All
                   </Link>
@@ -398,7 +444,7 @@ const Navbar = (props) => {
             </li>
             {/* <!-- Dropdown --> */}
             <li className="nav-item dropdown">
-              <a
+              {/* <a
                 className="nav-link dropdown-toggle"
                 href="#exam"
                 // id="navbardrop"
@@ -503,6 +549,13 @@ const Navbar = (props) => {
                   </ul>
                 </li>
                 <li>
+                  // <div
+                  //   className="dropdown-item"
+                  //   onClick={() => pushHandler("/dashboard/exams")}
+                  //   style={{ paddingLeft: "0px" }}
+                  // >
+                  //   View All
+                  // </div>
                   <Link
                     action="push"
                     className="dropdown-item"
@@ -511,55 +564,97 @@ const Navbar = (props) => {
                     View All
                   </Link>
                 </li>
-              </ul>
+              </ul>*/}
             </li>
             <li className="nav-item">
+              {/* <div
+                className="nav-link"
+                onClick={() => pushHandler("/dashboard/aboutus")}
+                style={{ paddingLeft: "0px" }}
+              >
+                Aboutus
+              </div> */}
               <Link
                 action="push"
                 className="nav-link"
-                to={`${props.match.url}/aboutus`}
+                to={`/dashboard/aboutus`}
               >
                 Aboutus
               </Link>
             </li>
             <li className="nav-item">
+              {/* <div
+                className="nav-link"
+                onClick={() => pushHandler("/dashboard/contactus")}
+                style={{ paddingLeft: "0px" }}
+              >
+                Contact
+              </div> */}
               <Link
                 action="push"
                 className="nav-link"
-                to={`${props.match.url}/contactus`}
+                to={`/dashboard/contactus`}
               >
                 Contact
               </Link>
             </li>
-            <li className="nav-item">
-              <i className="far fa-user" id="usericon"></i>
-              <Link action="push" className="nav-link" to={`/`}>
-                Login&nbsp;/&nbsp;Register
-              </Link>
-            </li>
-            <li className="nav-item">
-              <a
-                className="nav-link"
-                data-toggle="tooltip"
-                data-placement="bottom"
-                title="View Cart !"
-                href="#f"
-              >
-                <i className="fas fa-shopping-cart"></i>
-              </a>
-            </li>
-            <li className="prfl_img">
-              <button type="button" className="btn" onClick={overlayHandler}>
-                <img
-                  className="img-fluid"
-                  src="/images/4.jpg"
-                  alt="userprofile"
-                />
-              </button>
-              {isOverlay && (
-                <Overlay logout={props.logout} userDetail={props.userDetail} />
-              )}
-            </li>
+            {authCtx.isLoggedIn ? (
+              <>
+                <li className="nav-item">
+                  <button
+                    type="button"
+                    className="nav-link"
+                    style={{ background: "transparent", border: "none" }}
+                    onClick={authCtx.logout}
+                  >
+                    Logout
+                  </button>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    className="nav-link"
+                    data-toggle="tooltip"
+                    data-placement="bottom"
+                    title="View Cart !"
+                    to="/userDashboard/mybookmarks"
+                  >
+                    <i class="fas fa-heart"></i>
+                  </Link>
+                </li>
+                <li className="prfl_img">
+                  <button
+                    type="button"
+                    className="btn"
+                    onClick={overlayHandler}
+                    // onClick={() => {
+                    //   // take it after, just for testing
+                    //   props.history.push("/userDashboard/myProfile");
+                    //   console.log("overlay");
+                    //   setIsOverlay((prevState) => !prevState);
+                    // }}
+                  >
+                    <img
+                      className="img-fluid"
+                      src="/images/4.jpg"
+                      alt="userprofile"
+                    />
+                  </button>
+                  {isOverlay === true ? (
+                    <Overlay
+                      logout={props.logout}
+                      userDetail={props.userDetail}
+                    />
+                  ) : null}
+                </li>
+              </>
+            ) : (
+              <li className="nav-item">
+                <i className="far fa-user" id="usericon"></i>
+                <Link action="push" className="nav-link" to={`/login`}>
+                  Login&nbsp;/&nbsp;Register
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       </nav>

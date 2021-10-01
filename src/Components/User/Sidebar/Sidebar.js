@@ -38,7 +38,7 @@ const Sidebar = (props) => {
               <i class="far fa-heart"></i>My Bookmarks
             </NavLink>
           </li>
-          <li>
+          {/* <li>
             <NavLink
               activeClassName={classes.activeLink}
               class="list-link"
@@ -46,7 +46,7 @@ const Sidebar = (props) => {
             >
               <i class="fas fa-shopping-cart"></i>My Cart
             </NavLink>
-          </li>
+          </li> */}
           <li>
             <NavLink
               activeClassName={classes.activeLink}

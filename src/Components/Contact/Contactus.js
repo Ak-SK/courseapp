@@ -1,7 +1,29 @@
-import React from "react";
+import React, { useRef } from "react";
 import "../../styles.css";
-// import Navbar from "../Navbar/Navabar";
+import emailjs from "emailjs-com";
+
 const Contactus = () => {
+  const form = useRef();
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm(
+        "service_ij4o9ni",
+        "template_k0hxf6t",
+        form.current,
+        "user_YZ30QFKSYAE3lMtorbs18"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+    e.target.reset();
+  };
   return (
     <>
       {/* section down where it should come */}
@@ -80,22 +102,28 @@ const Contactus = () => {
             <div class="form-grid col-md-6 col-lg-6 col-xl-6">
               <h4>Send a Message</h4>
               <p>Ex quem dicta delicata usu, zril vocibus maiestatis in qui.</p>
-              <form class="form-group" action="#" method="get">
+              <form
+                class="form-group"
+                action="#"
+                method="get"
+                ref={form}
+                onSubmit={sendEmail}
+              >
                 <label for="name">Full Name</label>
-                <input type="text" class="ipbox" id="name" />
+                <input type="text" class="ipbox" id="name" name="name" />
                 <label for="mail">Your Email</label>
-                <input type="text" class="ipbox" id="mail" />
+                <input type="text" class="ipbox" id="mail" name="email" />
                 <label for="sub">Subject</label>
-                <input type="text" class="ipbox" id="sub" />
+                <input type="text" class="ipbox" id="sub" name="subject" />
                 <label for="yourm">Your Message</label>
-                <textarea rows="5" id="yourm"></textarea>
+                <textarea rows="5" id="yourm" name="message"></textarea>
                 <div class="button">
                   <input
                     type="submit"
                     class="submit_btn"
                     name=""
                     value="Submit"
-                    onClick="login(document.getElementById('usem').value,document.getElementById('pass').value)"
+                    // onClick="login(document.getElementById('usem').value,document.getElementById('pass').value)"
                   />
                 </div>
               </form>

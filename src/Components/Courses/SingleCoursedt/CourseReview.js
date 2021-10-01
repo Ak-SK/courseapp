@@ -1,5 +1,5 @@
 import React from "react";
-const CourseReview = () => {
+const CourseReview = (props) => {
   return (
     <>
       <h3>Students Feedback</h3>

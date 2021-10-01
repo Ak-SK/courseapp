@@ -2,7 +2,7 @@
 
 body {
   font-family: "Lato", sans-serif;
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 .slider-container {
@@ -120,13 +120,23 @@ body {
   height: 50%;
   box-shadow: 0 5px 15px 3px rgba(0, 0, 0, 0.15);
 }
-button {
+
+.action-buttons button {
   background-color: #fff;
   border: none;
   color: #aaa;
   cursor: pointer;
   font-size: 5px;
   padding: 15px;
+}
+
+.subtitle button {
+  background-color: #fff;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px;
 }
 
 .right-slide button:hover {

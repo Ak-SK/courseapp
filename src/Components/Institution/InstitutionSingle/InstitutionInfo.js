@@ -48,8 +48,8 @@ const InstitutionInfo = (props) => {
             <p className="style2">{props.ctx.institute.noOfCourses}</p>
             <h3 className="style2">No of Faculties</h3>
             <p className="style2">{props.ctx.institute.noOfFaculties}</p>
-            <h3 className="style2">No of Students Enrolled</h3>
-            <p className="style2">{props.ctx.institute.noOfStudents}</p>
+            {/* <h3 className="style2">No of Students Enrolled</h3>
+            <p className="style2">{props.ctx.institute.noOfStudents}</p> */}
           </div>
         </div>
       </div>

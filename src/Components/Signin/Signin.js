@@ -1,36 +1,53 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Alert } from "react-bootstrap";
+import { auth, db } from "../../Services/firebase";
 import "./Signin.css";
 import classes from "./Signin.module.css";
 import $ from "jquery";
+import AuthContext from "../../Context/auth-context";
+import ForgotPassModal from "../../UI/ForgotPassword/ForgotPassModal";
 
 const Signin = (props) => {
-  // console.log("asda", props.history);
+  // useEffect(() => {
+  //   console.log("asda", props.history);
+  // }, []);
   $(document).ready(function () {
     const sliderContainer = document.querySelector(".slider-container");
     const slideRight = document.querySelector(".right-slide");
     const slideLeft = document.querySelector(".left-slide");
-    const upButton = document.querySelector(".up-button");
-    const downButton = document.querySelector(".down-button");
-    const slidesLength = slideRight.querySelectorAll(".container-fluid").length;
+    // const slidesLength = $(".right-slide").children();
+    // const upButton = document.querySelector(".up-button");
+    // const downButton = document.querySelector(".down-button");
+    // const slidesLength = slideRight.querySelectorAll(".container-fluid").length;
 
     let activeSlideIndex = 0;
 
-    slideLeft.style.top = `-${(slidesLength - 1) * 100}vh`;
+    // slideLeft.style.top = `-${(2 - 1) * 100}vh`;
 
-    upButton.addEventListener("click", () => changeSlide("up"));
-    downButton.addEventListener("click", () => changeSlide("down"));
+    $(".left-slide").css("top", "-100vh");
+
+    $(".up-button").click(function () {
+      changeSlide("up");
+    });
+
+    $(".down-button").click(function () {
+      changeSlide("down");
+    });
+
+    // upButton.addEventListener("click", () => changeSlide("up"));
+    // downButton.addEventListener("click", () => changeSlide("down"));
 
     const changeSlide = (direction) => {
       const sliderHeight = sliderContainer.clientHeight;
       if (direction === "up") {
         activeSlideIndex++;
-        if (activeSlideIndex > slidesLength - 1) {
+        if (activeSlideIndex > 2 - 1) {
           activeSlideIndex = 0;
         }
       } else if (direction === "down") {
         activeSlideIndex--;
         if (activeSlideIndex < 0) {
-          activeSlideIndex = slidesLength - 1;
+          activeSlideIndex = 2 - 1;
         }
       }
 
@@ -43,9 +60,143 @@ const Signin = (props) => {
     };
   });
 
+  const [error, setError] = useState();
+  const [userCred, setUserCred] = useState({
+    email: "",
+    password: ""
+  });
+  const [forgotModal, setForgotModal] = useState(false);
+  const authCtx = useContext(AuthContext);
+
+  const changeHandler = (event) => {
+    let val = event.target.value;
+    setUserCred((prevState) => {
+      return {
+        ...prevState,
+        [event.target.name]: val
+      };
+    });
+  };
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    // firebase signin auth
+
+    auth
+      .signInWithEmailAndPassword(
+        userCred.email.trim(),
+        userCred.password.trim()
+      )
+      .then((userCredential) => {
+        // Signed in
+        let userId = userCredential.user.uid;
+        let photoUrl = userCredential.user.photoURL;
+        console.log("userId", userId);
+
+        // get the particular user, using the
+        db.collection("students")
+          .doc(userId)
+          .get()
+          .then((doc) => {
+            let user = doc.data();
+            if (user.isLoggedIn) {
+              // if already one person is logged in
+              setError(
+                "Already logged in, logout from other device to login again..."
+              );
+            } else {
+              db.collection("students")
+                .doc(userId)
+                .update({
+                  isLoggedIn: true
+                })
+                .then(() => {
+                  // may use it later for refresh or some edge cases
+                  localStorage.setItem("userId", userId);
+                  // to identify, whether reloading or closing the tab
+                  sessionStorage.setItem("userId", userId);
+                  authCtx.setIsLoggedIn(true);
+                  let list = [];
+                  let ongoingIds = [];
+                  db.collection("students")
+                    .doc(userId)
+                    .collection("ongoingCourses")
+                    .get()
+                    .then((docs) => {
+                      docs.forEach((doc) => {
+                        // console.log("ongoingCourses", doc.courses);
+                        let docId = doc.id;
+                        let ongoingCourses = doc.data().courses;
+                        list = [...list, ...ongoingCourses];
+                        // mostly it will be one, but for future safety purpose, has egiven like array
+                        ongoingIds.push(docId);
+                      });
+                    })
+                    .then(() => {
+                      authCtx.setUser({
+                        ...user,
+                        isLoggedIn: true,
+                        photoUrl: photoUrl,
+                        ongoingCourses: list,
+                        ongoingDocIds: ongoingIds
+                      });
+                      // setOngoingCourseIds(ongoingIds);
+                    })
+                    .catch((e) => console.log("set ongoingCourses", e));
+                  // authCtx.setUser({
+                  //   ...user,
+                  //   isLoggedIn: true,
+                  //   photoUrl: photoUrl
+                  // });
+                  authCtx.setHistory(props.history);
+
+                  // props.history.replace(`/home?userId=${userId}`);
+                  props.history.replace("/dashboard/home"); // redirect it to home
+                })
+                .catch((e) => console.log("signin-submitHandler", e));
+            }
+          })
+          .catch((e) => console.log(e));
+      })
+      .catch((e) => {
+        console.log(e.code);
+        if (e.code === "auth/wrong-password") {
+          setError("Incorrect password. Try again.");
+        } else if (e.code === "auth/network-request-failed") {
+          setError("Internet connection is down!!!");
+        } else {
+          setError("User doesn't exist. Please do register.");
+        }
+      });
+  };
+
+  const sendResetMail = (email) => {
+    // to sent continuURL, check below link. Now i think, its not needed
+    // https://stackoverflow.com/questions/55296314/firebase-redirect-to-webpage-after-successful-password-change
+    // console.log(email);
+    auth
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        console.log("successfuly send password rest mail");
+        setForgotModal(false);
+      })
+      .catch((e) => {
+        console.log(e);
+        if (e.code === "auth/user-not-found") {
+          alert("Provide Correct Email Address");
+        }
+      });
+  };
+
   return (
     <>
       <div className="slider-container">
+        {forgotModal && (
+          <ForgotPassModal
+            sendResetMail={sendResetMail}
+            closeModal={() => setForgotModal(false)}
+          />
+        )}
         <div className="left-slide">
           <div class="left-bg" className={classes.leftbg1}>
             <h1 style={{ left: "16%" }}>Institution Login</h1>
@@ -75,23 +226,30 @@ const Signin = (props) => {
         <div className="right-slide">
           <div className="container-fluid">
             <div className="container">
-              <form action="user-dashboard.html">
+              <form onSubmit={submitHandler}>
                 <div className="title">Student Login</div>
+                {error && <Alert variant="danger">{error}</Alert>}
                 <div className="input-box underline">
                   <input
-                    type="text"
-                    placeholder="Type Username or Email"
-                    id="usem"
+                    type="email"
+                    placeholder="Enter Your Email..."
+                    id="email"
+                    name="email"
                     required
+                    onChange={changeHandler}
+                    value={userCred.email}
                   />
                   <div className="underline"></div>
                 </div>
                 <div className="input-box">
                   <input
                     type="password"
-                    placeholder="Enter Your Password"
-                    id="pass"
+                    placeholder="Enter Your Password..."
+                    id="password"
+                    name="password"
                     required
+                    onChange={changeHandler}
+                    value={userCred.password}
                   />
                   <div className="underline"></div>
                 </div>
@@ -100,14 +258,19 @@ const Signin = (props) => {
                     type="submit"
                     name=""
                     value="Login"
-                    onClick="login(document.getElementById('usem').value,document.getElementById('pass').value)"
+                    // onClick="login(document.getElementById('usem').value,document.getElementById('pass').value)"
                   />
                 </div>
                 <p className="or">
                   <span>or</span>
                 </p>
                 <p className="subtitle">
-                  Don't have an account? <a href="/signup"> sign Up</a>
+                  <button type="button" onClick={() => setForgotModal(true)}>
+                    Forget Password
+                  </button>
+                </p>
+                <p className="subtitle">
+                  Don't have an account? <a href="/StudentsSignup"> sign Up</a>
                 </p>
                 {/* <div className="social-login">
                   <button className="google-btn">
@@ -164,7 +327,7 @@ const Signin = (props) => {
                   </p>
                   <p className="subtitle">
                     Don't have an account?{" "}
-                    <a href="institutionsignup.html"> sign Up</a>
+                    <a href="#institutionsignup"> sign Up</a>
                   </p>
                 </div>
               </form>
@@ -184,4 +347,4 @@ const Signin = (props) => {
   );
 };
 
-export default Signin;
+export default React.memo(Signin);

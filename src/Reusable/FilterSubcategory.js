@@ -1,24 +1,35 @@
 import React from "react";
 
-const FilterSubcategory = () => {
+const FilterSubcategory = (props) => {
   return (
     <>
       <div className="filter filter2">
-        <button type="button" className="collapsible">
-          Sub Category
-        </button>
-        <div className="content">
-          <div className="form-check">
-            <label className="form-check-label">
-              <input
-                type="checkbox"
-                className="form-check-input"
-                value="mains"
-              />
-              MAINS
-            </label>
-          </div>
-          <div className="form-check">
+        <details>
+          <summary type="button" className="collapsible">
+            Sub Category
+          </summary>
+          <div className="content">
+            {props.subcategoryList.map((subcat, i) => {
+              return (
+                <div className="form-check" key={i}>
+                  <label className="form-check-label">
+                    <input
+                      type="radio"
+                      name="subcategory"
+                      checked={
+                        props.subcategory.subCategoryId === subcat.subCategoryId
+                      }
+                      className="form-check-input"
+                      value={subcat.subCategoryName}
+                      onChange={() => props.onClick(subcat)}
+                    />
+                    {subcat.subCategoryName.toUpperCase()}
+                  </label>
+                </div>
+              );
+            })}
+
+            {/* <div className="form-check">
             <label className="form-check-label">
               <input
                 type="checkbox"
@@ -27,8 +38,9 @@ const FilterSubcategory = () => {
               />
               PRELIMINARY
             </label>
+          </div> */}
           </div>
-        </div>
+        </details>
       </div>
     </>
   );

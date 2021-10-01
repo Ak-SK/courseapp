@@ -28,7 +28,7 @@ db.enablePersistence({ experimentalTabSynchronization: true })
       // Multiple tabs open, persistence can only be enabled
       // in one tab at a a time.
       // ...
-      alert(
+      console.log(
         "multiple tab is opened please close this tab and use only one tab, when offline"
       );
     } else if (err.code === "unimplemented") {
@@ -40,4 +40,4 @@ db.enablePersistence({ experimentalTabSynchronization: true })
       );
     }
   });
-export { db, auth };
+export { db, auth, firebase };

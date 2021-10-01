@@ -5,6 +5,7 @@ html {
   margin-top: 76px;
   padding: 0;
 }
+
 .sidebar {
   margin-top: 60px;
   height: auto;
@@ -169,16 +170,28 @@ html {
   font-size: 48px;
 }
 .details-box .details {
-  padding-top: 20px;
+  height: 100%;
+  width: 106px;
+  position: relative;
+  height: 110px;
 }
-.details-box .details p.title {
+.details-box .details a.list-link {
   color: #7e7e7e;
   font-size: 15px;
-  line-height: 2.667;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  padding-top: 20px;
+  position: absolute;
   margin: 0;
+}
+.details-box .details a.list-link:hover {
+  color: #0a0a0a;
+  text-decoration: none;
 }
 .details-box .details p.value {
   font-size: 26px;
+  padding-top: 55px;
   font-weight: 600;
   color: #0a0a0a;
   line-height: 0.5;
@@ -385,7 +398,17 @@ html {
 /*===================================================================================================*/
 
 /*========================================== Course Contents ========================================*/
-.p20 {
+.cover-nav {
+  height: 85px;
+  background-image: -webkit-linear-gradient(
+    0deg,
+    rgb(52, 82, 255) 0%,
+    rgb(255, 16, 83) 100%
+  );
+  width: 100%;
+}
+
+.crs-bought .container-fluid {
   padding: 50px 20px;
 }
 .videoframe {
@@ -438,7 +461,6 @@ html {
   color: #0a0a0a;
   background-color: #edeff7;
   width: 100%;
-  height: 50px;
   line-height: 1.7;
   border-radius: 5px;
   text-align: left;
@@ -457,7 +479,7 @@ html {
   content: "\f106";
 }
 .video .section .panel .panel-body {
-  display: none;
+  /* display: block; */
   padding: 0 0 10px;
 }
 .video .section .panel .panel-body .vedio-details {
@@ -477,11 +499,15 @@ html {
 .video .section .panel .panel-body .vedio-details p {
   margin-bottom: 10px;
 }
+.video .section .panel .panel-body .vedio-details input {
+  width: 6%;
+  margin: 6px 0;
+}
 .video .section .panel .panel-body .vedio-details p.vedio-title {
-  width: 85%;
+  width: 80%;
 }
 .video .section .panel .panel-body .vedio-details p.vedio-duration {
-  width: 15%;
+  width: 14%;
 }
 .video .nav-tabs {
   margin: 15px 0 0;
@@ -510,24 +536,508 @@ html {
 }
 .video .tab-content .tab-pane h1 {
   font-size: 30px;
-  margin: 50px 50px 20px;
+  margin: 0 0 8px;
 }
 .video .tab-content .tab-pane p {
   font-size: 16px;
-  margin: 0 50px;
+  margin: 0;
   word-spacing: 1px;
   color: #7e7e7e;
   text-align: justify;
   margin-bottom: 15px;
 }
+.video .tab-content .tab-pane {
+  padding: 10px 20px;
+}
+
+.video .tab-content .tab-pane .course_overview {
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.video .tab-content .tab-pane .course_overview p.title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #0a0a0a;
+  line-height: 1.2;
+  margin: 0;
+  margin-bottom: 22px;
+  text-shadow: none;
+}
+
+.video .tab-content .tab-pane .course_overview p.title::before {
+  position: relative;
+}
+
+.video .tab-content .tab-pane .course_overview p.para {
+  font-size: 18px;
+  color: #3b3b3b;
+  line-height: 1.333;
+  margin: 0;
+  margin-bottom: 10px;
+}
+.course_overview .description_1,
+.course_overview .description_2 {
+  margin: 0;
+  margin-top: 20px;
+  font-size: 15px;
+  color: #7e7e7e;
+  text-align: justify;
+}
+.video .tab-content .tab-pane .check_list {
+  margin-bottom: 10px;
+}
+.video .tab-content .tab-pane .check_list p {
+  font-size: 18px;
+  font-weight: lighter;
+  color: #3b3b3b;
+  line-height: 1.333;
+  margin: 0;
+  margin-bottom: 10px;
+}
+.video .tab-content .tab-pane .check_list .col-lg-6 {
+  padding: 0;
+}
+.video .tab-content .tab-pane .check_list .col-lg-6 ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 20px;
+}
+.video .tab-content .tab-pane .check_list .col-lg-6 .fas {
+  margin-right: 15px;
+  color: #7e7e7e;
+}
+.video .tab-content .tab-pane .check_list .col-lg-6 li {
+  font-size: 15px;
+  color: #7e7e7e;
+  line-height: 2.8;
+  margin-bottom: 0;
+}
+/*=========================================================================*/
+.video .tab-content .tab-pane .course_requirements p {
+  font-size: 18px;
+  font-weight: lighter;
+  color: #3b3b3b;
+  line-height: 1.333;
+  margin: 0;
+  margin-bottom: 10px;
+}
+.course_requirements ul.req_list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 20px;
+}
+.course_requirements ul.req_list .fas {
+  margin-right: 15px;
+  color: #7e7e7e;
+  font-size: 10px;
+}
+.course_requirements .req_list li {
+  font-size: 15px;
+  color: #7e7e7e;
+  line-height: 2.8;
+  margin-bottom: 0;
+}
+
+/* ================================================================================================ */
+
+/* ========================================== Course Q & A ======================================= */
+
+.video .tab-content .tab-pane .comment .raise {
+  margin: 20px auto;
+  width: 90%;
+}
+
+.video .tab-content .tab-pane .comment .raise .head {
+  display: inline-block;
+  width: 100%;
+  font-size: 40px;
+  color: #2441e7;
+  font-weight: 400;
+  position: relative;
+}
+
+.video .tab-content .tab-pane .comment .raise textarea {
+  border-color: #dcdacb;
+  width: 80%;
+  padding: 10px 20px;
+  font-size: 14px;
+  color: #000;
+  max-height: 100px;
+  font-weight: 100;
+  letter-spacing: 1px;
+  word-spacing: 2px;
+  text-transform: lowercase;
+  font-family: initial;
+  outline-width: 0px;
+}
+
+.video .tab-content .tab-pane .comment .raise .button {
+  display: flex;
+  margin: 10px 0 0;
+  justify-content: flex-end;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.video .tab-content .tab-pane .comment .raise .button button {
+  font-size: 18px;
+  margin: 0 5px;
+  padding: 5px 7px;
+  width: 100px;
+
+  color: #ff1053;
+  background-color: #fff;
+  border: 1px solid #ff1053;
+  transition: all ease 0.3s;
+}
+
+.video .tab-content .tab-pane .comment .raise .button button.confirm {
+  margin: 0 5px;
+}
+
+.video .tab-content .tab-pane .comment .raise .button button:hover {
+  color: #fff;
+  background-color: #ff1053;
+}
+
+.video .tab-content .tab-pane .comment .post summary {
+  padding: 10px 20px;
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: 100;
+  color: #0a0a0a;
+  background-color: #edeff7;
+  width: 100%;
+  line-height: 1.7;
+  border-radius: 5px;
+  text-align: left;
+  text-decoration: none;
+  border: none;
+  outline: none;
+}
+
+.video .tab-content .tab-pane .comment .post summary p.quest {
+  font-size: 16px;
+  color: #0a0a0a;
+  margin: 0;
+}
+
+.video .tab-content .tab-pane .comment .post p.admin-answer {
+  font-size: 16px;
+  color: #0a0a0a;
+  margin: 0;
+  padding: 5px 25px 10px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+/* ================================================================================================ */
+
+/* ========================================== Course Review ======================================= */
+
+.video .tab-content .tab-pane .user_review {
+  padding: 0;
+  margin: 0;
+  margin-bottom: 30px;
+}
+.video .tab-content .tab-pane .user_review h3 {
+  font-size: 24px;
+  font-weight: 400;
+  color: #0a0a0a;
+  margin-bottom: 25px;
+  line-height: 1.2;
+}
+.video .tab-content .tab-pane .user_review .row {
+  margin: 0;
+}
+.video .tab-content .tab-pane .user_review .row .col-sm-8,
+.video .tab-content .tab-pane .user_review .row .col-md-8,
+.video .tab-content .tab-pane .user_review .row .col-lg-9 {
+  padding: 0;
+  padding-right: 100px;
+}
+.video .tab-content .tab-pane .user_review ul.progressbar {
+  padding: 0;
+  list-style-type: none;
+  margin-bottom: 35px;
+}
+.video .tab-content .tab-pane .user_review .row .col-sm-8 > ul:last-child,
+.video .tab-content .tab-pane .user_review .row .col-md-8 > ul:last-child,
+.video .tab-content .tab-pane .user_review .row .col-lg-9 > ul:last-child {
+  margin: 0;
+}
+.video .tab-content .tab-pane .user_review ul.progressbar li {
+  font-size: 14px;
+  float: left;
+  color: #4f4f4f;
+  line-height: 1.2;
+  margin-right: 30px;
+  margin-top: -3px;
+}
+.video .tab-content .tab-pane .user_review ul.progressbar .progress {
+  height: 10px;
+  border-radius: 10px;
+}
+.video
+  .tab-content
+  .tab-pane
+  .user_review
+  ul.progressbar
+  .progress
+  .progress-bar {
+  background-color: #ff1053;
+}
+.video .tab-content .tab-pane .user_review .row .col-sm-4,
+.video .tab-content .tab-pane .user_review .row .col-md-4,
+.video .tab-content .tab-pane .user_review .row .col-lg-3 {
+  padding: 50px 30px;
+  text-align: center;
+  border-radius: 10px;
+  background-color: rgb(52, 82, 255);
+  /*background-image: -webkit-linear-gradient( 135deg, rgb(255,16,83) 0%, rgb(52,82,255) 100%);*/
+}
+.video .tab-content .tab-pane .user_review .row .col-sm-4 p {
+  margin: 0;
+}
+.video .tab-content .tab-pane .user_review .row .col-sm-4 p.rating_value {
+  font-size: 50px;
+  color: #fff;
+  font-weight: 700;
+  line-height: 0.6;
+  margin-bottom: 20px;
+  text-align: inherit;
+}
+.video .tab-content .tab-pane .user_review .row .col-sm-4 p.rating {
+  font-size: 11px;
+  color: #d0d23c;
+  margin-right: 3px;
+  line-height: 1.2;
+  margin-bottom: 7px;
+  text-align: inherit;
+}
+.video .tab-content .tab-pane .user_review .row .col-sm-4 p.ft {
+  font-size: 15px;
+  color: #fff;
+  line-height: 1.2;
+  text-align: inherit;
+}
+/*================================= Reviews ===================================*/
+.video .tab-content .tab-pane .user_review .review h3 {
+  font-size: 20px;
+  font-weight: 400;
+  color: #0a0a0a;
+  margin-bottom: 25px;
+  line-height: 1.2;
+}
+.video .tab-content .tab-pane .user_review .review .review-card .row {
+  margin: 0;
+}
+.user_review .review .review-card .col-sm-1,
+.user_review .review .review-card .col-md-1 {
+  padding: 0;
+}
+.user_review .review .review-card .col-sm-11,
+.user_review .review .review-card .col-md-11 {
+  margin-bottom: 15px;
+}
+.user_review .review .review-card .img {
+  border-radius: 50%;
+}
+.user_review .review .review-card .row p.r-name {
+  font-size: 18px;
+  letter-spacing: 1.5px;
+  font-weight: lighter;
+  margin: 0;
+  line-height: 1.42857;
+  color: #2441e7;
+  margin-bottom: 8px;
+}
+.user_review .review .review-card .row span {
+  float: right;
+}
+.user_review .review .review-card .row .fa {
+  font-size: 11px;
+  letter-spacing: normal;
+  color: rgb(255, 16, 83) /*#d0d23c*/;
+  margin-top: 5px;
+  margin-left: 8px;
+}
+.user_review .review .review-card .row p.r-date {
+  font-size: 14px;
+  margin: 0;
+  color: #555;
+}
+.user_review .review .review-card .row p.r-para {
+  font-size: 15px;
+  font-weight: 400;
+  color: #6f7074;
+  margin: 20px 0 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}
+.video .tab-content .tab-pane .user_review form {
+  text-align: center;
+}
+.video .tab-content .tab-pane .user_review .review_btn {
+  border: 2px solid #2441e7;
+  border-radius: 25px;
+  color: #2441e7;
+  font-size: 15px;
+  height: 50px;
+  background-color: #fff;
+  line-height: 47px;
+  margin-top: 30px;
+  padding: 0 60px;
+  transition: all 0.3s ease;
+}
+.video .tab-content .tab-pane .user_review .review_btn:hover {
+  background-color: #2441e7;
+  color: #fff;
+}
+.video .tab-content .tab-pane .user_review .review_btn:focus {
+  outline: none;
+}
+
+/* ================================================== */
+
+.video .tab-content .tab-pane .user-rev {
+  padding: 15px 5px;
+  margin: 0 0 15px;
+  border-bottom: 1px solid #ccc;
+}
+
+.video .tab-content .tab-pane .user-rev h4 {
+  color: #2441e7;
+}
+
+.video .tab-content .tab-pane .user-rev .row {
+  margin: 0 0 10px;
+  justify-content: space-between;
+}
+
+.video .tab-content .tab-pane .user-rev .row p.date {
+  font-size: 16px;
+  margin: 0;
+  font-family: initial;
+  color: #7d7d7d;
+  word-spacing: 2px;
+}
+
+.video .tab-content .tab-pane .user-rev .row p.date span {
+  font-size: 16px;
+  color: #0a0a0a;
+}
+
+.video .tab-content .tab-pane .user-rev .row p.controls {
+  margin: 0;
+}
+
+.video .tab-content .tab-pane .user-rev .row p.controls i.fas,
+.video .tab-content .tab-pane .user-rev .row p.controls i.far {
+  font-size: 18px;
+  color: #3b3b3b;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.video .tab-content .tab-pane .user-rev .row p.controls i.fas:hover,
+.video .tab-content .tab-pane .user-rev .row p.controls i.far:hover {
+  color: #0a0a0a;
+}
+
+.video .tab-content .tab-pane .user-rev .review {
+  font-size: 16px;
+  color: #0a0a0a;
+  margin: 0;
+  padding: 0 5px;
+}
+
+/* ================================================== */
+
+.video .tab-content .tab-pane .review-box p {
+  color: #6f7074;
+  margin: 0;
+  margin-bottom: 20px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.642;
+}
+
+.video .tab-content .tab-pane .review-box .star-rating button {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.video .tab-content .tab-pane .review-box .star-rating .star {
+  font-size: 20px;
+  padding: 0 3px;
+}
+
+.video .tab-content .tab-pane .review-box .star-rating .on {
+  color: #d0d23c;
+}
+
+.video .tab-content .tab-pane .review-box .star-rating .off {
+  color: #ccc;
+}
+
+/*===================================================================================================*/
+
+/*===================================== Course Assesment ============================================*/
+
+.video .tab-content .tab-pane form .set {
+  margin-bottom: 10px;
+}
+
+.video .tab-content .tab-pane .set p.question {
+  color: #0a0a0a;
+  margin: 0 0 10px;
+}
+
+.video .tab-content .tab-pane .set label {
+  cursor: pointer;
+}
+
+/* ================================ Course Material ========================= */
+
+.video .tab-content .tab-pane .material .row {
+  margin : 0 0 10px;
+}
+
+.video .tab-content .tab-pane .material img.img-fluid {
+  width: 5%;
+  padding: 0;
+}
+
+.video .tab-content .tab-pane .material .file-name {
+  font-size: 16px;
+  width: 20%;
+  padding: 10px;
+  margin: 0;
+}
+
+.video .tab-content .tab-pane .material a {
+  width: 10%;
+  padding: 10px;
+  text-align: center;
+}
+
 /*===================================================================================================*/
 
 /*========================================== Footer =================================================*/
-.footer_bottom_area {
+.ufooter_bottom_area {
   padding: 5px 0 25px;
   background: transparent;
 }
-.footer_bottom_area .copyright-widget p {
+.ufooter_bottom_area .copyright-widget p {
   margin-bottom: 0;
   font-size: 13px;
   color: #0a0a0a;

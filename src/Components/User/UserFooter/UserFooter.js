@@ -2,7 +2,7 @@ import React from "react";
 
 const UserFooter = () => {
   return (
-    <div class="footer_bottom_area">
+    <div class="ufooter_bottom_area">
       <div class="container">
         <div class="row">
           <div class="col-lg-6 offset-lg-3">

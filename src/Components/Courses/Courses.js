@@ -2,37 +2,215 @@ import React, { useState, useEffect } from "react";
 
 import CoursesFilter from "./CoursesFilter";
 import CourseCard from "../../Reusable/CourseCard";
-// import CoursesContext from "../../Context/courses-context";
 import Spinner from "../../UI/Spinner/Spinner";
-// import AWS from "../../Services/AWS";
-import getCourses from "./CoursesDB";
-
-// const docClient = new AWS.DynamoDB.DocumentClient();
+import { getCourses, getFilterOptions } from "./CoursesDB";
 
 const Courses = (props) => {
-  // const ctx = useContext(CoursesContext);
   const [courses, setCourses] = useState(null);
+  const [filterOptions, setFilterOptions] = useState(null);
 
   useEffect(() => {
-    // let data = getCoursesData();
-    // console.log(data);
-    // var params = {
-    //   TableName: "Courses"
-    // };
-    getCourses((courses) => setCourses(courses.Items));
-    // props.history.push(`${props.match.url}/courses`);
-    // docClient.scan(params, function (err, data) {
-    //   if (!err) {
-    //     setCourses(data.Items);
-    //   } else {
-    //     console.log("Courses.js", err);
-    //   }
-    // });
+    getFilterOptions((filter) => {
+      setFilterOptions(filter);
+      // get subcategoryId to get the courses for that subcategory
+      let subcatId = filter[0].subcategoryList[0].subCategoryId;
+      // console.log(subcatId);
+      getCourses((courses, fromCache) => {
+        setCourses(courses);
+      }, subcatId);
+    });
   }, []);
+
+  // window.addEventListener("beforeunload", function (e) {
+  //   // alert("unload operation");
+  //   e.preventDefault();
+  //   e.returnValue = "";
+  // });
+
+  const getFilteredCourses = (
+    cat,
+    subcat,
+    subcategoryId,
+    price,
+    language,
+    rating
+  ) => {
+    // console.log("getFilteredCourses", subcategoryId);
+    // optimize later - indexedDB
+    getCourses((courses, fromCache) => {
+      if (
+        price !== undefined &&
+        language !== undefined &&
+        rating !== undefined
+      ) {
+        if (price === "free") {
+          setCourses(
+            courses.filter((c) => {
+              return (
+                c.publish.discountedPrice === 0 &&
+                c.lang === language &&
+                c.rating >= rating
+              );
+            })
+          );
+        } else if (price === "paid") {
+          setCourses(
+            courses.filter((c) => {
+              return (
+                c.publish.discountedPrice !== 0 &&
+                c.lang === language &&
+                c.rating >= rating
+              );
+            })
+          );
+        } else if (
+          price === "0-250" ||
+          price === "250-500" ||
+          price === "500-1000" ||
+          price === "1000-2500"
+        ) {
+          let range = price.split("-");
+          setCourses(
+            courses.filter((c) => {
+              return (
+                c.publish.discountedPrice >= parseInt(range[0]) &&
+                c.publish.discountedPrice <= parseInt(range[1]) &&
+                c.lang === language &&
+                c.rating >= rating
+              );
+            })
+          );
+        } else {
+          // greater than 2500
+          setCourses(
+            courses.filter((c) => {
+              return (
+                c.publish.discountedPrice > parseInt(price) &&
+                c.lang === language &&
+                c.rating >= rating
+              );
+            })
+          );
+        }
+      } else if (
+        price !== undefined &&
+        language !== undefined &&
+        rating === undefined
+      ) {
+        if (price === "free") {
+          setCourses(
+            courses.filter((c) => {
+              return c.publish.discountedPrice === 0 && c.lang === language;
+            })
+          );
+        } else if (price === "paid") {
+          setCourses(
+            courses.filter((c) => {
+              return c.publish.discountedPrice !== 0 && c.lang === language;
+            })
+          );
+        } else if (
+          price === "0-250" ||
+          price === "250-500" ||
+          price === "500-1000" ||
+          price === "1000-2500"
+        ) {
+          let range = price.split("-");
+          setCourses(
+            courses.filter((c) => {
+              return (
+                c.publish.discountedPrice >= parseInt(range[0]) &&
+                c.publish.discountedPrice <= parseInt(range[1]) &&
+                c.lang === language
+              );
+            })
+          );
+        } else {
+          // greater than 2500
+          setCourses(
+            courses.filter((c) => {
+              return (
+                c.publish.discountedPrice > parseInt(price) &&
+                c.lang === language
+              );
+            })
+          );
+        }
+      } else if (
+        price !== undefined &&
+        language === undefined &&
+        rating === undefined
+      ) {
+        if (price === "free") {
+          setCourses(courses.filter((c) => c.publish.discountedPrice === 0));
+        } else if (price === "paid") {
+          setCourses(courses.filter((c) => c.publish.discountedPrice !== 0));
+        } else if (
+          price === "0-250" ||
+          price === "250-500" ||
+          price === "500-1000" ||
+          price === "1000-2500"
+        ) {
+          let range = price.split("-");
+          setCourses(
+            courses.filter((c) => {
+              return (
+                c.publish.discountedPrice >= parseInt(range[0]) &&
+                c.publish.discountedPrice <= parseInt(range[1])
+              );
+            })
+          );
+        } else {
+          // greater than 2500
+          setCourses(
+            courses.filter((c) => c.publish.discountedPrice > parseInt(price))
+          );
+        }
+      } else if (
+        price === undefined &&
+        language !== undefined &&
+        rating !== undefined
+      ) {
+        // lang,rating
+        setCourses(
+          courses.filter((c) => {
+            return c.lang === language && c.rating >= rating;
+          })
+        );
+      } else if (
+        price === undefined &&
+        language === undefined &&
+        rating !== undefined
+      ) {
+        // rating
+        setCourses(
+          courses.filter((c) => {
+            return c.rating >= rating;
+          })
+        );
+      } else if (
+        price === undefined &&
+        language !== undefined &&
+        rating === undefined
+      ) {
+        // language
+        setCourses(
+          courses.filter((c) => {
+            return c.lang === language;
+          })
+        );
+      } else {
+        // no price, lang, rating
+        setCourses(courses);
+      }
+    }, subcategoryId);
+  };
 
   let coursesLists = null;
   if (courses === null) {
     coursesLists = <Spinner />;
+  } else if (courses.length === 0) {
+    coursesLists = <h1>No courses!!!</h1>;
   } else {
     coursesLists = courses.map((course, i) => (
       <CourseCard course={course} key={i} {...props} />
@@ -60,7 +238,10 @@ const Courses = (props) => {
       <section className="sect3_courses">
         <div className="container-fluid p-0">
           <div className="row" style={{ margin: "0" }}>
-            <CoursesFilter />
+            <CoursesFilter
+              filter={filterOptions}
+              getFilteredCourses={getFilteredCourses}
+            />
             <div className="col-md-8 col-lg-9 col-xl-9 course-grid">
               <p className="row_head">
                 <span className="noi">
@@ -69,7 +250,7 @@ const Courses = (props) => {
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Search for Institutes"
+                  placeholder="Search for Courses"
                   style={{ width: "30%" }}
                 />
                 <button

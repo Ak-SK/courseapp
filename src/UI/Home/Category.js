@@ -1,5 +1,6 @@
 import React from "react";
-import CategoryCard from "../../Reusable/CategoryCard";
+import { Link } from "react-router-dom";
+// import CategoryCard from "../../Reusable/CategoryCard";
 
 const Category = (props) => {
   return (
@@ -10,7 +11,7 @@ const Category = (props) => {
           Cum doctus civibus efficiantur in imperdiet deterruisset.
         </p>
         <div className="row">
-          <div className="col-lg-3">
+          <div className="col-sm-6 col-md-6 col-lg-3">
             <img className="crs_img" src="/images/t1.jpg" alt="IAS" />
             <div className="img_overlay"></div>
             <div className="crs_caption">
@@ -20,7 +21,7 @@ const Category = (props) => {
               <p>Over 200+ courses</p>
             </div>
           </div>
-          <div className="col-lg-3">
+          <div className="col-sm-6 col-md-6 col-lg-3">
             <img className="crs_img" src="/images/t2.jpg" alt="IES" />
             <div className="img_overlay"></div>
             <div className="crs_caption">
@@ -30,7 +31,7 @@ const Category = (props) => {
               <p>Over 800+ courses</p>
             </div>
           </div>
-          <div className="col-lg-3">
+          <div className="col-sm-6 col-md-6 col-lg-3">
             <img className="crs_img" src="/images/t3.jpg" alt="GATE" />
             <div className="img_overlay"></div>
             <div className="crs_caption">
@@ -40,7 +41,7 @@ const Category = (props) => {
               <p>Over 400+ courses</p>
             </div>
           </div>
-          <div className="col-lg-3">
+          <div className="col-sm-6 col-md-6 col-lg-3">
             <img className="crs_img" src="/images/t4.jpg" alt="CSIR" />
             <div className="img_overlay"></div>
             <div className="crs_caption">
@@ -52,7 +53,7 @@ const Category = (props) => {
           </div>
         </div>
         <div className="row">
-          <div className="col-lg-3">
+          <div className="col-sm-6 col-md-6 col-lg-3">
             <img className="crs_img" src="/images/t5.jpg" alt="IIT-JEE" />
             <div className="img_overlay"></div>
             <div className="crs_caption">
@@ -62,7 +63,7 @@ const Category = (props) => {
               <p>Over 300+ courses</p>
             </div>
           </div>
-          <div className="col-lg-3">
+          <div className="col-sm-6 col-md-6 col-lg-3">
             <img className="crs_img" src="/images/t6.jpg" alt="NEET" />
             <div className="img_overlay"></div>
             <div className="crs_caption">
@@ -72,7 +73,7 @@ const Category = (props) => {
               <p>Over 50+ courses</p>
             </div>
           </div>
-          <div className="col-lg-3">
+          <div className="col-sm-6 col-md-6 col-lg-3">
             <img className="crs_img" src="/images/t7.jpg" alt="LAW" />
             <div className="img_overlay"></div>
             <div className="crs_caption">
@@ -82,7 +83,7 @@ const Category = (props) => {
               <p>Over 200+ courses</p>
             </div>
           </div>
-          <div className="col-lg-3">
+          <div className="col-sm-6 col-md-6 col-lg-3">
             <img className="crs_img" src="/images/t9.jpg" alt="RRB" />
             <div className="img_overlay"></div>
             <div className="crs_caption">
@@ -94,9 +95,9 @@ const Category = (props) => {
           </div>
         </div>
         {/* <form action="courses.html" method="get"> */}
-        <a className="crs_btn" href={`${props.match.url}/courses`}>
+        <Link className="crs_btn" to={`${props.match.url}/courses`}>
           View All Courses
-        </a>
+        </Link>
         {/* </form> */}
       </div>
     </section>

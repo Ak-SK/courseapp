@@ -1,9 +1,8 @@
-import { dbInstitute } from "../../Services/firebaseInstitute";
+import { db } from "../../Services/firebase";
 
 const getInstitutions = (institution) => {
   // const db = firebaseInstitute.firestore();
-  dbInstitute
-    .collection("institutes")
+  db.collection("institute")
     .where("isVerified", "==", true)
     .limit(9)
     .get()

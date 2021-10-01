@@ -29,7 +29,7 @@ const TopCourses = (props) => {
             </li>
           </ul>
         </div>
-        <div className="content row"></div>
+        <div className="content row">{/* <CourseCard /> */}</div>
       </div>
     </section>
   );

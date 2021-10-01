@@ -1,13 +1,16 @@
 .navbar {
+  background-image: -webkit-linear-gradient(
+    0deg,
+    rgb(52, 82, 255) 0%,
+    rgb(255, 16, 83) 100%
+  );
   width: 100%;
   top: -3px;
 }
 #nav {
   transition: all 800ms linear;
 }
-.home_sect {
-  position: relative;
-}
+
 .navbar-expand-md .navbar-brand .navbar_img {
   background-image: url(../images/logo_white.png);
   width: 96px;
@@ -20,6 +23,7 @@
   margin-top: 0;
 }
 .navbar-dark .navbar-nav .nav-link {
+  font-size: 16px;
   color: #fff;
 }
 .navbar-dark .navbar-nav .nav-link:hover {
@@ -52,9 +56,9 @@
 }
 .navbar .prfl_img .overlay {
   position: absolute;
-  display: none;
+  /* display: none; */
   top: 95px;
-  right: 8px;
+  right: 5px;
   padding: 20px;
   width: 300px;
   background: #fff;
@@ -67,7 +71,7 @@
   width: 25px;
   height: 25px;
   top: -12px;
-  right: 36px;
+  left: 39%;
   padding: 5px;
   background-color: #fff;
   transform: rotate(45deg);
@@ -118,12 +122,13 @@
 .navbar .prfl_img .overlay ul.list > li.list-item:last-child {
   border-bottom: 0;
 }
-.navbar .prfl_img .overlay ul.list li.list-item a.list-link {
+.navbar .prfl_img .overlay ul.list li.list-item .list-link {
   color: #0a0a0a;
   font-size: 16px;
+  padding: 0;
   transition: all 0.3s ease 0s;
 }
-.navbar .prfl_img .overlay ul.list li.list-item a.list-link:hover {
+.navbar .prfl_img .overlay ul.list li.list-item .list-link:hover {
   color: #2441e7;
   padding-left: 7px;
   text-decoration: none;
@@ -148,6 +153,7 @@
   font-weight: normal;
   font-size: 12px;
 }
+
 /*===========================================Media Query==================================*/
 
 @media only screen and (min-width: 768px) {
@@ -155,6 +161,7 @@
     flex-wrap: wrap;
   }
   .navbar {
+    background-image: none;
     padding: 8px 20px 0;
     transition: background-color 400ms linear;
   }
@@ -310,12 +317,18 @@
     top: 17.5px;
     font-size: 16px;
   }
+  .navbar-expand-md .navbar-nav button.nav-link {
+    padding-left: 50px;
+  }
 }
 
 @media only screen and (min-width: 1143px) {
   .navbar-expand-md .navbar-nav .nav-link {
     font-size: 14px;
     padding: 15px 20px 24px;
+  }
+  .navbar-expand-md .navbar-nav button.nav-link {
+    padding-left: 60px;
   }
 }
 
@@ -326,6 +339,9 @@
   .navbar-expand-md .navbar-nav .nav-link {
     font-size: 16px;
     letter-spacing: 2px;
+  }
+  .navbar-expand-md .navbar-nav button.nav-link {
+    padding-left: 80px;
   }
 }
 
@@ -339,6 +355,9 @@
   }
   .navbar-expand-md .navbar-nav > li:nth-child(8) a.nav-link {
     padding: 15px 12px 24px 12px;
+  }
+  .navbar-expand-md .navbar-nav button.nav-link {
+    padding-left: 140px;
   }
   .navbar-expand-md .navbar-collapse {
     width: 89%;

@@ -6,16 +6,16 @@ import Dashboard from "./Components/Dashboard";
 import UserDashboard from "./Components/User/UserDashboard";
 
 import "./styles.css";
-// import { AuthContextProvider } from "./Context/auth-context";
+// import SingleCourseBought from "./Components/Courses/SingleCoursedt/SingleCourseBought";
 
 const RedirectHome = () => {
   return <Redirect to="/dashboard/home" />;
 };
 
 const App = (props) => {
-  // console.log("navigator", props.history);
   return (
     <div className="App">
+      {/* <SingleCourseBought /> */}
       <Switch>
         {/* <AuthContextProvider> - if i add this here, it affects the switch and only moves to login */}
         <Route path="/userdashboard" component={UserDashboard} />
@@ -27,6 +27,7 @@ const App = (props) => {
         {/* </AuthContextProvider> */}
       </Switch>
     </div>
+    // </AuthContextProvider>
   );
 };
 

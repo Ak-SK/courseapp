@@ -1,23 +1,29 @@
 import React, { useState } from "react";
 import { Alert } from "react-bootstrap";
-import firebaseStudent from "../../Services/firebaseStudent";
+import { db, auth } from "../../Services/firebase";
 import "./Signup.css";
 
 const StudentsSignup = (props) => {
-  let db = firebaseStudent.firestore();
+  // let db = dbStudent.firestore();
   const [error, setError] = useState("");
+  const [isAgeGreater, setAgeGreater] = useState(false);
   const [userDetails, setUserDetails] = useState({
     id: "",
     fname: "",
     lname: "",
     email: "",
     phone: "",
+    dob: "",
+    parentNo: "",
     password: "",
     confirmPassword: ""
   });
 
   const changeHandler = (event) => {
     let val = event.target.value;
+    if (event.target.name === "dob") {
+      calculateAge(val);
+    }
     setUserDetails((prevState) => {
       return {
         ...prevState,
@@ -26,8 +32,31 @@ const StudentsSignup = (props) => {
     });
   };
 
+  const calculateAge = (dob) => {
+    console.log("DOB", dob);
+    dob = new Date(dob);
+    //calculate month difference from current date in time
+    var month_diff = Date.now() - dob.getTime();
+
+    //convert the calculated difference in date format
+    var age_dt = new Date(month_diff);
+
+    //extract year from date
+    var year = age_dt.getUTCFullYear();
+
+    //now calculate the age of the user
+    var age = Math.abs(year - 1970);
+    console.log("age", age);
+    if (age < 18) {
+      setAgeGreater(true);
+    } else {
+      setAgeGreater(false);
+    }
+  };
+
   // new user signup
   const signUpAuth = (event) => {
+    // add a loader to know its processing...
     event.preventDefault();
     // console.log(event.target);
     // console.log(userDetails.password.length);
@@ -52,34 +81,62 @@ const StudentsSignup = (props) => {
       // console.log(props);
       // console.log("check email already exist and success", userDetails);
       // check the email is already registered
-      firebase
-        .auth()
+      auth
         .createUserWithEmailAndPassword(
           userDetails.email.trim(),
           userDetails.password.trim()
         )
         .then((userCred) => {
           let studentId = userCred.user.uid;
-          const user = firebase.auth().currentUser;
+          const user = auth.currentUser;
           user.updateProfile({
-            displayName: userDetails.name,
+            displayName: userDetails.fname + " " + userDetails.lname,
             photoURL: "https://www.w3schools.com/howto/img_avatar.png"
           });
+
           // signed-in
           // const docId = userCred.user.uid;
           // store other data's in firestore
-          db.collection("onlineCourseUsers")
+          db.collection("students")
             .doc(studentId)
             .set({
               id: studentId,
-              fname: userDetails.fname,
-              lname: userDetails.lname,
+              name: userDetails.fname + " " + userDetails.lname,
               email: userDetails.email,
               phone: userDetails.phone,
-              password: userDetails.password
-              // profile_image: "https://www.w3schools.com/howto/img_avatar.png"
+              dob: userDetails.dob,
+              password: userDetails.password,
+              parentNo: "",
+              preferences: [],
+              bookmarks: [],
+              cart: [],
+              orders: [],
+              completedCourses: [],
+              isLoggedIn: false
             })
             .then((docRef) => {
+              db.collection("students")
+                .doc(studentId)
+                .collection("ongoingCourses")
+                .add({
+                  id: "",
+                  courses: []
+                })
+                .then((docRef) => {
+                  db.collection("students")
+                    .doc(studentId)
+                    .collection("ongoingCourses")
+                    .doc(docRef.id)
+                    .update({
+                      id: docRef.id
+                    })
+                    .then(() =>
+                      console.log("ongoing courses added succesfully")
+                    )
+                    .catch((e) => console.log(e));
+                })
+                .catch((e) => console.log(e));
+
               setError("");
               setUserDetails({
                 id: "",
@@ -87,11 +144,13 @@ const StudentsSignup = (props) => {
                 lname: "",
                 email: "",
                 phone: "",
+                dob: "",
+                parentNo: "",
                 password: "",
                 confirmPassword: ""
               });
               console.log("successfully updated to firestore.");
-              props.history.replace("/"); // push to login
+              props.history.replace("/login"); // push to login
             })
             .catch((e) => console.log(e, "firestore"));
         })
@@ -103,6 +162,8 @@ const StudentsSignup = (props) => {
               fname: userDetails.fname,
               lname: userDetails.lname,
               email: "",
+              dob: "",
+              parentNo: "",
               phone: userDetails.phone,
               password: "",
               confirmPassword: ""
@@ -116,6 +177,8 @@ const StudentsSignup = (props) => {
               lname: "",
               email: "",
               phone: "",
+              dob: "",
+              parentNo: "",
               password: "",
               confirmPassword: ""
             });
@@ -208,6 +271,30 @@ const StudentsSignup = (props) => {
                       value={userDetails.confirmPassword}
                     />
                   </div>
+                  <div className="input-box">
+                    <span className="details">DOB</span>
+                    <input
+                      type="date"
+                      id="dob"
+                      name="dob"
+                      required
+                      onChange={changeHandler}
+                      value={userDetails.dob}
+                    />
+                  </div>
+                  {isAgeGreater && (
+                    <div className="input-box">
+                      <span className="details">Parent No</span>
+                      <input
+                        type="tel"
+                        id="parentNo"
+                        name="parentNo"
+                        required
+                        onChange={changeHandler}
+                        value={userDetails.parentNo}
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="button">
                   <button className="btn btn-primary" type="submit">

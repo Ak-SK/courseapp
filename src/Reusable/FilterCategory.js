@@ -1,14 +1,32 @@
 import React from "react";
 
-const FilterCategory = () => {
+const FilterCategory = (props) => {
   return (
     <>
       <div className="filter filter1">
-        <button type="button" className="collapsible">
-          Category
-        </button>
-        <div className="content">
-          <div className="form-check">
+        <details>
+          <summary type="button" className="collapsible">
+            Category
+          </summary>
+          <div className="content">
+            {props.categoryList.map((cat, i) => {
+              return (
+                <div className="form-check" key={i}>
+                  <label className="form-check-label">
+                    <input
+                      type="radio"
+                      name="category"
+                      checked={props.category.categoryName === cat.categoryName}
+                      className="form-check-input"
+                      value={cat.categoryName}
+                      onChange={() => props.onClick(cat)}
+                    />
+                    {cat.categoryName.toUpperCase()}
+                  </label>
+                </div>
+              );
+            })}
+            {/* <div className="form-check">
             <label className="form-check-label">
               <input type="checkbox" className="form-check-input" value="ias" />
               IAS
@@ -71,8 +89,9 @@ const FilterCategory = () => {
               />
               NEET
             </label>
+          </div> */}
           </div>
-        </div>
+        </details>
       </div>
     </>
   );

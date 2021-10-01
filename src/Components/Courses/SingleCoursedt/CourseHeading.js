@@ -1,28 +1,50 @@
 import React from "react";
+
 const Testimonal = (props) => {
-  console.log(props.ctx.course);
+  // console.log(props.course);
+  const facs = [];
+  props.course.faculties.forEach((fac) => {
+    let index = fac.lastIndexOf("?");
+    let fa = fac.substring(index + 1);
+    facs.push(fa);
+    // console.log("fac", fa);
+  });
+
+  const shareCourse = async () => {
+    navigator
+      .share({
+        url: window.location.href
+      })
+      .then(() => {
+        console.log("Sharing successfull");
+      })
+      .catch(() => {
+        console.log("Sharing failed");
+      });
+  };
+
   return (
     <>
       <section
         className="navbar_sect"
         // style={{ backgroundImage: "url(/images/bg4.jpg)" }}
-        style={{ backgroundImage: `url(${props.ctx.course.CIUrl})` }}
+        style={{ backgroundImage: `url(${props.course.coverImg})` }}
       >
         <div className="course_details">
           <div className="container-fluid">
             <div className="inner_container">
               <p className="course_header">
                 <img className="header_img" src="/images/4.jpg" alt="..." />
-                <span className="instructor_name">Tony Stark</span>
+                <span className="instructor_name">{facs.join()}</span>
                 <span className="upload_date">
-                  Last updated&nbsp;<span className="date">02/11/2019</span>
+                  Last updated&nbsp;<span className="date">02/08/2021</span>
                 </span>
               </p>
               <p className="course_title">
                 {/* Designing a Online Course Website for education purpose */}
-                {props.ctx.course.CName}
+                {props.course.courseName}
               </p>
-              <p className="course_body">
+              {/* <p className="course_body">
                 <span className="course_tag">Best Seller</span>
                 <span className="course_rating">
                   <span className="fa fa-star"></span>
@@ -33,23 +55,32 @@ const Testimonal = (props) => {
                   <span className="rating_value">4.5</span>
                   <span className="rating_count">(1,432 Ratings)</span>
                 </span>
-              </p>
+              </p> */}
               <p className="course_footer">
-                <a className="students_count" href="#">
-                  <i className="far fa-user"></i>&ensp;40&nbsp;
+                {/* <a className="students_count" href="#s">
+                  <i className="far fa-user"></i>&ensp;
+                  {props.course.noOfStudents}&nbsp;
                   <span>students enrolled&emsp;</span>
                 </a>
-                <a className="review_count" href="#">
+                <a className="review_count" href="#r">
                   <i className="far fa-comment-alt"></i>&ensp;25&nbsp;
                   <span>Reviews</span>
-                </a>
+                </a> */}
                 <span className="flt_rt">
-                  <i onClick="myFunction(this)" className="far fa-heart">
-                    <span style={{ fontWeight: "normal !important" }}>
+                  {/* <i
+                      onClick={() => bookmarkCourse(props.course)}
+                      className={isBookmarked ? "fas fa-heart" : "far fa-heart"}
+                      >
+                      <span style={{ fontWeight: "normal !important" }}>
                       &ensp;Add to Wishlist
-                    </span>
-                  </i>
-                  <button type="submit" className="share" value="">
+                     </span>
+                   </i>  */}
+                  <button
+                    type="button"
+                    className="share"
+                    id="#shareBtn"
+                    onClick={shareCourse}
+                  >
                     <i className="fas fa-share-alt"></i>&ensp;Share
                   </button>
                 </span>
