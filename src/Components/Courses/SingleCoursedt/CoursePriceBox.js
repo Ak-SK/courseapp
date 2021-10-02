@@ -176,14 +176,14 @@ const CoursePriceBox = (props) => {
               &ensp;69 downloadable resources
             </a>
           </li>
-          <li>
+          {/* <li>
             <a href="#">
               <span>
                 <i className="fas fa-key"></i>
               </span>
               &ensp;Full lifetime access
             </a>
-          </li>
+          </li> */}
           <li>
             <a href="#">
               <span>

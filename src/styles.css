@@ -22,6 +22,16 @@ body {
 }
 
 /*=================================Home Section===================================================*/
+.liveOnline{
+  width: 20%;
+  display: initial;
+  position: relative;
+  /* float: right; */
+}
+
+
+
+
 .home_sect {
   position: relative;
   margin-top: 73px;
@@ -3035,6 +3045,8 @@ summary::-webkit-details-marker {
 }
 .crs_sl .demo_video video {
   border-radius: 6px;
+  width: 100%;
+  height: 100%;
 }
 .crs_sl .course_overview {
   padding: 0;

@@ -13,17 +13,14 @@
 // todo
 - need a modal for courseBuy
 - lifetime / periods
-- before buy, coursePage, correct data's
 - payment gateway
   i) add bought course to order list as well as ongoingCourse(after
 payment is integrated)
-
 - logo
 - navbar
 - home page(browse top courses)
 - about us, static data, later we can add
 - add currentSec, top and timing when idleTimeOut and when closing the tab or window
-- forgot password UI work
 - directly give logout, from video, then the current section topic time should be updated
 - no need to save password in user db
 - increment no of students in particular courses
@@ -37,12 +34,14 @@ next update:
 - search bar
 
 ishu:
+- online/live filter
 - contact us(submit button - send email)//completed have to change email id
 (smtp.js or mailto)
 - video should not be download (no screenshot should be taken)
-- online/live filter
+
 
 sanjay:
+- before buy, coursePage, correct data's
 - zoom integration
 - adding duration to the courses, how many days its valid
 & courseBoughtTimestamp
@@ -51,6 +50,7 @@ isLoggedIn to false
 
 akhil:
 - pagination
+- materials
 - footer
 
 completed:
@@ -60,3 +60,4 @@ completed:
 - forget password - backend work completed
 - quiz last section
 - reset password modal
+- forgot password UI work

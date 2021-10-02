@@ -1009,7 +1009,7 @@ html {
 /* ================================ Course Material ========================= */
 
 .video .tab-content .tab-pane .material .row {
-  margin : 0 0 10px;
+  margin: 0 0 10px;
 }
 
 .video .tab-content .tab-pane .material img.img-fluid {
@@ -1310,7 +1310,7 @@ html {
   margin-bottom: 30px;
   overflow: hidden;
   cursor: pointer;
-  background-image: url(../images/12.jpg);
+  background-image: url(/images/12jpg);
   background-size: cover;
   border-radius: 5px;
   -webkit-transition: -webkit-transform 0.4s;

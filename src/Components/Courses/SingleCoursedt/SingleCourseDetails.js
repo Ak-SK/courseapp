@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import { useParams, useLocation } from "react-router-dom";
 // import localforage from "localforage";
 
 import CourseOverview from "./CourseOverview";
 import CourseContent from "./CourseContent";
-import StudentFeedbackList from "./StudentFeedback";
+// import StudentFeedbackList from "./StudentFeedback";
 // import StudentFeedbackForm from "./StudentFeedbackForm";
-import CourseReview from "./CourseReview";
+// import CourseReview from "./CourseReview";
 import CoursePriceBox from "./CoursePriceBox";
 import CourseFeatures from "./CourseFeatures";
 import CourseHeading from "./CourseHeading";
@@ -24,17 +24,7 @@ import Spinner from "../../../UI/Spinner/Spinner";
 
 // let subcategoryId = null;
 const SingleCourseDetials = (props) => {
-  // const query = useQuery();
-  // const params = useParams();
-  // const ctx = useContext(CoursesContext);
-  // const [course, setCourse] = useState(null);
-  // // if ctx.course is null, get the courseId and check in localDb, if it is not in localDB then get from the server
-  // console.log(
-  //   "singleCourse",
-  //   params.courseId,
-  //   ctx.course,
-  //   query.get("subcategoryId")
-  // );
+  const [noOfLectures, setNoOfLectures] = useState(0);
 
   // check in local, whether the courseId is available or not
   // if it is not there, then
@@ -55,7 +45,7 @@ const SingleCourseDetials = (props) => {
             <div className="row">
               <div className="col-sm-8 col-lg-8 col-xl-9">
                 <div className="demo_video">
-                  <video width="960" height="540" controls>
+                  <video controls>
                     {/* <source src="vedio/sample-mp4-file.mp4" type="video/mp4" /> */}
                     <source src={props.course.introVideo} type="video/mp4" />
                     Your browser does not support the video tag.
@@ -64,6 +54,8 @@ const SingleCourseDetials = (props) => {
                 <CourseOverview course={props.course} />
                 <CourseContent
                   course={props.course}
+                  noOfLectures={noOfLectures}
+                  setNoOfLectures={(num) => setNoOfLectures(num)}
                   // courseId={params.courseId}
                   // subcategoryId={subcategoryId}
                 />
@@ -81,7 +73,10 @@ const SingleCourseDetials = (props) => {
                   course={props.course}
                   subcategoryId={props.subcategoryId}
                 />
-                <CourseFeatures />
+                <CourseFeatures
+                  course={props.course}
+                  noOfLectures={noOfLectures}
+                />
               </div>
             </div>
           </div>

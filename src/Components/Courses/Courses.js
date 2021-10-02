@@ -4,6 +4,7 @@ import CoursesFilter from "./CoursesFilter";
 import CourseCard from "../../Reusable/CourseCard";
 import Spinner from "../../UI/Spinner/Spinner";
 import { getCourses, getFilterOptions } from "./CoursesDB";
+import ReactPaginate from "react-paginate";
 
 const Courses = (props) => {
   const [courses, setCourses] = useState(null);
@@ -206,6 +207,26 @@ const Courses = (props) => {
     }, subcategoryId);
   };
 
+  const getLiveOnline = (courses) => {
+    console.log(".....cou", courses);
+
+    if (document.getElementById("liveonline").value === "live") {
+      setCourses(
+        courses.filter((c) => {
+          return c.types === "Live";
+        })
+      );
+    } else if (document.getElementById("liveonline").value === "online") {
+      setCourses(
+        courses.filter((c) => {
+          return c.types === "Online";
+        })
+      );
+    } else {
+      setCourses(courses);
+    }
+  };
+
   let coursesLists = null;
   if (courses === null) {
     coursesLists = <Spinner />;
@@ -247,6 +268,16 @@ const Courses = (props) => {
                 <span className="noi">
                   85&ensp;<i>Results&emsp;</i>1,145&ensp;<i>Video Tutorials</i>
                 </span>
+
+                <select
+                  id="liveonline"
+                  className="liveOnline"
+                  onChange={getLiveOnline()}
+                >
+                  <option value="all">All</option>
+                  <option value="live">Live</option>
+                  <option value="online">Online</option>
+                </select>
                 <input
                   type="text"
                   className="form-control"

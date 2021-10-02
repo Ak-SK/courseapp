@@ -6,6 +6,7 @@ import SingleCourseBought from "./SingleCourseBought";
 import SingleCourseDetials from "./SingleCourseDetails";
 import { getCourse } from "./singleCourseDB";
 import Spinner from "../../../UI/Spinner/Spinner";
+import Zoom from "../../../NewFeatureTest/Zoom";
 
 // A custom hook that builds on useLocation to parse
 // the query string for you.
@@ -98,13 +99,17 @@ const CourseDetails = (props) => {
   } else if (courseBought !== null) {
     // console.log("courseBought---true/false", courseBought);
     ui = courseBought ? (
-      <SingleCourseBought
-        ongoingIndex={ongoingIndex}
-        authCtx={authCtx}
-        course={course}
-        subcategoryId={subcategoryId}
-        courseId={params.courseId}
-      />
+      course.types === "Live" ? (
+        <Zoom />
+      ) : (
+        <SingleCourseBought
+          ongoingIndex={ongoingIndex}
+          authCtx={authCtx}
+          course={course}
+          subcategoryId={subcategoryId}
+          courseId={params.courseId}
+        />
+      )
     ) : (
       <SingleCourseDetials
         course={course}

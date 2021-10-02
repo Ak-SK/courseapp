@@ -27,15 +27,6 @@ const CourseContent = (props) => {
 
   const [sections, setSections] = useState(null);
 
-  // useEffect(() => {
-  //   let sectionIds = props.course.sections;
-  //   getSections(sectionIds);
-  // }, [props.course.sections]);
-
-  // const addSection = (section) => {
-  //   setSections((prevState) => prevState.push(section));
-  // };
-
   useEffect(() => {
     let sectionIds = props.course.sections;
     getSections((sections) => {
@@ -52,37 +43,31 @@ const CourseContent = (props) => {
         }
         return 0;
       });
+      let sum = 0;
+      sections.forEach((sec) => {
+        sum += sec.noOfTopics;
+      });
       console.log("sorted--- from db", sections);
+      props.setNoOfLectures(sum);
       setSections(sections);
-      // setSections((prevState) => {
-      //   sections.sort((a, b) => {
-      //     let nameA = a.sectionName.toLowerCase();
-      //     let nameB = b.sectionName.toLowerCase();
-      //     if (nameA < nameB) {
-      //       return -1;
-      //     }
-      //     if (nameA > nameB) {
-      //       return 1;
-      //     }
-      //     // names must be equal
-      //     return 0;
-      //   });
-      //   return sections;
-      // });
     }, sectionIds);
-  }, [props.course.sections]);
+  }, [props, props.course.sections]);
 
   let sec = null;
   if (sections === null) {
     sec = <p>Loading...</p>;
   } else {
+    // let sum = 0;
+    // sections.forEach((sec) => {
+    //   sum += sec.noOfTopics;
+    // });
     sec = (
       <>
         <div className="course_contents">
           <p className="title">
             Course Content
             <span className="vds_no">
-              8&nbsp;Lectures&emsp;Duration&nbsp;02:11:30
+              {props.noOfLectures}&nbsp;Lectures&emsp;Duration&nbsp;02:11:30
             </span>
           </p>
           {sections.map((section, i) => {

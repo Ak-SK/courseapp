@@ -126,6 +126,7 @@
   color: #0a0a0a;
   font-size: 16px;
   padding: 0;
+  border: none;
   transition: all 0.3s ease 0s;
 }
 .navbar .prfl_img .overlay ul.list li.list-item .list-link:hover {
