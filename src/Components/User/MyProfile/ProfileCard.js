@@ -32,7 +32,12 @@ const ProfileCard = (props) => {
               Courses
             </NavLink>
             <p class="counter value" data-target="11">
-              0
+              {/* ongoingCourses, bcs it as both the current 
+              course, and completed course, which is not expired.
+              If the course is completed, but its expired, then
+              it will be in order only
+              */}
+              {authCtx.user !== null && authCtx.user.ongoingCourses.length}
             </p>
           </div>
           <div class="icon style1">
@@ -111,9 +116,9 @@ const ProfileCard = (props) => {
       <div class="col-sm-6 col-md-6 col-lg-3">
         <div class="details-box">
           <div class="details">
-            <a class="list-link" href="#l">
+            <NavLink class="list-link" to={`${props.match.url}/myorder`}>
               Orders
-            </a>
+            </NavLink>
             <p class="counter value" data-target="06">
               {authCtx.user !== null && authCtx.user.orders.length}
             </p>

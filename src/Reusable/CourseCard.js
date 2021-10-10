@@ -8,9 +8,20 @@ const CourseCard = (props) => {
   const ctx = useContext(CoursesContext);
   const authCtx = useContext(AuthContext);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const history = useHistory();
+
+  const facs = [];
+  if (props.course !== undefined && props.course !== null) {
+    props.course.faculties.forEach((fac) => {
+      let index = fac.lastIndexOf("?");
+      let fa = fac.substring(index + 1);
+      facs.push(fa);
+      // console.log("fac", fa);
+    });
+  }
 
   useEffect(() => {
-    console.log("updated bookmarks", authCtx.user);
+    // console.log("updated bookmarks", authCtx.user);
     if (authCtx.user !== null) {
       let bookmarks = authCtx.user.bookmarks;
       let index = bookmarks.findIndex((course) => {
@@ -22,13 +33,13 @@ const CourseCard = (props) => {
         setIsBookmarked(true);
       }
     }
-  }, []);
+  }, [authCtx.user, props.course.id]);
 
   const courseUpdate = (course) => {
     // console.log("coursecard", course, course.subcategoryId);
     ctx.setCourse(course);
-    props.history.push(
-      `${props.match.url}/courses/${course.id}?category=${course.category}&subcategory=${course.subcategory}&subcategoryId=${course.subcategoryId}`
+    history.push(
+      `/dashboard/courses/${course.id}?category=${course.category}&subcategory=${course.subcategory}&subcategoryId=${course.subcategoryId}`
     );
   };
 
@@ -69,80 +80,78 @@ const CourseCard = (props) => {
 
   return (
     <>
-      {/* <div className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-3 filter"> */}
-      {/* <div className="col-sm-6 col-md-6 col-lg-4 col-xl-4"> */}
-      <div className="item col-sm-6 col-md-6 col-lg-4 col-xl-4">
-        <div className="card">
-          <div className="thumb">
-            <img
-              className="card-img"
-              src={props.course.coverImg}
-              alt={props.course.CName}
-            />
-            <div className="fav">
-              <span>
-                <i
-                  onClick={() => bookmarkCourse(props.course)}
-                  className={
-                    isBookmarked ? "fas fa-bookmark" : "far fa-bookmark"
-                  }
-                ></i>
-              </span>
+      {/* <div className="item col-sm-6 col-md-6 col-lg-4 col-xl-4"> */}
+      <div className="card">
+        <div className="thumb">
+          <img
+            className="card-img"
+            src={`https://secure--storage.s3.ap-south-1.amazonaws.com/${props.course.coverImg}`}
+            alt={props.course.courseName}
+          />
+          <div className="days">
+            {props.course.types === "Online" ? (
+              <div className="pill">Online</div>
+            ) : (
+              <div className="pill">Live</div>
+            )}
+          </div>
+          <div className="fav">
+            <span>
+              <i
+                onClick={() => bookmarkCourse(props.course)}
+                className={isBookmarked ? "fas fa-bookmark" : "far fa-bookmark"}
+              ></i>
+            </span>
+          </div>
+          <div className="img_overlay">
+            <div className="center">
+              <span>Preview Course</span>
             </div>
-            <div className="img_overlay">
-              <div className="days">
-                <div className="pill">30 Days</div>
-                <div className="pill">60 Days</div>
-                <div className="pill">90 Days</div>
-              </div>
-              <div className="center">
-                <span>Preview Course</span>
-              </div>
-            </div>
-            {/* <a href="#c" className="stretched-link"></a> */}
-            {/* <Link
+          </div>
+          {/* <a href="#c" className="stretched-link"></a> */}
+          {/* <Link
               to={`${props.match.url}/courses/${props.course.CrsId}`}
               className="stretched-link"
             ></Link> */}
-            <div
-              onClick={() => courseUpdate(props.course)}
-              className="stretched-link"
-            ></div>
-          </div>
-          <div className="card-body">
-            <p>
-              Faculty: {props.course.faculties.join()}
-              <span>
-                <a className="view_more" href="#courses">
-                  {props.course.category}
-                </a>
-              </span>
-            </p>
-            <h3 className="card-title">{props.course.courseName}</h3>
-            <p className="card-text">
-              <span className="fa fa-star"></span>
-              <span className="fa fa-star"></span>
-              <span className="fa fa-star"></span>
-              <span className="fa fa-star"></span>
-              <span className="fa fa-star"></span>
-            </p>
-            <hr />
-            <p className="card_footer">
-              <a className="sdt" href="#n">
-                <i className="far fa-user"></i>
-                {props.course.noOfStudents}
+          <div
+            onClick={() => courseUpdate(props.course)}
+            className="stretched-link"
+          ></div>
+        </div>
+        <div className="card-body">
+          <p>
+            Faculty: {facs.join()}
+            <span>
+              <a className="view_more" href="#courses">
+                {props.course.subcategory}
               </a>
-              <a className="price" href="#d">
-                <i className="fas fa-rupee-sign"></i>
-                {props.course.publish.originalPrice === 0
-                  ? "Free"
-                  : props.course.publish.originalPrice}
-              </a>
-            </p>
-          </div>
+            </span>
+          </p>
+          <h3 className="card-title">{props.course.courseName}</h3>
+          <p className="card-text">
+            <span className="fa fa-star"></span>
+            <span className="fa fa-star"></span>
+            <span className="fa fa-star"></span>
+            <span className="fa fa-star"></span>
+            <span className="fa fa-star"></span>
+          </p>
+          <hr />
+          <p className="card_footer">
+            <a className="sdt" href="#n">
+              <i className="far fa-user"></i>
+              {props.course.noOfStudents}
+            </a>
+            <a className="price" href="#d">
+              <i className="fas fa-rupee-sign"></i>
+              {props.course.publish.originalPrice === 0
+                ? "Free"
+                : props.course.publish.originalPrice}
+            </a>
+          </p>
         </div>
       </div>
+      {/* </div> */}
     </>
   );
 };
-export default React.memo(CourseCard);
+export default CourseCard;

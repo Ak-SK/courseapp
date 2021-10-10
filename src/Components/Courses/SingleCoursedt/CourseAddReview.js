@@ -22,7 +22,11 @@ const CourseAddReview = (props) => {
     // console.log("ongoingCourse", props.ongoingCourse);
     if (props.ongoingCourse !== null) {
       let reviewDet = props.ongoingCourse.reviewDet;
-      if (reviewDet !== null && reviewDet !== undefined && reviewDet !== "") {
+      if (
+        reviewDet !== null &&
+        reviewDet !== undefined &&
+        reviewDet.review !== ""
+      ) {
         setReview(reviewDet);
         console.log("rev", reviewDet);
       }
@@ -66,9 +70,10 @@ const CourseAddReview = (props) => {
     });
   };
 
-  let ui = null;
-  if (review === false) {
-  }
+  // let ui = null;
+  // if (review === false) {
+  // }
+
   return (
     <>
       <div class="user_review">

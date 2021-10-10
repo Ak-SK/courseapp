@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-
+import { Link } from "react-router-dom";
 import InstitutionCard from "../../Reusable/InstitutionCard";
-import getInstitutions from "./InstitutionDB";
+import { getInstitutions } from "./InstitutionDB";
 import InstitutionFilter from "./InstitutionFilter";
 import CarouselView from "../../Reusable/CarouselView";
 import Toast from "../../UI/Toast/Toast";
@@ -45,14 +45,14 @@ const Institution = (props) => {
       <>
         <section
           className="navbar_sect"
-          style={{ backgroundImage: "url(/images/bg5.jpg)" }}
+          style={{ backgroundImage: `url(/images/bg5.jpg)` }}
         >
           <div className="inst_sect">
             <div className="container-fluid">
               <div className="inner_container">
                 <h1>INSTITUTION</h1>
                 <p>
-                  <a href="index.html">Home</a>&ensp;/&ensp;Institutions
+                  <Link to="/home">Home</Link>&ensp;/&ensp;Institutions
                 </p>
               </div>
             </div>
@@ -68,7 +68,7 @@ const Institution = (props) => {
                 <span className="noi">
                   85&ensp;<i>Institutions</i>
                 </span>
-                <input
+                {/* <input
                   type="text"
                   className="form-control"
                   placeholder="Search for Institutes"
@@ -80,7 +80,7 @@ const Institution = (props) => {
                   value="search"
                 >
                   <i className="fa fa-search"></i>
-                </button>
+                </button> */}
               </p>
               <div className="row m-0">{institutionsLists}</div>
             </div>

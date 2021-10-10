@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route } from "react-router";
+// import { Route } from "react-router";
 import FilterCategory from "../../Reusable/FilterCategory";
 import FilterSubcategory from "../../Reusable/FilterSubcategory";
 import $ from "jquery";
@@ -13,42 +13,47 @@ const CoursesFilter = (props) => {
 
   useEffect(() => {
     // edge case - initially it will be null before useEffect in parent class
+    let urlString = window.location.href;
+    var url = new URL(urlString);
+    var categoryName = url.searchParams.get("categoryName");
+    var subcategoryName = url.searchParams.get("subcategoryName");
+    var subcategoryId = url.searchParams.get("subcategoryId");
+    // console.log("filterCate", categoryName, subcategoryName, subcategoryId);
+
     if (filters !== null) {
       let catList = [];
       filters.forEach((data, i) => {
-        if (i === 0) {
-          // initially first should be selected
-          setCategory(data);
-          setSubcategory(data.subcategoryList[i]); // i is 0
-          setSubcategoryList(data.subcategoryList);
+        // console.log("fil", data);
+        if (categoryName !== null && subcategoryName !== null) {
+          // console.log("if", categoryName, data.categoryName);
+          if (categoryName === data.categoryName) {
+            setCategory(data);
+            let subcat = data.subcategoryList.find((c) => {
+              return subcategoryId === c.subCategoryId;
+            });
+            setSubcategory(subcat);
+            setSubcategoryList(data.subcategoryList);
+          }
+        } else if (categoryName !== null) {
+          if (categoryName === data.categoryName) {
+            setCategory(data);
+            setSubcategory(data.subcategoryList[0]);
+            setSubcategoryList(data.subcategoryList);
+          }
+        } else {
+          if (i === 0) {
+            // initially first should be selected
+            console.log("inside else", data);
+            setCategory(data);
+            setSubcategory(data.subcategoryList[0]); // i is 0
+            setSubcategoryList(data.subcategoryList);
+          }
         }
         catList.push(data);
       });
       setCategoryList(catList);
     }
   }, [filters]);
-
-  // $(document).ready(function () {
-  // var coll = document.getElementsByClassName("collapsible");
-  // var i;
-
-  // for (i = 0; i < coll.length; i++) {
-  //   coll[i].addEventListener("click", function () {
-  //     this.classList.toggle("active");
-  //     var content = this.nextElementSibling;
-  //     if (content.style.display === "block") {
-  //       content.style.display = "none";
-  //     } else {
-  //       content.style.display = "block";
-  //     }
-  //     if (content.style.maxHeight) {
-  //       content.style.maxHeight = null;
-  //     } else {
-  //       content.style.maxHeight = content.scrollHeight + "px";
-  //     }
-  //   });
-  // }
-  // });
 
   $("summary").click(function () {
     $(this).toggleClass(".active");
@@ -94,7 +99,7 @@ const CoursesFilter = (props) => {
   };
 
   return (
-    <div className="col-md-4 col-lg-3 col-xl-3 filter-grid">
+    <div className="col-md-4 col-lg-3 col-xl-3 filter-grid special-case">
       <div className="scroll_sect">
         {/* Filter based on Category */}
         <FilterCategory
@@ -102,7 +107,6 @@ const CoursesFilter = (props) => {
           categoryList={categoryList}
           onClick={onCategoryChangeHandler}
         />
-
         {/* Filter based on Sub-Category */}
         <FilterSubcategory
           subcategory={subcategory}
@@ -347,3 +351,25 @@ const CoursesFilter = (props) => {
 };
 
 export default CoursesFilter;
+
+// $(document).ready(function () {
+// var coll = document.getElementsByClassName("collapsible");
+// var i;
+
+// for (i = 0; i < coll.length; i++) {
+//   coll[i].addEventListener("click", function () {
+//     this.classList.toggle("active");
+//     var content = this.nextElementSibling;
+//     if (content.style.display === "block") {
+//       content.style.display = "none";
+//     } else {
+//       content.style.display = "block";
+//     }
+//     if (content.style.maxHeight) {
+//       content.style.maxHeight = null;
+//     } else {
+//       content.style.maxHeight = content.scrollHeight + "px";
+//     }
+//   });
+// }
+// });

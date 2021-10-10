@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert } from "react-bootstrap";
 import { db, auth } from "../../Services/firebase";
 import "./Signup.css";
@@ -18,6 +18,12 @@ const StudentsSignup = (props) => {
     password: "",
     confirmPassword: ""
   });
+
+  useEffect(() => {
+    alert(
+      "Enter Correct Email Address. We will send password recovery and sensitive information through mail."
+    );
+  }, []);
 
   const changeHandler = (event) => {
     let val = event.target.value;
@@ -90,13 +96,9 @@ const StudentsSignup = (props) => {
           let studentId = userCred.user.uid;
           const user = auth.currentUser;
           user.updateProfile({
-            displayName: userDetails.fname + " " + userDetails.lname,
-            photoURL: "https://www.w3schools.com/howto/img_avatar.png"
+            displayName: userDetails.fname + " " + userDetails.lname
           });
 
-          // signed-in
-          // const docId = userCred.user.uid;
-          // store other data's in firestore
           db.collection("students")
             .doc(studentId)
             .set({
@@ -106,34 +108,25 @@ const StudentsSignup = (props) => {
               phone: userDetails.phone,
               dob: userDetails.dob,
               password: userDetails.password,
-              parentNo: "",
-              preferences: [],
-              bookmarks: [],
-              cart: [],
-              orders: [],
-              completedCourses: [],
+              parentNo: userDetails.parentNo,
+              photoUrl: "https://www.w3schools.com/howto/img_avatar.png",
               isLoggedIn: false
             })
             .then((docRef) => {
               db.collection("students")
                 .doc(studentId)
-                .collection("ongoingCourses")
-                .add({
-                  id: "",
-                  courses: []
+                .collection("userCourseDetails")
+                .doc("courseDetails")
+                .set({
+                  id: "courseDetails",
+                  ongoingCourses: [],
+                  preferences: [],
+                  bookmarks: [],
+                  orders: [],
+                  completedCourses: []
                 })
                 .then((docRef) => {
-                  db.collection("students")
-                    .doc(studentId)
-                    .collection("ongoingCourses")
-                    .doc(docRef.id)
-                    .update({
-                      id: docRef.id
-                    })
-                    .then(() =>
-                      console.log("ongoing courses added succesfully")
-                    )
-                    .catch((e) => console.log(e));
+                  console.log("successfully created user & course details");
                 })
                 .catch((e) => console.log(e));
 
@@ -149,7 +142,7 @@ const StudentsSignup = (props) => {
                 password: "",
                 confirmPassword: ""
               });
-              console.log("successfully updated to firestore.");
+              // console.log("successfully updated to firestore.");
               props.history.replace("/login"); // push to login
             })
             .catch((e) => console.log(e, "firestore"));
@@ -299,6 +292,14 @@ const StudentsSignup = (props) => {
                 <div className="button">
                   <button className="btn btn-primary" type="submit">
                     Register
+                  </button>
+                  &nbsp;&nbsp;&nbsp;
+                  <button
+                    className="btn btn-primary"
+                    type="button"
+                    onClick={() => props.history.push("/login")}
+                  >
+                    Cancel
                   </button>
                 </div>
               </form>

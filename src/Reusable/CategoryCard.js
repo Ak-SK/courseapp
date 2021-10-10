@@ -3,7 +3,7 @@ const CategoryCard = () => {
   return (
     <>
       <div className="col-lg-3">
-        <img class="card-img" src="/images/s6.jpg" alt="Card image" />
+        <img class="card-img" src="/images/s6.jpg" alt="Cardimage" />
         <div className="img_overlay"></div>
         <div className="crs_caption">
           <p>

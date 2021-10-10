@@ -1,43 +1,61 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { useHistory } from "react-router";
+import CoursesContext from "../../../Context/courses-context";
 
-const CourseCard = () => {
+const CourseCard = (props) => {
+  const history = useHistory();
+  const ctx = useContext(CoursesContext);
+  useEffect(() => {
+    console.log("course", props.course);
+  }, []);
+
+  const courseUpdate = () => {
+    // console.log("coursecard", course, course.subcategoryId);
+    let course = props.course;
+    console.log("course", course);
+    ctx.setCourse(course);
+    history.push(
+      `/dashboard/courses/${course.id}?category=${course.category}&subcategory=${course.subcategory}&subcategoryId=${course.subcategoryId}`
+    );
+  };
+
   return (
-    <div class="add">
+    <div class="add" onClick={courseUpdate}>
       <div class="row m-0">
         <div class="col-sm-4 col-md-3 p-0">
           <div class="thumb">
-            <img class="img-fluid" src="/images/s12.jpg" />
+            <img
+              class="img-fluid"
+              src={`https://secure--storage.s3.ap-south-1.amazonaws.com/${props.course.thumbnail}`}
+              alt={props.course.courseName}
+            />
             <div class="overlay">
-              <form action="user-courseview.html" method="get">
-                <button type="submit" class="btn">
-                  Continue
-                </button>
-              </form>
+              <button type="submit" class="btn">
+                Continue
+              </button>
             </div>
           </div>
         </div>
         <div class="col-sm-8 col-md-9">
-          <h4>Category</h4>
+          <h4>
+            Category: {props.course.category.toUpperCase()}, Subcategory:{" "}
+            {props.course.subcategory.toUpperCase()}
+          </h4>
           <p class="completed">
-            <span class="percent">45</span>%&ensp;Completed
+            <span class="percent">{props.course.completedPercent}</span>
+            %&ensp;Completed
           </p>
-          <p class="title">Title of the Course Goes Here</p>
-          <p class="about">
-            Lorem ipsum dolor sit amet, est ei idque voluptua copiosae, pro
-            detracto disputando reformidans at, ex vel suas eripuit. Vel alii
-            zril maiorum ex, mea id sale eirmod epicurei. Sit te possit
-            senserit, eam alia veritus maluisset ei, id cibo vocent ocurreret
-            per. Te qui doming doctus referrentur, usu debet tamquam et.
-          </p>
+          <p class="title">Title: {props.course.courseName}</p>
+          <p class="about">Description: {props.course.description}</p>
           <div class="footer">
             <p>
               <i class="far fa-user"></i>
-              <small class="value">154</small>
+              <small class="value">{props.course.noOfStudents}</small>
             </p>
-            <p>
+            {/* <p>
               <i class="far fa-comment-alt"></i>
               <small class="value">25</small>
-            </p>
+            </p> */}
             <p>
               <span class="fa fa-star"></span>
               <span class="fa fa-star"></span>

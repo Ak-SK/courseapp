@@ -4,7 +4,7 @@ const FilterSubcategory = (props) => {
   return (
     <>
       <div className="filter filter2">
-        <details>
+        <details open>
           <summary type="button" className="collapsible">
             Sub Category
           </summary>

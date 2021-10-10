@@ -11,49 +11,63 @@
 
 // 28/09/2020
 // todo
-- need a modal for courseBuy
-- lifetime / periods
-- payment gateway
-  i) add bought course to order list as well as ongoingCourse(after
-payment is integrated)
-- logo
-- navbar
-- home page(browse top courses)
-- about us, static data, later we can add
-- add currentSec, top and timing when idleTimeOut and when closing the tab or window
-- directly give logout, from video, then the current section topic time should be updated
-- no need to save password in user db
-- increment no of students in particular courses
+- invoice
+- remainingDays, -1 -> lifetime, - UI in courseBought, how many days remaining.
+- insitutes -> noOfStudents, when buying the course of that particular institute
+
+- doubt: noOfStudents in courses, should not be removed, 
+if the course is expired
+- expired, completed courses are only in orders, should
+that be in completedOrders?
+- replace spinners wherever needed
 
 
 last priority:
+- payment gateway
+  i) add bought course to order list as well as ongoingCourse(after
+payment is integrated)
+  ii) add status and other details, this can be done only after payment,
+based on the status only, the course should be registered
 - review edit & delete (bcs no one will access this immediatly)
 
-next update:
-- only videos can be viewed in the topics, what if it is a pdf?
-- search bar
-
-ishu:
-- online/live filter
-- contact us(submit button - send email)//completed have to change email id
-(smtp.js or mailto)
-- video should not be download (no screenshot should be taken)
-
+- adding lazy loading to the routes in App.js(this made some, styling errors, need to check deeply)
+- add lazy loading to the components
+- adding ErrorBoundary to the place, where we feel error may occur. 
+- put everything into user doc itself, to reduce 
+writes and max a user can buy is 20-50 course, and 
+a single doc can handle atleast 2000elements of array
 
 sanjay:
-- before buy, coursePage, correct data's
-- zoom integration
-- adding duration to the courses, how many days its valid
-& courseBoughtTimestamp
-- when closing the tab or window, logout the user and change
-isLoggedIn to false
+- materials(jpg, png)
 
 akhil:
-- pagination
-- materials
+- about us, static data, later we can add
 - footer
+- search bar - algolia(UI)
+
+ishu:
+- show faculty carousel in institution
+- contact us(submit button - send email)//completed have to change email id
+(smtp.js or mailto)
+
+// learnings:
+ tabIndex="0" - to make keyboard events work in react
 
 completed:
+- user dashboard remaining
+i) persnal detail update, remove the previous image from storage
+- FAQ
+- home btn in login, cancel button or goto login button in registration
+- navbar
+- pagination
+- before buy, coursePage, correct data's
+- lifetime / periods - bharath
+- update courseCompletion percentage
+- check the course valid, and if reaches the end, 
+remove that course from, ongoingCourse(in mins, change to days)
+- when updating password, update it to the firestore also
+- need a modal for courseBuy
+- online/live filter
 - coursePriceBox - before buy / when login working, logout not showing
 - exams hide
 - user dashboard (certification, reviews, others - hide)
@@ -61,3 +75,24 @@ completed:
 - quiz last section
 - reset password modal
 - forgot password UI work
+- video should not be download
+- increment no of students in particular courses
+- no need to save password in user db
+- when closing the tab or window, logout the user and change
+isLoggedIn to false - logout from all other devices
+- zoom integration
+- user name & email should be displayed
+- put all course details(bookmarks, order) into other ongoingCourse doc
+- adding duration to the courses, how many days its valid
+& courseBoughtTimestamp
+- home page(browse top courses)
+
+experiments:
+- try to use HOC's, A higher-order component (HOC) is an advanced technique in React for reusing component logic.
+- Profiler - The Profiler measures how often a React application renders and what the “cost” of rendering is. Its purpose is to help identify parts of an application that are slow and may benefit from optimizations such as memoization.
+- custom hook - Building your own Hooks lets you extract component logic into reusable functions.
+- Jest, Test Library (not required)
+
+next update:
+- only videos can be viewed in the topics, what if it is a pdf?
+- (no screenshot should be taken) - on hold

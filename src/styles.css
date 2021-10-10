@@ -1,9 +1,31 @@
+.homebtt {
+  float: left;
+}
+
 /* CSS Document */
+@media print {
+  html,
+  body {
+    /* Hide the whole page */
+    display: none;
+  }
+}
 html {
   scroll-behavior: smooth;
+  /* display: none; */
 }
 
 body {
+  height: 100%;
+  width: 100%;
+  min-height: initial;
+  min-width: initial;
+  overflow: auto;
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+  font-family: "Open Sans";
+  color: #4a4a4a;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
@@ -22,19 +44,9 @@ body {
 }
 
 /*=================================Home Section===================================================*/
-.liveOnline{
-  width: 20%;
-  display: initial;
-  position: relative;
-  /* float: right; */
-}
-
-
-
-
 .home_sect {
   position: relative;
-  margin-top: 73px;
+  margin-top: -3px;
 }
 .home_sect .container-fluid {
   position: relative;
@@ -286,20 +298,23 @@ body {
 
 /*=================================NavBar Page=================================*/
 .navbar_sect {
-  margin-top: 72px;
+  margin-top: -3px;
+  position: relative;
   background-image: inherit;
   background-size: cover;
   background-repeat: no-repeat;
   background-position-x: 10%;
+  width: 100%;
   height: 250px;
 }
 .navbar_sect::after {
   position: absolute;
   content: "";
-  top: 72px;
+  top: 0;
+  bottom: 0;
   left: 0;
-  width: -webkit-fill-available;
-  height: inherit;
+  width: 100%;
+  height: 100%;
   background-color: transparent;
   background-image: -webkit-linear-gradient(
     135deg,
@@ -442,7 +457,7 @@ body {
 }
 .crs_sect .container-fluid .crs_btn {
   display: inline-block;
-  border: 2px solid #2441e7;
+  border: 2px solid #d5daf3;
   border-radius: 25px;
   color: #2441e7;
   font-size: 15px;
@@ -663,6 +678,7 @@ body {
   margin-bottom: 20px;
   border-radius: 7px;
 }
+
 .course_sect .container-fluid .content .card .thumb {
   position: relative;
 }
@@ -678,6 +694,28 @@ body {
 }
 .course_sect .container-fluid .content .card .thumb .card-img {
   width: 100%;
+  height: 160px;
+}
+.course_sect .container-fluid .content .card .thumb .days {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 80%;
+  padding: 10px;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+.course_sect .container-fluid .content .card .thumb .days .pill {
+  font-size: 12px;
+  padding: 2px 5px;
+  width: 40%;
+  color: #ffffff;
+  background-color: #c75533;
+  border-radius: 5px;
+  z-index: 555;
+  text-align: center;
+  text-transform: uppercase;
 }
 .course_sect .container-fluid .content .card .thumb {
   position: relative;
@@ -759,6 +797,7 @@ body {
   right: 0;
   z-index: 777;
   pointer-events: auto;
+  cursor: pointer;
   content: "";
 }
 .course_sect .container-fluid .content .card:hover {
@@ -840,6 +879,9 @@ body {
 }
 /* ================ Media Query ================================ */
 @media only screen and (min-width: 576px) {
+  .course_sect .container-fluid .content .card .thumb .card-img {
+    height: 180px;
+  }
   .course_sect .container-fluid {
     padding: 60px 20px 20px;
   }
@@ -859,6 +901,11 @@ body {
     ul.list-inline
     li.list-inline-item {
     margin-right: 40px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .course_sect .container-fluid .content .card .thumb .card-img {
+    height: 200px;
   }
 }
 /*=========================================================================================*/
@@ -1814,9 +1861,14 @@ body {
 /*=============================================================================================*/
 
 /*=========================================INSTITUTION SECTION=============================*/
+.inst_sect {
+  width: 100%;
+  height: 100%;
+}
 .inst_sect .container-fluid {
   position: relative;
-  height: 64vh;
+  width: 100%;
+  height: 100%;
 }
 .inst_sect .container-fluid .inner_container {
   position: absolute;
@@ -2012,54 +2064,19 @@ body {
 }
 /*======================================================*/
 .sect3 .container-fluid .inst-view {
-  padding: 50px 20px 20px;
+  padding: 15px;
 }
 .sect3 .container-fluid .inst-view .row_head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   margin: 0 0 20px;
   padding: 0 10px;
 }
-.sect3 .container-fluid .inst-view .row_head span.noi {
+.sect3 .container-fluid .inst-view .row_head p.noi {
   display: inline-block;
   padding-top: 10px;
   color: #0a0a0a;
-}
-.sect3 .container-fluid .inst-view i {
-  font-style: normal;
-  color: #6f7074;
-}
-.sect3 .container-fluid .inst-view .row_head .form-control {
-  width: 30%;
-  display: initial;
-  position: relative;
-  float: right;
-}
-.sect3 .container-fluid .inst-view .row_head .form-control:focus {
-  border-color: #cbe54f;
-  box-shadow: 0 0 0 0;
-}
-.sect3 .row_head .form-control-feedback {
-  position: absolute;
-  top: 50px;
-  right: 0;
-  font-size: 14px;
-  padding: inherit;
-  padding-right: 55px;
-  z-index: 12;
-  display: block;
-  width: 2.375rem;
-  height: 2.375rem;
-  line-height: 2.375rem;
-  text-align: center;
-  color: #aaa;
-  border: none;
-  background-color: transparent;
-}
-.sect3 .row_head .form-control-feedback:focus {
-  outline: none;
-}
-.sect3 .row_head .form-control-feedback:hover .fa {
-  cursor: pointer;
-  color: #cbe54f;
 }
 /* style for institution card */
 .sect3 .container-fluid .inst-view .row .card {
@@ -2125,6 +2142,9 @@ body {
 }
 
 @media only screen and (min-width: 576px) {
+  .sect3 .container-fluid .inst-view {
+    padding: 50px 20px 20px;
+  }
   .sect3 .container-fluid .inst-view .row {
     padding: 10px;
   }
@@ -2132,9 +2152,14 @@ body {
 /*==============================================================================================*/
 
 /*==========================================Institute Profile========================================*/
+.institution-single {
+  width: 100%;
+  height: 100%;
+}
 .institution-single .container-fluid {
   position: relative;
-  height: 64vh;
+  width: 100%;
+  height: 100%;
 }
 .institution-single .container-fluid .inner_container {
   position: absolute;
@@ -2400,9 +2425,14 @@ body {
 /*==============================================================================================*/
 
 /*==========================================Courses Page========================================*/
+.courses_section {
+  width: 100%;
+  height: 100%;
+}
 .courses_section .container-fluid {
   position: relative;
-  height: 38vh;
+  width: 100%;
+  height: 100%;
 }
 .courses_section .container-fluid .inner_container {
   position: absolute;
@@ -2442,34 +2472,41 @@ body {
 }
 
 /* =============================================== */
-@media only screen and (min-width: 576px) {
-  .courses_section .container-fluid {
-    height: 54vh;
-  }
-}
-@media only screen and (min-width: 768px) {
-  .courses_section .container-fluid {
-    height: 64vh;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  .courses_section .container-fluid {
-    height: 59vh;
-  }
-}
-
-/* =============================================== */
 .sect3_courses .container-fluid .row {
   position: relative;
 }
 .sect3_courses .container-fluid .row .col-lg-3 {
-  position: absolute;
+  position: relative;
+  display: none;
   background: #fff;
   padding: 10px;
   z-index: 30;
 }
+.sect3_courses .container-fluid .mobile-filter {
+  margin: 10px auto;
+  width: 87%;
+  background-color: #fff;
+  cursor: pointer;
+}
+.sect3_courses .container-fluid .mobile-filter .sum {
+  position: relative;
+  font-size: 16px;
+  color: #000;
+  padding: 10px 20px;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  text-align: left;
+  cursor: pointer;
+}
+.sect3_courses .container-fluid .mobile-filter .sum i.fas {
+  float: right;
+}
+.sect3_courses .container-fluid .mobile-filter .special-case {
+  padding: 10px 0;
+}
 .sect3_courses .container-fluid .scroll_sect {
-  height: 430px;
+  max-height: 430px;
   overflow: auto;
   padding: 0;
   margin: 0;
@@ -2556,6 +2593,7 @@ summary::-webkit-details-marker {
   border: 1px solid #1e87f0;
   background: #fff;
   border-radius: 5px;
+  box-shadow: 0 0 0 0px;
   transition: 0.3s ease all;
 }
 
@@ -2591,16 +2629,23 @@ summary::-webkit-details-marker {
   .sect3_courses .container-fluid .row .col-lg-3 {
     padding: 20px;
   }
+  .sect3_courses .container-fluid .mobile-filter {
+    width: 92%;
+  }
 }
 
 @media only screen and (min-width: 768px) {
+  .sect3_courses .container-fluid .mobile-filter {
+    display: none;
+  }
   .sect3_courses .container-fluid .row .col-lg-3 {
     position: relative;
+    display: block;
     padding: 50px 0 20px 20px;
-    height: 1374.11px;
+    max-height: 1374.11px;
   }
   .sect3_courses .container-fluid .scroll_sect {
-    height: 929px;
+    max-height: 929px;
     padding-right: 10px;
     margin: 0 10px 10px 0;
   }
@@ -2610,54 +2655,33 @@ summary::-webkit-details-marker {
 .sect3_courses .container-fluid .row .col-lg-9,
 .sect3_courses .container-fluid .row .col-xl-9,
 .sect3_courses .container-fluid .row .col-md-8 {
-  padding: 50px 20px 20px;
+  padding: 15px;
 }
 .sect3_courses .container-fluid .course-grid .row_head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   margin: 0 0 20px;
   padding: 0 10px;
 }
-.sect3_courses .container-fluid .course-grid .row_head span.noi {
+.sect3_courses .container-fluid .course-grid .row_head .inner-div {
+  padding: 5px;
+}
+.sect3_courses .container-fluid .course-grid .row_head .inner-div p.noi {
+  font-size: 18px;
   display: inline-block;
-  padding-top: 10px;
+  padding: 0;
+  margin: 0;
   color: #0a0a0a;
 }
-.sect3_courses .container-fluid .course-grid i {
-  font-style: normal;
-  color: #6f7074;
-}
-.sect3_courses .container-fluid .course-grid .row_head .form-control {
-  width: 30%;
-  display: initial;
+.sect3_courses .container-fluid .course-grid .row_head .inner-div .liveOnline {
   position: relative;
-  float: right;
-}
-.sect3_courses .container-fluid .course-grid .row_head .form-control:focus {
-  border-color: #2441e7;
-  box-shadow: 0 0 0 0;
-}
-.sect3_courses .row_head .form-control-feedback {
-  position: absolute;
-  top: 50px;
-  right: 0;
-  font-size: 16px;
-  padding: inherit;
-  padding-right: 55px;
-  z-index: 12;
-  display: block;
-  width: 2.375rem;
-  height: 2.375rem;
-  line-height: 2.375rem;
-  text-align: center;
-  color: #aaa;
-  border: none;
-  background-color: transparent;
-}
-.sect3_courses .row_head .form-control-feedback:focus {
-  outline: none;
-}
-.sect3_courses .row_head .form-control-feedback:hover .fa {
-  cursor: pointer;
-  color: #2441e7;
+  font-size: 18px;
+  color: #7d7d7d;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  outline-width: 0px;
+  border-radius: 5px;
 }
 .sect3_courses .course-grid .row {
   margin: 0;
@@ -2722,23 +2746,26 @@ summary::-webkit-details-marker {
   top: 0;
   z-index: 30;
 }
-.sect3_courses .course-grid .card .thumb .img_overlay .days {
+.sect3_courses .course-grid .card .thumb .days {
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   width: 80%;
   padding: 10px;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: space-between;
 }
-.sect3_courses .course-grid .card .thumb .img_overlay .days .pill {
+.sect3_courses .course-grid .card .thumb .days .pill {
   font-size: 12px;
   padding: 2px 5px;
-  width: 30%;
+  width: 40%;
   color: #ffffff;
   background-color: #c75533;
   border-radius: 5px;
   z-index: 555;
   text-align: center;
+  text-transform: uppercase;
 }
 .sect3_courses .course-grid .card .thumb .img_overlay .center {
   position: absolute;
@@ -2754,6 +2781,7 @@ summary::-webkit-details-marker {
 }
 .sect3_courses .course-grid .card .thumb {
   position: relative;
+  cursor: pointer;
 }
 .sect3_courses .course-grid .card .thumb .stretched-link {
   position: absolute;
@@ -2938,15 +2966,25 @@ summary::-webkit-details-marker {
   transition: all 0.3s ease;
 }
 /*===============================================================================================================*/
-
+@media only screen and (min-width: 576px) {
+  .sect3_courses .container-fluid .row .col-lg-9,
+  .sect3_courses .container-fluid .row .col-xl-9,
+  .sect3_courses .container-fluid .row .col-md-8 {
+    padding: 50px 20px 20px;
+  }
+}
 /*===============================================================================================================*/
 
 /*===================================Courses Single Page Style====================================================*/
-.course_details .container-fluid .inner_container {
+.course_details {
+  width: 100%;
+  height: 100%;
+}
+.course_details .inner_container {
   position: absolute;
-  width: inherit;
-  top: 115px;
-  padding: 80px 40px 20px;
+  width: 100%;
+  bottom: 0;
+  padding: 10px;
   color: #fff;
   z-index: 10;
 }
@@ -2963,9 +3001,22 @@ summary::-webkit-details-marker {
   font-weight: lighter;
   margin-right: 10px;
 }
+.course_details p.cat,
+.course_details p.iname {
+  font-size: 14px;
+  padding: 0;
+  margin: 5px 0;
+  text-transform: uppercase;
+}
+.course_details p.cat small,
+.course_details p.iname small {
+  font-size: 12px;
+  color: #ddd;
+  text-transform: capitalize;
+}
 .course_details p.course_title {
-  margin: 8px 0;
-  font-size: 26px;
+  margin: 5px 0;
+  font-size: 18px;
   font-weight: 500;
 }
 .course_details p.course_body {
@@ -3031,14 +3082,117 @@ summary::-webkit-details-marker {
 .course_details .course_footer .flt_rt button.share:focus {
   outline: none;
 }
+/* ===================== */
+@media only screen and (min-width: 320px) {
+  .course_details p.cat,
+  .course_details p.iname {
+    font-size: 18px;
+    margin: 8px 0;
+  }
+  .course_details p.cat small,
+  .course_details p.iname small {
+    font-size: 16px;
+  }
+  .course_details p.course_title {
+    margin: 8px 0;
+    font-size: 26px;
+  }
+}
+@media only screen and (min-width: 576px) {
+  .course_details .inner_container {
+    bottom: 20px;
+    padding: 20px;
+  }
+}
 /*=========================================================================*/
 .crs_sl .container-fluid .row {
   margin: 0;
+  position: relative;
 }
-.crs_sl .col-sm-8,
+.payment-modal {
+  position: fixed;
+  margin: auto 15px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: 400px;
+  min-width: 250px;
+  width: fit-content;
+  height: fit-content;
+  padding: 20px;
+  background: #fff;
+  z-index: 10000;
+  /* box-shadow: 0 2px 5px #7d7d7d; */
+}
+.payment-modal h2.title {
+  font-size: 22px;
+  font-family: initial;
+  color: #0a0a0a;
+  padding: 0;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+.payment-modal .row {
+  margin: 0;
+}
+.payment-modal p {
+  margin: 0 0 5px;
+}
+.payment-modal .row p.cat,
+.payment-modal .row p.scat {
+  font-size: 14px;
+  font-weight: 500;
+  color: #7d7d7d;
+  margin-right: 10px;
+}
+.payment-modal .row p.cat span,
+.payment-modal .row p.scat span {
+  font-size: 16px;
+  font-family: initial;
+  font-weight: initial;
+  color: #0a0a0a;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.payment-modal p.inst,
+.payment-modal p.duration,
+.payment-modal p.amount {
+  font-size: 16px;
+  color: #7d7d7d;
+}
+.payment-modal p.inst span,
+.payment-modal p.duration span,
+.payment-modal p.amount span {
+  font-size: 16px;
+  font-family: initial;
+  font-weight: 600;
+  color: #0a0a0a;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.payment-modal .btn-set {
+  text-align: right;
+}
+.payment-modal .btn-set .btn {
+  font-size: 18px;
+  font-family: initial;
+  padding: 5px 10px;
+  color: #007bff;
+  border: 1px solid #007bff;
+  margin: 0;
+  margin-left: 8px;
+  border-radius: 0;
+  box-shadow: none;
+  transition: all ease 0.3s;
+}
+.payment-modal .btn-set .btn:hover {
+  box-shadow: 2px 2px 0px #007bff;
+}
+.crs_sl .col-sm-7,
 .crs_sl .col-lg-8,
 .crs_sl .col-xl-9 {
-  padding: 50px 30px 10px;
+  padding: 10px;
 }
 .crs_sl .demo_video {
   padding: 0 0 20px;
@@ -3143,11 +3297,19 @@ summary::-webkit-details-marker {
   margin-bottom: 20px;
 }
 .crs_sl .course_contents p.title .vds_no {
-  float: right;
+  display: block;
+  margin: 5px 0 0;
+  float: initial;
   font-size: 15px;
   font-weight: lighter;
   color: #555555;
   text-decoration: none;
+}
+@media only screen and (min-width: 400px) {
+  .crs_sl .course_contents p.title .vds_no {
+    float: right;
+    display: initial;
+  }
 }
 /*============================= Panels ===================================*/
 .course_contents .panel {
@@ -3433,26 +3595,28 @@ summary::-webkit-details-marker {
   outline: none;
 }
 /*=========================================================================================*/
-.crs_sl .col-sm-4,
+.crs_sl .col-sm-5,
 .crs_sl .col-lg-4,
 .crs_sl .col-xl-3 {
-  padding: 50px 30px 10px 0;
+  padding: 10px;
 }
 
 /*=================================Price Box===============================================*/
 .crs_sl .price_box {
   position: relative;
+  margin: auto;
+  width: 100%;
   border-style: solid;
   border-width: 2px;
   border-color: rgb(237, 239, 247);
   border-radius: 5px;
   background-color: #ffffff;
   margin-bottom: 30px;
-  padding: 30px;
+  padding: 20px 30px;
   text-align: center;
 }
 .crs_sl .price_box .days {
-  display:flex;
+  display: flex;
   width: 100%;
   flex-wrap: wrap;
   flex-direction: row;
@@ -3493,6 +3657,9 @@ summary::-webkit-details-marker {
 .crs_sl .price_box .purchase_btn {
   border-radius: 27px;
   background-color: rgb(255, 16, 83);
+  margin: auto;
+  margin-bottom: 23px;
+  margin-top: 15px;
   display: block;
   width: 100%;
   padding: 0;
@@ -3501,8 +3668,6 @@ summary::-webkit-details-marker {
   color: #fff;
   height: 50px;
   line-height: 3.2;
-  margin-bottom: 23px;
-  margin-top: 15px;
   max-width: 234px;
   border: 2px solid #ff1053;
   transition: all 0.3s ease;
@@ -3596,7 +3761,54 @@ spaned {
   border-radius: 5px;
 }
 /*=========================================================================================*/
-
+@media only screen and (min-width: 400px) {
+  .payment-modal {
+    margin: auto auto;
+  }
+  .crs_sl .price_box {
+    margin: auto;
+    margin-bottom: 20px;
+    width: 80%;
+  }
+  .crs_sl .course-feature {
+    margin: auto;
+    margin-bottom: 20px;
+    width: 80%;
+  }
+}
+@media only screen and (min-width: 576px) {
+  .crs_sl .col-sm-5,
+  .crs_sl .col-lg-4,
+  .crs_sl .col-xl-3 {
+    order: 2;
+  }
+  .crs_sl .price_box {
+    margin: initial;
+    margin-bottom: 30px;
+    width: 100%;
+    padding: 10px;
+  }
+  .crs_sl .course-feature {
+    margin: initial;
+    margin-bottom: 30px;
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .crs_sl .col-sm-5,
+  .crs_sl .col-lg-4,
+  .crs_sl .col-xl-3 {
+    padding: 50px 30px 10px 0;
+  }
+  .crs_sl .col-sm-7,
+  .crs_sl .col-lg-8,
+  .crs_sl .col-xl-9 {
+    padding: 50px 30px 10px;
+  }
+  .crs_sl .price_box {
+    padding: 30px;
+  }
+}
 /*===================================Relatede Courses======================================*/
 .rltd_crs .sect2 {
   background: none;
@@ -3790,10 +4002,14 @@ spaned {
 /*=========================================================================================*/
 
 /*================================== Abouts Section=======================================*/
-
+.about_sect {
+  width: 100%;
+  height: 100%;
+}
 .about_sect .container-fluid {
   position: relative;
-  height: 64vh;
+  width: 100%;
+  height: 100%;
 }
 .about_sect .container-fluid .inner_container {
   position: absolute;
@@ -3892,8 +4108,24 @@ spaned {
 }
 /*================================== Media Query ===================================*/
 @media only screen and (max-width: 576px) {
+  .about .p20 {
+    padding: 10px 15px;
+  }
   .about .our-story {
     padding: 20px;
+  }
+  .about .p20 > div {
+    padding: 0;
+  }
+  .about h1 {
+    font-size: 18px;
+  }
+  .about h3 {
+    font-size: 22px;
+  }
+  .about p {
+    font-size: 12px;
+    margin: 0 0 5px;
   }
   .about .our-story .wrap .inner-wrap {
     width: 50%;
@@ -3907,9 +4139,14 @@ spaned {
 /*=========================================================================================*/
 
 /*================================== Contacts Section=======================================*/
+.contact_sect {
+  width: 100%;
+  height: 100%;
+}
 .contact_sect .container-fluid {
   position: relative;
-  height: 64vh;
+  width: 100%;
+  height: 100%;
 }
 .contact_sect .container-fluid .inner_container {
   position: absolute;
@@ -3952,7 +4189,7 @@ spaned {
 }
 .container-fluid .contact_location {
   position: relative;
-  margin-bottom: 80px;
+  margin-bottom: 40px;
   text-align: center;
 }
 .container-fluid .contact_location .icon {
@@ -3973,11 +4210,14 @@ spaned {
   margin: 0;
 }
 .container-fluid .p-20 {
-  padding: 20px 20px 30px;
+  padding: 5px;
+}
+.container-fluid .p-20 > div {
+  padding: 10px;
 }
 .container-fluid .map-grid .mapouter {
   position: relative;
-  height: 630px;
+  height: 330px;
 }
 .container-fluid .map-grid .mapouter .gmap_canvas {
   overflow: hidden;
@@ -4080,7 +4320,20 @@ spaned {
   box-shadow: none;
   outline: none;
 }
-
+@media only screen and (min-width: 768px) {
+  .container-fluid .p-20 {
+    padding: 20px 20px 30px;
+  }
+  .container-fluid .p-20 > div {
+    padding: 0 15px;
+  }
+  .container-fluid .contact_location {
+    margin-bottom: 80px;
+  }
+  .container-fluid .map-grid .mapouter {
+    height: 630px;
+  }
+}
 /*===========================================================================================*/
 
 /*========================================Error Page=========================================*/
@@ -4213,4 +4466,9 @@ spaned {
 }
 .error-page .container-fluid .footer .form-inline .btn .fas {
   color: #fff;
+}
+
+/* zoom meeting */
+#zmmtg-root {
+  display: none;
 }

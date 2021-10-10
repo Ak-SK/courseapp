@@ -3,11 +3,14 @@ import { NavLink } from "react-router-dom";
 import classes from "./Sidebar.module.css";
 
 const Sidebar = (props) => {
+  const logoutHandler = () => {
+    if (props.authCtx !== null) {
+      props.authCtx.logout();
+    }
+  };
+
   return (
     <div class="sidebar col-md-3 col-lg-2 col-xl-2 p-0">
-      <button type="button" class="btn">
-        <i class="fas fa-bars"></i>
-      </button>
       <div class="content">
         <h3>Dashboard</h3>
         <ul class="prfl_list p-0">
@@ -69,9 +72,9 @@ const Sidebar = (props) => {
             </NavLink>
           </li>
           <li class="list-item">
-            <a class="list-link" href="login.html">
+            <button class="list-link" onClick={logoutHandler}>
               <i class="fas fa-sign-out-alt"></i>Logout
-            </a>
+            </button>
           </li>
         </ul>
       </div>

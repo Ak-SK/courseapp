@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 const Registration = () => {
   return (
     <>
@@ -12,9 +13,9 @@ const Registration = () => {
               ONLINE COURSES
             </h3>
             <form action="#blankpage" method="get">
-              <a className="reg_btn" href="/">
+              <Link className="reg_btn" to="/login">
                 Get Started Now
-              </a>
+              </Link>
             </form>
           </div>
         </div>

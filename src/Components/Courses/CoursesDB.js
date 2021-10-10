@@ -1,5 +1,3 @@
-// import { useContext } from "react";
-// import AuthContext from "../../Context/auth-context";
 import { db, firebase } from "../../Services/firebase";
 
 const getFilterOptions = (filter) => {
@@ -32,33 +30,54 @@ const getCourses = (courses, subcatId) => {
 };
 
 const addBookmark = (user, course) => {
+  let bookmarks = user.bookmarks;
+  let index = bookmarks.findIndex((b) => {
+    return b.id === course.id;
+  });
+  let updatedCourse = {
+    ...bookmarks[index],
+    bookmarkedTimestamp: new Date().getTime()
+  };
+  bookmarks[index] = updatedCourse;
+
   console.log("user in add bookmark", user);
   db.collection("students")
     .doc(user.id)
+    .collection("userCourseDetails")
+    .doc("courseDetails")
     .update({
-      bookmarks: firebase.firestore.FieldValue.arrayUnion(course)
+      bookmarks: bookmarks
     })
     .then(() => console.log("successfully added bookmark"));
 };
 
 const removeBookmark = (user, course) => {
+  let bookmarks = user.bookmarks;
+  let filteredBookmarks = bookmarks.filter((b) => {
+    return b.id !== course.id;
+  });
   db.collection("students")
     .doc(user.id)
+    .collection("userCourseDetails")
+    .doc("courseDetails")
     .update({
-      bookmarks: firebase.firestore.FieldValue.arrayRemove(course)
+      bookmarks: filteredBookmarks
     })
     .then(() => console.log("successfully removed bookmark"));
 };
 
-const buyCourse = (user, courseId, subcategoryId, setOngoingCourse) => {
+const buyCourse = (user, course, subcategoryId, price, setOngoingCourse) => {
   // example data, change after
   subcategoryId = subcategoryId.trim();
   let courseRef = db
     .collection("subCategories")
     .doc(subcategoryId)
     .collection("courses")
-    .doc(courseId);
+    .doc(course.id);
 
+  courseRef.update({
+    noOfStudents: firebase.firestore.FieldValue.increment(1)
+  });
   // to add 30days to a current date
   // var date = new Date(); // Now
   // date.setDate(date.getDate() + 30); // Set now + 30 days as the new date
@@ -68,7 +87,7 @@ const buyCourse = (user, courseId, subcategoryId, setOngoingCourse) => {
   // var newDate = new Date(date.setMonth(date.getMonth()+8));
 
   let data = {
-    id: courseId,
+    id: course.id,
     courseRef: courseRef,
     courseBought: true,
     courseValid: true,
@@ -89,21 +108,41 @@ const buyCourse = (user, courseId, subcategoryId, setOngoingCourse) => {
       review: ""
     },
     quizAnswers: [], // based on sections
-    courseDuration: 60
+    courseDuration: price.period // how many days this course last for this user
   };
-  let docIds = user.ongoingDocIds;
+
+  let currentDT = new Date().getTime();
+  let orderDet = {
+    orderId: user.id + course.id + currentDT,
+    courseId: course.id,
+    courseRef: courseRef,
+    courseName: course.courseName,
+    category: course.category,
+    status: "waiting for payment gateway",
+    courseBoughtTimestamp: currentDT,
+    courseDuration: price.period,
+    price: price.discountedPrice
+  };
+  // let docIds = user.ongoingDocIds;
   // console.log("docIds", docIds);
   // initially now it is docIds, in future make an for loop on docIds
   // and each docIds, put that in a promise and resolve it
+  let ongoingCourses = [...user.ongoingCourses, data];
+  let orders = [...user.orders, orderDet];
+  // console.log("buy course", user, ongoingCourses, orders);
   db.collection("students")
     .doc(user.id)
-    .collection("ongoingCourses")
-    .doc(docIds[docIds.length - 1])
+    .collection("userCourseDetails")
+    .doc("courseDetails")
     .update({
-      courses: firebase.firestore.FieldValue.arrayUnion(data)
+      ongoingCourses: ongoingCourses,
+      orders: orders
     })
     .then(() => {
-      setOngoingCourse(data);
+      setOngoingCourse({
+        ongoingCourse: data,
+        order: orderDet
+      });
       // let orders = user.orders;
       // db.collection("students").doc(user.id).update({
       //   orders: firebase.firestore.FieldValue.arrayUnion(data)
@@ -116,7 +155,39 @@ const buyCourse = (user, courseId, subcategoryId, setOngoingCourse) => {
     });
 };
 
-export { getCourses, getFilterOptions, addBookmark, removeBookmark, buyCourse };
+const removeExpiredCourse = (authCtx, ongoingCourse) => {
+  let user = authCtx.user;
+  let ongoingCourses = user.ongoingCourses;
+  let filteredOngoingCourses = ongoingCourses.filter((og) => {
+    return og.id !== ongoingCourse.id;
+  });
+  // console.log("beforeRemove", user);
+  user = {
+    ...user,
+    ongoingCourses: filteredOngoingCourses
+  };
+  db.collection("students")
+    .doc(user.id)
+    .collection("userCourseDetails")
+    .doc("courseDetails")
+    .update({
+      ongoingCourses: filteredOngoingCourses
+    })
+    .then(() => {
+      authCtx.setUser(user);
+    })
+    .catch((e) => console.log(e));
+  // console.log("removeExpiryCourse", user);
+};
+
+export {
+  getCourses,
+  getFilterOptions,
+  addBookmark,
+  removeBookmark,
+  buyCourse,
+  removeExpiredCourse
+};
 // AWS DB Code:
 // import AWS from "../../Services/AWS";
 // const docClient = new AWS.DynamoDB.DocumentClient();

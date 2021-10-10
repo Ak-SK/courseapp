@@ -11,7 +11,6 @@ import MySettings from "./MySettings/MySettings";
 import UserFooter from "./UserFooter/UserFooter";
 import { Route, Switch } from "react-router-dom";
 import MyCertificate from "./MyCertificates/MyCertificate";
-import UserNav from "./Navbar/UserNav";
 import Navbar from "../Navbar/Navbar";
 import AuthContext from "../../Context/auth-context";
 // import { auth } from "../../Services/firebase";
@@ -37,12 +36,16 @@ const UserDashboard = (props) => {
 
   return (
     <>
-      <UserNav {...props} />
+      <Navbar
+        category={JSON.parse(sessionStorage.getItem("categories"))}
+        {...props}
+      />
+      <div class="nav-backdrop"></div>
       <section style={{ backgroundColor: "#f9fafc;" }}>
         <CoursesContextProvider>
           <div class="container-fluid mt60">
             <div class="row m-0">
-              <Sidebar {...props} />
+              <Sidebar authCtx={authCtx} {...props} />
               <div class="col-md-9 col-lg-10 col-xl-10 scrollbar">
                 <Header />
                 <Switch>
@@ -50,7 +53,7 @@ const UserDashboard = (props) => {
                     <MyProfile {...props} />
                   </Route>
                   <Route path={`${props.match.url}/mycourses`}>
-                    <MyCourses />
+                    <MyCourses authCtx={authCtx} />
                   </Route>
                   <Route path={`${props.match.url}/mybookmarks`}>
                     {userDashboard}
@@ -59,10 +62,10 @@ const UserDashboard = (props) => {
                     <MyCart {...props} />
                   </Route>
                   <Route path={`${props.match.url}/myorder`}>
-                    <MyOrder {...props} />
+                    <MyOrder {...props} authCtx={authCtx} />
                   </Route>
                   <Route path={`${props.match.url}/mysettings`}>
-                    <MySettings {...props} />
+                    <MySettings {...props} authCtx={authCtx} />
                   </Route>
                   <Route path={`${props.match.url}/myCertificates`}>
                     <MyCertificate {...props} />

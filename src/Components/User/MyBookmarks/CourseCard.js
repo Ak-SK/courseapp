@@ -9,16 +9,14 @@ const CourseCard = (props) => {
   const authCtx = useContext(AuthContext);
 
   useEffect(() => {
-    console.log("ctx course", ctx.course);
+    console.log("bookmark card", props.course);
   }, []);
 
   const courseUpdate = (course) => {
-    // console.log("coursecard", course, course.subcategoryId);
     ctx.setCourse(course);
     props.history.push(
       `/dashboard/courses/${course.id}?category=${course.category}&subcategory=${course.subcategory}&subcategoryId=${course.subcategoryId}`
     );
-    // props.history.push("/");
   };
 
   const removeBookmarkItem = (course) => {
@@ -33,11 +31,25 @@ const CourseCard = (props) => {
     });
   };
 
+  const facs = [];
+  if (props.course !== undefined && props.course !== null) {
+    props.course.faculties.forEach((fac) => {
+      let index = fac.lastIndexOf("?");
+      let fa = fac.substring(index + 1);
+      facs.push(fa);
+      // console.log("fac", fa);
+    });
+  }
+
   return (
     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-3">
       <div class="card">
         <div class="thumb">
-          <img class="card-img" src="/images/s6.jpg" alt="Card" />
+          <img
+            class="card-img"
+            src={`https://secure--storage.s3.ap-south-1.amazonaws.com/${course.coverImg}`}
+            alt={course.courseName}
+          />
           <div class="fav" onClick={() => removeBookmarkItem(course)}>
             <span>
               <i
@@ -53,13 +65,13 @@ const CourseCard = (props) => {
           </div>
           {/* <a href="courses_single.html" class="stretched-link"></a> */}
           <div
-            onClick={() => courseUpdate(props.course)}
+            onClick={() => courseUpdate(course)}
             className="stretched-link"
           ></div>
         </div>
         <div class="card-body">
           <p>
-            Author's Name
+            Author's Name: {facs.join()}
             <span>
               <a class="view_more" href="#">
                 view more
@@ -77,10 +89,14 @@ const CourseCard = (props) => {
           <hr />
           <p class="card_footer">
             <a class="sdt" href="#courses_single.html">
-              <i class="far fa-user"></i>121
+              <i class="far fa-user"></i>
+              {props.course.noOfStudents}
             </a>
             <a class="price" href="#courses_single.html">
-              <i class="fas fa-rupee-sign"></i>875.25
+              <i class="fas fa-rupee-sign"></i>
+              {props.course.publish.originalPrice === 0
+                ? "Free"
+                : props.course.publish.originalPrice}
             </a>
           </p>
         </div>

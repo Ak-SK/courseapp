@@ -8,11 +8,14 @@ const CourseFeatures = (props) => {
           <li>
             Lectures <span className="float-right">{props.noOfLectures}</span>
           </li>
-          <li>
+          {/* <li>
             Pdfs <span className="float-right">1</span>
-          </li>
+          </li> */}
           <li>
-            Duration <span className="float-right">3 hours</span>
+            Duration{" "}
+            <span className="float-right">
+              {props.totalHours.toFixed(0)} hours
+            </span>
           </li>
           {/* <li>
             Skill level <span className="float-right">All level</span>
@@ -27,7 +30,10 @@ const CourseFeatures = (props) => {
             </span>
           </li>
           <li>
-            Assessments <span className="float-right">Yes</span>
+            Assessments{" "}
+            <span className="float-right">
+              {props.course.assessments === "Yes" ? "Yes" : "No"}
+            </span>
           </li>
         </ul>
       </div>

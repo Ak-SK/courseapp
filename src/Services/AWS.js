@@ -4,9 +4,9 @@ const configuration = {
   // secretAccessKey: "j7uacGWvcCsri9w9QspywqEGSAxCHLjbyFu7HA5D",
   // accessKeyId: "AKIAVXBBB54RSF2RUKC4"
   // read-only access
-  region: "ap-south-1",
-  secretAccessKey: "iOxdU7GVxkOuDLeVu0SZiGlfcP/xcPg+7xtcZhuD",
-  accessKeyId: "AKIAVXBBB54RYLUO6KLF"
+  region: process.env.REACT_APP_AWS_REGION,
+  secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+  accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID.
 
   // set setRegion(reg) {
   //   this.region = reg;

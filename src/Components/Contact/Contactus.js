@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
-import "../../styles.css";
+import { Link } from "react-router-dom";
+// import "../../styles.css";
 import emailjs from "emailjs-com";
 
 const Contactus = () => {
@@ -36,7 +37,7 @@ const Contactus = () => {
             <div className="inner_container">
               <h1>CONTACT US</h1>
               <p>
-                <a href="index.html">Home</a>&ensp;/&ensp;Contact Us
+                <Link to="/home">Home</Link>&ensp;/&ensp;Contact Us
               </p>
             </div>
           </div>

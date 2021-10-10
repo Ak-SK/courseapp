@@ -1,32 +1,74 @@
 import React, { useState, useEffect } from "react";
-
+import { Link } from "react-router-dom";
 import CoursesFilter from "./CoursesFilter";
 import CourseCard from "../../Reusable/CourseCard";
 import Spinner from "../../UI/Spinner/Spinner";
 import { getCourses, getFilterOptions } from "./CoursesDB";
 import ReactPaginate from "react-paginate";
+import AlgoliaSearch from "../../NewFeatureTest/AlgoliaSearch";
 
 const Courses = (props) => {
   const [courses, setCourses] = useState(null);
   const [filterOptions, setFilterOptions] = useState(null);
+  const [all, setAll] = useState(null);
+  const [pageCount, setPageCount] = useState(0);
+  const [pageNumber, setPageNumber] = useState(0);
+  const perPage = 2;
+  const pagesVisited = pageNumber * perPage;
 
   useEffect(() => {
+    let urlString = window.location.href;
+    var url = new URL(urlString);
+    var categoryName = url.searchParams.get("categoryName");
+    var subcategoryName = url.searchParams.get("subcategoryName");
+    var subcategoryId = url.searchParams.get("subcategoryId");
+
     getFilterOptions((filter) => {
       setFilterOptions(filter);
+      let subcatId = "";
+      // only category
+      // console.log("setCatSubcatDetails", catSubcatDetails);
+      if (categoryName !== null && subcategoryName === null) {
+        let cat = filter.find((c) => c.categoryName === categoryName);
+        subcatId = cat.subcategoryList[0].subCategoryId;
+      } else if (categoryName !== null && subcategoryName !== null) {
+        // category, subcategory
+        let cat = filter.find((c) => c.categoryName === categoryName);
+        let subcat = cat.subcategoryList.find(
+          (c) => c.subCategoryId === subcategoryId
+        );
+        subcatId = subcat.subCategoryId;
+      } else {
+        subcatId = filter[0].subcategoryList[0].subCategoryId;
+      }
       // get subcategoryId to get the courses for that subcategory
-      let subcatId = filter[0].subcategoryList[0].subCategoryId;
       // console.log(subcatId);
       getCourses((courses, fromCache) => {
-        setCourses(courses);
+        setAll(courses);
+        const slice = courses.slice(pagesVisited, pagesVisited + perPage);
+        setCourses(slice);
+        setPageCount(Math.ceil(courses.length / perPage));
       }, subcatId);
     });
   }, []);
 
-  // window.addEventListener("beforeunload", function (e) {
-  //   // alert("unload operation");
-  //   e.preventDefault();
-  //   e.returnValue = "";
-  // });
+  const getPaginatedCourses = () => {
+    // all - bcs it only as all the data
+    if (all !== null) {
+      const slice = all.slice(pagesVisited, pagesVisited + perPage);
+      setPageCount(Math.ceil(all.length / perPage));
+      setCourses(slice);
+    }
+  };
+
+  const handlePageClick = (e) => {
+    const selectedPage = e.selected;
+    setPageNumber(selectedPage);
+  };
+
+  useEffect(() => {
+    getPaginatedCourses();
+  }, [pageNumber]);
 
   const getFilteredCourses = (
     cat,
@@ -45,25 +87,39 @@ const Courses = (props) => {
         rating !== undefined
       ) {
         if (price === "free") {
-          setCourses(
-            courses.filter((c) => {
-              return (
-                c.publish.discountedPrice === 0 &&
-                c.lang === language &&
-                c.rating >= rating
-              );
-            })
+          let filteredCourse = courses.filter((c) => {
+            return (
+              c.publish.originalPrice === 0 &&
+              c.lang === language &&
+              c.rating >= rating
+            );
+          });
+          setAll(filteredCourse);
+          const slice = filteredCourse.slice(
+            pagesVisited,
+            pagesVisited + perPage
           );
+          setPageCount(Math.ceil(filteredCourse.length / perPage));
+          setCourses(slice);
+          // const slice = filteredCourse.slice(offset, offset + perPage);
+          // setPageCount(Math.ceil(filteredCourse.length / perPage));
+          // setCourses(slice);
+          // setCourses(filteredCourse);
         } else if (price === "paid") {
-          setCourses(
-            courses.filter((c) => {
-              return (
-                c.publish.discountedPrice !== 0 &&
-                c.lang === language &&
-                c.rating >= rating
-              );
-            })
+          let filteredCourse = courses.filter((c) => {
+            return (
+              c.publish.originalPrice !== 0 &&
+              c.lang === language &&
+              c.rating >= rating
+            );
+          });
+          setAll(filteredCourse);
+          const slice = filteredCourse.slice(
+            pagesVisited,
+            pagesVisited + perPage
           );
+          setPageCount(Math.ceil(filteredCourse.length / perPage));
+          setCourses(slice);
         } else if (
           price === "0-250" ||
           price === "250-500" ||
@@ -71,27 +127,37 @@ const Courses = (props) => {
           price === "1000-2500"
         ) {
           let range = price.split("-");
-          setCourses(
-            courses.filter((c) => {
-              return (
-                c.publish.discountedPrice >= parseInt(range[0]) &&
-                c.publish.discountedPrice <= parseInt(range[1]) &&
-                c.lang === language &&
-                c.rating >= rating
-              );
-            })
+          let filteredCourse = courses.filter((c) => {
+            return (
+              c.publish.originalPrice >= parseInt(range[0]) &&
+              c.publish.originalPrice <= parseInt(range[1]) &&
+              c.lang === language &&
+              c.rating >= rating
+            );
+          });
+          setAll(filteredCourse);
+          const slice = filteredCourse.slice(
+            pagesVisited,
+            pagesVisited + perPage
           );
+          setPageCount(Math.ceil(filteredCourse.length / perPage));
+          setCourses(slice);
         } else {
           // greater than 2500
-          setCourses(
-            courses.filter((c) => {
-              return (
-                c.publish.discountedPrice > parseInt(price) &&
-                c.lang === language &&
-                c.rating >= rating
-              );
-            })
+          let filteredCourse = courses.filter((c) => {
+            return (
+              c.publish.originalPrice > parseInt(price) &&
+              c.lang === language &&
+              c.rating >= rating
+            );
+          });
+          setAll(filteredCourse);
+          const slice = filteredCourse.slice(
+            pagesVisited,
+            pagesVisited + perPage
           );
+          setPageCount(Math.ceil(filteredCourse.length / perPage));
+          setCourses(slice);
         }
       } else if (
         price !== undefined &&
@@ -99,17 +165,27 @@ const Courses = (props) => {
         rating === undefined
       ) {
         if (price === "free") {
-          setCourses(
-            courses.filter((c) => {
-              return c.publish.discountedPrice === 0 && c.lang === language;
-            })
+          let filteredCourse = courses.filter((c) => {
+            return c.publish.originalPrice === 0 && c.lang === language;
+          });
+          setAll(filteredCourse);
+          const slice = filteredCourse.slice(
+            pagesVisited,
+            pagesVisited + perPage
           );
+          setPageCount(Math.ceil(filteredCourse.length / perPage));
+          setCourses(slice);
         } else if (price === "paid") {
-          setCourses(
-            courses.filter((c) => {
-              return c.publish.discountedPrice !== 0 && c.lang === language;
-            })
+          let filteredCourse = courses.filter((c) => {
+            return c.publish.originalPrice !== 0 && c.lang === language;
+          });
+          setAll(filteredCourse);
+          const slice = filteredCourse.slice(
+            pagesVisited,
+            pagesVisited + perPage
           );
+          setPageCount(Math.ceil(filteredCourse.length / perPage));
+          setCourses(slice);
         } else if (
           price === "0-250" ||
           price === "250-500" ||
@@ -117,25 +193,36 @@ const Courses = (props) => {
           price === "1000-2500"
         ) {
           let range = price.split("-");
-          setCourses(
-            courses.filter((c) => {
-              return (
-                c.publish.discountedPrice >= parseInt(range[0]) &&
-                c.publish.discountedPrice <= parseInt(range[1]) &&
-                c.lang === language
-              );
-            })
+          let filteredCourse = courses.filter((c) => {
+            return (
+              c.publish.originalPrice >= parseInt(range[0]) &&
+              c.publish.originalPrice <= parseInt(range[1]) &&
+              c.lang === language
+            );
+          });
+          // setCourses(filteredCourse);
+          // setAll(filteredCourse);
+          setAll(filteredCourse);
+          const slice = filteredCourse.slice(
+            pagesVisited,
+            pagesVisited + perPage
           );
+          setPageCount(Math.ceil(filteredCourse.length / perPage));
+          setCourses(slice);
         } else {
           // greater than 2500
-          setCourses(
-            courses.filter((c) => {
-              return (
-                c.publish.discountedPrice > parseInt(price) &&
-                c.lang === language
-              );
-            })
+          let filteredCourse = courses.filter((c) => {
+            return (
+              c.publish.originalPrice > parseInt(price) && c.lang === language
+            );
+          });
+          setAll(filteredCourse);
+          const slice = filteredCourse.slice(
+            pagesVisited,
+            pagesVisited + perPage
           );
+          setPageCount(Math.ceil(filteredCourse.length / perPage));
+          setCourses(slice);
         }
       } else if (
         price !== undefined &&
@@ -143,9 +230,27 @@ const Courses = (props) => {
         rating === undefined
       ) {
         if (price === "free") {
-          setCourses(courses.filter((c) => c.publish.discountedPrice === 0));
+          let filteredCourse = courses.filter(
+            (c) => c.publish.originalPrice === 0
+          );
+          setAll(filteredCourse);
+          const slice = filteredCourse.slice(
+            pagesVisited,
+            pagesVisited + perPage
+          );
+          setPageCount(Math.ceil(filteredCourse.length / perPage));
+          setCourses(slice);
         } else if (price === "paid") {
-          setCourses(courses.filter((c) => c.publish.discountedPrice !== 0));
+          let filteredCourse = courses.filter(
+            (c) => c.publish.originalPrice !== 0
+          );
+          setAll(filteredCourse);
+          const slice = filteredCourse.slice(
+            pagesVisited,
+            pagesVisited + perPage
+          );
+          setPageCount(Math.ceil(filteredCourse.length / perPage));
+          setCourses(slice);
         } else if (
           price === "0-250" ||
           price === "250-500" ||
@@ -153,19 +258,31 @@ const Courses = (props) => {
           price === "1000-2500"
         ) {
           let range = price.split("-");
-          setCourses(
-            courses.filter((c) => {
-              return (
-                c.publish.discountedPrice >= parseInt(range[0]) &&
-                c.publish.discountedPrice <= parseInt(range[1])
-              );
-            })
+          let filteredCourse = courses.filter((c) => {
+            return (
+              c.publish.originalPrice >= parseInt(range[0]) &&
+              c.publish.originalPrice <= parseInt(range[1])
+            );
+          });
+          setAll(filteredCourse);
+          const slice = filteredCourse.slice(
+            pagesVisited,
+            pagesVisited + perPage
           );
+          setPageCount(Math.ceil(filteredCourse.length / perPage));
+          setCourses(slice);
         } else {
           // greater than 2500
-          setCourses(
-            courses.filter((c) => c.publish.discountedPrice > parseInt(price))
+          let filteredCourse = courses.filter(
+            (c) => c.publish.originalPrice > parseInt(price)
           );
+          setAll(filteredCourse);
+          const slice = filteredCourse.slice(
+            pagesVisited,
+            pagesVisited + perPage
+          );
+          setPageCount(Math.ceil(filteredCourse.length / perPage));
+          setCourses(slice);
         }
       } else if (
         price === undefined &&
@@ -173,58 +290,85 @@ const Courses = (props) => {
         rating !== undefined
       ) {
         // lang,rating
-        setCourses(
-          courses.filter((c) => {
-            return c.lang === language && c.rating >= rating;
-          })
+        let filteredCourse = courses.filter((c) => {
+          return c.lang === language && c.rating >= rating;
+        });
+        setAll(filteredCourse);
+        const slice = filteredCourse.slice(
+          pagesVisited,
+          pagesVisited + perPage
         );
+        setPageCount(Math.ceil(filteredCourse.length / perPage));
+        setCourses(slice);
       } else if (
         price === undefined &&
         language === undefined &&
         rating !== undefined
       ) {
         // rating
-        setCourses(
-          courses.filter((c) => {
-            return c.rating >= rating;
-          })
+        let filteredCourse = courses.filter((c) => {
+          return c.rating >= rating;
+        });
+        setAll(filteredCourse);
+        const slice = filteredCourse.slice(
+          pagesVisited,
+          pagesVisited + perPage
         );
+        setPageCount(Math.ceil(filteredCourse.length / perPage));
+        setCourses(slice);
       } else if (
         price === undefined &&
         language !== undefined &&
         rating === undefined
       ) {
         // language
-        setCourses(
-          courses.filter((c) => {
-            return c.lang === language;
-          })
+        let filteredCourse = courses.filter((c) => {
+          return c.lang === language;
+        });
+        setAll(filteredCourse);
+        const slice = filteredCourse.slice(
+          pagesVisited,
+          pagesVisited + perPage
         );
+        setPageCount(Math.ceil(filteredCourse.length / perPage));
+        setCourses(slice);
       } else {
         // no price, lang, rating
-        setCourses(courses);
+        setAll(courses);
+        const slice = courses.slice(pagesVisited, pagesVisited + perPage);
+        setPageCount(Math.ceil(courses.length / perPage));
+        setCourses(slice);
       }
     }, subcategoryId);
   };
 
-  const getLiveOnline = (courses) => {
-    console.log(".....cou", courses);
-
+  const getLiveOnline = () => {
+    // console.log(".....cou", courses);
+    let data;
+    // if (document.getElementById("liveonline") !== null) {
     if (document.getElementById("liveonline").value === "live") {
-      setCourses(
-        courses.filter((c) => {
-          return c.types === "Live";
-        })
-      );
+      data = all.filter((c) => {
+        return c.types === "Live";
+      });
+      const slice = data.slice(pagesVisited, pagesVisited + perPage);
+      setPageCount(Math.ceil(data.length / perPage));
+      setCourses(slice);
+      // setCourses(data);
     } else if (document.getElementById("liveonline").value === "online") {
-      setCourses(
-        courses.filter((c) => {
-          return c.types === "Online";
-        })
-      );
+      data = all.filter((c) => {
+        return c.types === "Online";
+      });
+      const slice = data.slice(pagesVisited, pagesVisited + perPage);
+      setPageCount(Math.ceil(data.length / perPage));
+      setCourses(slice);
+      // setCourses(data);
     } else {
-      setCourses(courses);
+      const slice = all.slice(pagesVisited, pagesVisited + perPage);
+      setPageCount(Math.ceil(all.length / perPage));
+      setCourses(slice);
+      // setCourses(all);
     }
+    // }
   };
 
   let coursesLists = null;
@@ -234,15 +378,65 @@ const Courses = (props) => {
     coursesLists = <h1>No courses!!!</h1>;
   } else {
     coursesLists = courses.map((course, i) => (
-      <CourseCard course={course} key={i} {...props} />
+      <div className="item col-sm-6 col-md-6 col-lg-4 col-xl-4">
+        <CourseCard course={course} key={i} {...props} />
+      </div>
     ));
   }
+
+  // const mobileFilter = (html) => {
+  //   const nav = document.querySelector("trigger");
+  //   nav.innerHTML = html;
+  // };
+
+  // const Component1 = (
+  //   <details className="mobile-filter">
+  //     <summary className="sum">
+  //       Filter<i class="fas fa-sort-down"></i>
+  //     </summary>
+  //     <CoursesFilter
+  //       filter={filterOptions}
+  //       getFilteredCourses={getFilteredCourses}
+  //     />
+  //   </details>
+  // );
+
+  // const Component2 = <></>;
+
+  // const mql = window.matchMedia("(min-width: 768px)");
+
+  // let mobileView = mql.matches;
+
+  // if (mobileView) {
+  //   mobileFilter(Component1);
+  // } else {
+  //   mobileFilter(Component2);
+  // }
+
+  // let mobileFilter = null;
+
+  // if (mobileView) {
+  //   mobileFilter = (
+  //     <details className="mobile-filter">
+  //       <summary className="sum">
+  //         Filter<i class="fas fa-sort-down"></i>
+  //       </summary>
+  //       <CoursesFilter
+  //         filter={filterOptions}
+  //         getFilteredCourses={getFilteredCourses}
+  //       />
+  //     </details>
+  //   );
+  // } else {
+  //   mobileFilter = null;
+  // }
 
   return (
     <>
       {/* courses banner image */}
       <section
-        className="navbar_sect"
+        className="navbar_sect trigger"
+        id="trigger"
         style={{ backgroundImage: "url(/images/bg4.jpg)" }}
       >
         <div className="courses_section">
@@ -250,7 +444,7 @@ const Courses = (props) => {
             <div className="inner_container">
               <h1>COURSES</h1>
               <p>
-                <a href="index.html">Home</a>&ensp;/&ensp;Courses
+                <Link to="/home">Home</Link>&ensp;/&ensp;Courses
               </p>
             </div>
           </div>
@@ -258,42 +452,56 @@ const Courses = (props) => {
       </section>
       <section className="sect3_courses">
         <div className="container-fluid p-0">
+          <details className="mobile-filter">
+            <summary className="sum">
+              Filter<i class="fas fa-sort-down"></i>
+            </summary>
+            <CoursesFilter
+              filter={filterOptions}
+              getFilteredCourses={getFilteredCourses}
+            />
+          </details>
+          {/* {mobileFilter} */}
           <div className="row" style={{ margin: "0" }}>
             <CoursesFilter
               filter={filterOptions}
               getFilteredCourses={getFilteredCourses}
             />
             <div className="col-md-8 col-lg-9 col-xl-9 course-grid">
-              <p className="row_head">
-                <span className="noi">
-                  85&ensp;<i>Results&emsp;</i>1,145&ensp;<i>Video Tutorials</i>
-                </span>
+              <div className="row_head">
+                <div className="inner-div">
+                  <p className="noi">
+                    {all !== null && all.length}&ensp;
+                    <i>Results&emsp;</i>
+                    {/* 1,145&ensp;<i>Video Tutorials</i> */}
+                  </p>
 
-                <select
-                  id="liveonline"
-                  className="liveOnline"
-                  onChange={getLiveOnline()}
-                >
-                  <option value="all">All</option>
-                  <option value="live">Live</option>
-                  <option value="online">Online</option>
-                </select>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search for Courses"
-                  style={{ width: "30%" }}
-                />
-                <button
-                  className="form-control-feedback"
-                  type="submit"
-                  value="search"
-                >
-                  <i className="fa fa-search"></i>
-                </button>
-              </p>
+                  <select
+                    id="liveonline"
+                    className="liveOnline"
+                    onChange={getLiveOnline}
+                  >
+                    <option value="all">All</option>
+                    <option value="live">Live</option>
+                    <option value="online">Online</option>
+                  </select>
+                </div>
+                {/* <AlgoliaSearch /> */}
+              </div>
               <div className="row">{coursesLists}</div>
-              <div className="mbp_pagination">
+              <ReactPaginate
+                previousLabel={"previous"}
+                nextLabel={"next"}
+                breakLabel={"..."}
+                breakClassName={"break-me"}
+                pageCount={pageCount}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageClick}
+                containerClassName={"pagination"}
+                activeClassName={"active"}
+              />
+              {/* <div className="mbp_pagination">
                 <ul className="page_navigation">
                   <li className="page-item">
                     <a
@@ -341,7 +549,7 @@ const Courses = (props) => {
                     </a>
                   </li>
                 </ul>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

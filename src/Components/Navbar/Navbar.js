@@ -5,23 +5,25 @@ import AuthContext from "../../Context/auth-context";
 import "./Navbar.css";
 
 const Overlay = (props) => {
-  const authCtx = useContext(AuthContext);
-
   const logoutHandler = () => {
-    authCtx.logout();
+    props.authCtx.logout();
     // localStorage.removeItem("userId");
   };
 
   return (
     <div className="overlay">
       <div className="header">
-        <img className="img-fluid" src="/images/4.jpg" alt="userprofile" />
+        <img
+          className="img-fluid"
+          src={props.user === null ? "/images/4.jpg" : props.user.photoUrl}
+          alt="userprofile"
+        />
         <p>
           <span className="usern" id="username">
-            {/* {props.userDetail.name} */}
+            {props.user.name}
           </span>
           <br />
-          <small id="usermail">{/* {props.userDetail.email} */}</small>
+          <small id="usermail">{props.user.email}</small>
         </p>
       </div>
       <ul className="list">
@@ -66,6 +68,7 @@ const Overlay = (props) => {
 };
 
 const Navbar = (props) => {
+  // console.log("navcate", props.category);
   if (window.matchMedia("(min-width: 768px)").matches) {
     $(document).ready(function () {
       $(window).scroll(function () {
@@ -124,35 +127,60 @@ const Navbar = (props) => {
   }
   // const history = useHistory();
   const authCtx = useContext(AuthContext);
+  const [user, setUser] = useState("");
   const [isOverlay, setIsOverlay] = useState(false);
 
-  // console.log(props.userDetails.name, "navbar");
-  // let user = JSON.parse(localStorage.getItem("userDetail"));
-
-  // useEffect(() => {
-  //   // user.current = JSON.parse(localStorage.getItem("userDetail"));
-  //   console.log("Navbar", props.userDetail);
-  //   console.log("Navbar", user);
-  // }, []);
-
   useEffect(() => {
-    console.log("navbar", authCtx.isLoggedIn, authCtx.user);
+    // console.log("navbar", authCtx.isLoggedIn, authCtx.user);
+    setUser(authCtx.user);
     authCtx.setHistory(props.history);
     // to set the history and to be used in authContext logout
-  }, []);
+  }, [authCtx]);
 
   const overlayHandler = () => {
-    console.log("overlay");
+    // console.log("overlay");
     setIsOverlay((prevState) => {
-      console.log("prev", prevState);
-      console.log("prev-opp", !prevState);
+      // console.log("prev", prevState);
+      // console.log("prev-opp", !prevState);
       return !prevState;
     });
   };
 
-  // const pushHandler = (path) => {
-  //   history.push(path);
-  // };
+  let courseUi = null;
+  if (props.category !== null) {
+    courseUi = props.category.map((cat, i) => {
+      return (
+        <li>
+          <Link
+            className="dropdown-item"
+            to={`/dashboard/courses?categoryName=${cat.categoryName}`}
+          >
+            {cat.categoryName}
+            <i className="fas fa-chevron-right"></i>
+          </Link>
+          <ul className="sub-menu">
+            {cat.subcategoryList.map((subcat) => {
+              return (
+                <li>
+                  <Link
+                    className="dropdown-item"
+                    to={`/dashboard/courses?categoryName=${cat.categoryName}&subcategoryName=${subcat.subCategoryName}&subcategoryId=${subcat.subCategoryId}`}
+                  >
+                    {subcat.subCategoryName}
+                  </Link>
+                </li>
+              );
+            })}
+            <li>
+              <Link className="dropdown-item" to={`/dashboard/courses`}>
+                View More
+              </Link>
+            </li>
+          </ul>
+        </li>
+      );
+    });
+  }
 
   return (
     <>
@@ -191,13 +219,6 @@ const Navbar = (props) => {
               </Link>
             </li>
             <li className="nav-item dropdown">
-              {/* <Link
-                className="nav-link dropdown-toggle"
-                id="navbardrop"
-                data-toggle="dropdown"
-              >
-                Courses
-              </Link> */}
               <a
                 className="nav-link dropdown-toggle"
                 href="#courses"
@@ -208,7 +229,7 @@ const Navbar = (props) => {
               </a>
               {/* <!-- Dropdown Menu--> */}
               <ul className="dropdown-menu">
-                <li>
+                {/* <li>
                   <a className="dropdown-item" href="courses.html">
                     FREE COURSES<i className="fas fa-chevron-right"></i>
                   </a>
@@ -234,103 +255,8 @@ const Navbar = (props) => {
                       </a>
                     </li>
                   </ul>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="courses">
-                    IAS<i className="fas fa-chevron-right"></i>
-                  </a>
-                  <ul className="sub-menu">
-                    <li>
-                      <a className="dropdown-item" href="courses.html">
-                        Sub Item1
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="courses.html">
-                        Sub Item1.1
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="courses.html">
-                        Sub Item1.2
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="courses.html">
-                        Sub Item1.3
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="courses.html">
-                        Sub Item1.4
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="courses.html">
-                        View More
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="courses.html">
-                    IES<i className="fas fa-chevron-right"></i>
-                  </a>
-                  <ul className="sub-menu">
-                    <li>
-                      <a className="dropdown-item" href="courses.html">
-                        Sub Item2
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="courses.html">
-                    NEET
-                    <i
-                      className="fas fa-chevron-right"
-                      style={{ float: "right" }}
-                    ></i>
-                  </a>
-                  <ul className="sub-menu">
-                    <li>
-                      <a className="dropdown-item" href="courses.html">
-                        Sub Item3
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="courses.html">
-                        Sub Item3
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="courses.html">
-                    GATE
-                    <i
-                      className="fas fa-chevron-right"
-                      style={{ textalign: "right" }}
-                    ></i>
-                  </a>
-                  <ul className="sub-menu">
-                    <li>
-                      <a className="dropdown-item" href="courses.html">
-                        Sub Item4
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="courses.html">
-                        Sub Item4
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="courses.html">
-                        Sub Item4
-                      </a>
-                    </li>
-                  </ul>
-                </li>
+                </li> */}
+                {courseUi}
                 <li>
                   {/* <a
                     className="dropdown-item"
@@ -358,7 +284,14 @@ const Navbar = (props) => {
               </ul>
             </li>
             <li className="nav-item dropdown">
-              <a
+              <Link
+                action="push"
+                className="nav-link"
+                to={`/dashboard/institution`}
+              >
+                Institutes
+              </Link>
+              {/* <a
                 className="nav-link dropdown-toggle"
                 // id="navigationitem2"
                 href="#institution"
@@ -366,9 +299,9 @@ const Navbar = (props) => {
                 data-toggle="dropdown"
               >
                 Institutes
-              </a>
+              </a> */}
               {/* <!-- Dropdown Menu--> */}
-              <ul className="dropdown-menu">
+              {/* <ul className="dropdown-menu">
                 <li>
                   <a className="dropdown-item" href="institution.html">
                     IAS<i className="fas fa-chevron-right"></i>
@@ -418,21 +351,21 @@ const Navbar = (props) => {
                     RRB
                   </a>
                 </li>
-                <li>
-                  {/* <a
+                <li> */}
+              {/* <a
                     className="dropdown-item"
                     href={`${props.match.url}/institution`}
                   >
                     View All
                   </a> */}
-                  {/* <div
+              {/* <div
                     className="dropdown-item"
                     onClick={() => pushHandler("/dashboard/institution")}
                     style={{ paddingLeft: "0px" }}
                   >
                     View All
                   </div> */}
-                  <Link
+              {/* <Link
                     action="push"
                     className="dropdown-item"
                     to={`/dashboard/institution`}
@@ -440,7 +373,7 @@ const Navbar = (props) => {
                     View All
                   </Link>
                 </li>
-              </ul>
+              </ul> */}
             </li>
             {/* <!-- Dropdown --> */}
             <li className="nav-item dropdown">
@@ -622,6 +555,13 @@ const Navbar = (props) => {
                   </Link>
                 </li>
                 <li className="prfl_img">
+                  <Link
+                    action="push"
+                    className="nav-link"
+                    to={`/userDashboard/myProfile`}
+                  >
+                    My Profile
+                  </Link>
                   <button
                     type="button"
                     className="btn"
@@ -635,7 +575,7 @@ const Navbar = (props) => {
                   >
                     <img
                       className="img-fluid"
-                      src="/images/4.jpg"
+                      src={user === null ? "/images/4.jpg" : user.photoUrl}
                       alt="userprofile"
                     />
                   </button>
@@ -643,6 +583,8 @@ const Navbar = (props) => {
                     <Overlay
                       logout={props.logout}
                       userDetail={props.userDetail}
+                      authCtx={authCtx}
+                      user={user}
                     />
                   ) : null}
                 </li>
@@ -662,4 +604,4 @@ const Navbar = (props) => {
   );
 };
 
-export default React.memo(Navbar);
+export default Navbar;

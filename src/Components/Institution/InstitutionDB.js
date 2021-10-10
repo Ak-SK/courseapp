@@ -19,7 +19,44 @@ const getInstitutions = (institution) => {
     .catch((e) => console.log(e));
 };
 
-export default getInstitutions;
+const getInstitute = (instituteId, setInstitute) => {
+  db.collection("institute")
+    .doc(instituteId)
+    .get()
+    .then((data) => {
+      let fromCache = data.metadata.fromCache;
+
+      setInstitute(data.data(), fromCache);
+    })
+    .catch((e) => console.log(e));
+};
+
+const getFaculties = (ctx, setFaculties) => {
+  console.log("ctx", ctx.institute);
+  // let institute = ctx.institute;
+  let facultyIds = ctx.institute.facultyIds;
+  let list = [];
+  let listPromises = [];
+  facultyIds.forEach((id) => {
+    listPromises.push(db.collection("faculty").doc(id.trim()).get());
+  });
+  // console.log("list", list);
+  Promise.all(listPromises)
+    .then((values) => {
+      values.forEach((val) => {
+        // console.log("promiseAll", val.data());
+        list.push(val.data());
+      });
+      return list;
+    })
+    .then((data) => {
+      // console.log("2nd then", data);
+      setFaculties(data);
+    })
+    .catch((e) => console.log(e));
+};
+
+export { getInstitutions, getFaculties, getInstitute };
 
 // AWS DB Code:
 

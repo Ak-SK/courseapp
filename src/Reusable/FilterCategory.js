@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const FilterCategory = (props) => {
+  // const [category, setCategory] = useState(null);
+
+  // useEffect(() => {
+  //   if (props.category !== null) {
+  //     setCategory(props.category);
+  //   }
+  // }, [props.category]);
+
   return (
     <>
       <div className="filter filter1">
-        <details>
+        <details open>
           <summary type="button" className="collapsible">
             Category
           </summary>
@@ -13,6 +21,11 @@ const FilterCategory = (props) => {
               return (
                 <div className="form-check" key={i}>
                   <label className="form-check-label">
+                    {console.log(
+                      "filterCategory",
+                      props.category,
+                      cat.categoryName
+                    )}
                     <input
                       type="radio"
                       name="category"

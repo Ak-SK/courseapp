@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import AuthContext from "../../../Context/auth-context";
+import PaymentModal from "./PaymentModal";
 import { buyCourse, addBookmark, removeBookmark } from "../CoursesDB";
 import $ from "jquery";
 
@@ -11,13 +12,15 @@ const CoursePriceBox = (props) => {
   // const [dueDay, setDueDay] = useState();
   const [price, setPrice] = useState({
     originalPrice: 0,
-    discountedPrice: 0
+    discountedPrice: 0,
+    period: 0
   });
   const [offers, setOffers] = useState([]);
+  const [isPaymentOverlay, setIsPaymentOverlay] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
-    console.log("coursePriceBox", props.course);
+    // console.log("coursePriceBox", props.course);
     if (authCtx.user !== null) {
       let bookmarks = authCtx.user.bookmarks;
       let index = bookmarks.findIndex((course) => {
@@ -45,7 +48,8 @@ const CoursePriceBox = (props) => {
     let discountedPrice = props.course.publish.originalPrice - disPrice;
     setPrice({
       originalPrice: props.course.publish.originalPrice,
-      discountedPrice: discountedPrice
+      discountedPrice: discountedPrice,
+      period: offers[0].period
     });
   }, [authCtx.user, props.course]);
 
@@ -87,14 +91,17 @@ const CoursePriceBox = (props) => {
   const purchaseCourse = () => {
     if (authCtx.isLoggedIn) {
       let ongoingCourses = authCtx.user.ongoingCourses;
+      let orders = authCtx.user.orders;
       buyCourse(
         authCtx.user,
-        props.course.id,
+        props.course,
         props.subcategoryId,
+        price,
         (courseBought) => {
           authCtx.setUser({
             ...user,
-            ongoingCourses: [...ongoingCourses, courseBought]
+            ongoingCourses: [...ongoingCourses, courseBought.ongoingCourse],
+            orders: [...orders, courseBought.order]
           });
         }
       );
@@ -123,6 +130,14 @@ const CoursePriceBox = (props) => {
 
   return (
     <>
+      {isPaymentOverlay && (
+        <PaymentModal
+          price={price}
+          course={props.course}
+          purchaseCourse={purchaseCourse}
+          onClose={() => setIsPaymentOverlay(false)}
+        />
+      )}
       <div className="price_box">
         <div className="price">
           <span>Price</span> <i className="fas fa-rupee-sign"></i>
@@ -135,7 +150,7 @@ const CoursePriceBox = (props) => {
         <div className="days">
           {offers.map((offer) => (
             <div className="pill" onClick={() => updatePrice(offer.discount)}>
-              {offer.period} Days
+              {offer.period === -1 ? "LifeTime" : offer.period + " Days"}
             </div>
           ))}
         </div>
@@ -155,7 +170,10 @@ const CoursePriceBox = (props) => {
           </button>
         )}
 
-        <button className="purchase_btn" onClick={purchaseCourse}>
+        <button
+          className="purchase_btn"
+          onClick={() => setIsPaymentOverlay(true)}
+        >
           Buy Now
         </button>
         <h5 className="subtitle">Includes</h5>
@@ -165,17 +183,17 @@ const CoursePriceBox = (props) => {
               <span>
                 <i className="fas fa-play"></i>
               </span>
-              &ensp;11 hours on-demand video
+              &ensp;{props.totalHours.toFixed(0)} hours on-demand video
             </a>
           </li>
-          <li>
+          {/* <li>
             <a href="#">
               <span>
                 <i className="fas fa-file-download"></i>
               </span>
               &ensp;69 downloadable resources
             </a>
-          </li>
+          </li> */}
           {/* <li>
             <a href="#">
               <span>
@@ -192,14 +210,16 @@ const CoursePriceBox = (props) => {
               &ensp;Access on Mobile & Laptop
             </a>
           </li>
-          <li>
-            <a href="#">
-              <span>
-                <i className="far fa-clipboard"></i>
-              </span>
-              &ensp;Assesments
-            </a>
-          </li>
+          {props.course.assessments === "Yes" && (
+            <li>
+              <a href="#">
+                <span>
+                  <i className="far fa-clipboard"></i>
+                </span>
+                &ensp;Assesments
+              </a>
+            </li>
+          )}
           <li>
             <a href="#">
               <span>

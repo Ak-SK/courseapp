@@ -1,11 +1,23 @@
-import React from "react";
-import InstitutionCard from "./InstitutionCard";
+import React, { useEffect, useState } from "react";
+import FacultyCard from "./FacultyCard";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
-
-const CarouselView = () => {
+import { getFaculties } from "../Components/Institution/InstitutionDB";
+// import { db } from "../Services/firebase";
+const CarouselView = (props) => {
+  const [faculties, setFaculties] = useState(null);
   // if ($.isFunction("owlCarousel")) {
+  useEffect(() => {
+    // console.log("cccccccc", props.ctx);
+    if (props.ctx !== null) {
+      getFaculties(props.ctx, (results) => {
+        setFaculties(results);
+        console.log(".......>>>", results);
+      });
+    }
+  }, []);
+
   const options = {
     loop: false,
     stagePadding: 15,
@@ -32,22 +44,24 @@ const CarouselView = () => {
   };
   // }
 
+  let ui = null;
+  if (faculties !== null) {
+    ui = faculties.map((faculty) => {
+      return (
+        <FacultyCard className="item" faculty={faculty} key={faculty.id} />
+      );
+    });
+  }
+
   return (
     <>
       <div className="container-fluid sect2">
         <h3 className="heading">
-          <b>Popular Institutes</b>
+          <b>Faculties</b>
         </h3>
         <div className="uk-section">
           <OwlCarousel className="owl-carousel owl-theme" {...options}>
-            <InstitutionCard />
-            <InstitutionCard />
-            <InstitutionCard />
-            <InstitutionCard />
-            <InstitutionCard />
-            <InstitutionCard />
-            <InstitutionCard />
-            <InstitutionCard />
+            {ui}
           </OwlCarousel>
         </div>
       </div>

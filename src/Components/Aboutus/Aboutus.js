@@ -1,5 +1,5 @@
 import React from "react";
-// import Navbar from "../Navbar/Navabar";
+import { Link } from "react-router-dom";
 
 const Aboutus = () => {
   return (
@@ -14,7 +14,7 @@ const Aboutus = () => {
             <div className="inner_container">
               <h1>ABOUT US</h1>
               <p>
-                <a href="/dashboard/home">Home</a>&ensp;/&ensp;Contact Us
+                <Link to="/home">Home</Link>&ensp;/&ensp;Contact Us
               </p>
             </div>
           </div>
@@ -54,39 +54,37 @@ const Aboutus = () => {
             {/* <!-----/ /------------>		 */}
           </div>
 
-          <div className="our-story">
+          {/* <div className="our-story">
             <h2>Our Story</h2>
             <div className="wrap">
-              {/* <!--- Widget -------> */}
+              Widget
               <div className="inner-wrap">
                 <h4>Foreign Followers</h4>
                 <p className="counter" data-target="88000">
                   0
                 </p>
               </div>
-
               <div className="inner-wrap">
                 <h4>Certfied Institutions</h4>
                 <p className="counter" data-target="96">
                   0
                 </p>
               </div>
-
               <div className="inner-wrap">
                 <h4>Students Enrolled</h4>
                 <p className="counter" data-target="4789">
                   0
                 </p>
               </div>
-
               <div className="inner-wrap">
                 <h4>Complete Courses</h4>
                 <p className="counter" data-target="488">
                   0
                 </p>
               </div>
-
-              {/* <script>
+            </div>
+          </div> */}
+          {/* <script>
 					const counters = document.querySelectorAll('.counter');
 					const speed = 500;
 					
@@ -107,9 +105,8 @@ const Aboutus = () => {
 								
 								updateCount();
 					});
-				</script> */}
-            </div>
-          </div>
+				  </script> */}
+
           {/* <!------/ /-------> */}
 
           <div className="row m-0 p20">

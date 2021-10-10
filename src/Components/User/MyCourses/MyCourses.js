@@ -1,11 +1,10 @@
 import React from "react";
 import CourseList from "./CourseList";
 
-const MyCourses = () => {
+const MyCourses = (props) => {
   return (
     <>
-      <CourseList />
-      <CourseList />
+      {props.authCtx.user !== null && <CourseList user={props.authCtx.user} />}
     </>
   );
 };

@@ -36,6 +36,66 @@ const getSections = (sections, sectionIds) => {
     .catch((e) => console.log(e));
 };
 
+const postQuestion = (ques, user, currentSectionTopic, setIsUpdated) => {
+  let data = {
+    ques: ques,
+    user: user.id + "?**?" + user.name,
+    uploadedDT: new Date().getTime(),
+    ans: ""
+  };
+
+  db.collection("sections")
+    .doc(currentSectionTopic.section.id)
+    .collection("topics")
+    .doc(currentSectionTopic.topic.id)
+    .update({
+      qa: firebase.firestore.FieldValue.arrayUnion(data)
+    })
+    .then(() => {
+      console.log("then");
+      let value = {
+        ...data,
+        sectionId: currentSectionTopic.section.id,
+        topicId: currentSectionTopic.topic.id
+      };
+      setIsUpdated(value);
+    })
+    .catch((e) => {
+      setIsUpdated(false);
+      console.log(e);
+    });
+};
+
+// const getPosts = (posts, postIds) => {
+//   console.log("......", posts);
+// let list = [];
+// let listPromises = [];
+// postIds.forEach((id) => {
+//   listPromises.push(
+//     db
+//       .collection("sections")
+//       .doc(posts.sectionId)
+//       .collection("topics")
+//       .doc(posts.topicId)
+//       .get()
+//   );
+// });
+// // console.log("list", list);
+// Promise.all(listPromises)
+//   .then((value) => {
+//     value.forEach((val) => {
+//       // console.log("promiseAll", val.data());
+//       list.push(val.data());
+//     });
+//     return list;
+//   })
+//   .then((data) => {
+//     // console.log("2nd then", data);
+//     posts(data);
+//   })
+//   .catch((e) => console.log(e));
+// };
+
 const getTopics = (topics, sectionId) => {
   db.collection("sections")
     .doc(sectionId)
@@ -89,41 +149,97 @@ const getSectionsTopics = (sectionsTopics, sectionIds) => {
   }, sectionIds);
 };
 
-const setLatestSectionTopicDB = (latestData, authCtx, course) => {
+const setLatestSectionTopicDB = (
+  latestData,
+  authCtx,
+  course,
+  sectionTopics,
+  ongoingCourse
+) => {
   let userId = authCtx.user.id;
-  let ongoingDocIds = authCtx.user.ongoingDocIds;
-  // console.log(
-  //   "setLatestSectionTopicDB",
-  //   latestData,
-  //   userId,
-  //   ongoingDocIds,
-  //   course
-  // );
+  // let ongoingDocIds = authCtx.user.ongoingDocIds;
+  // console.log("setLatestSectionTopicDB", latestData, userId, course);
+  // completedPercent
 
-  // else, get the last doc id and update in there
-  let ongoingCourses = authCtx.user.ongoingCourses;
-  let ongoingCourseIndex = ongoingCourses.findIndex((c) => c.id === course.id);
-  let updatedCourse = {
-    ...ongoingCourses[ongoingCourseIndex],
-    currentSectionTopic: latestData
-  };
-  ongoingCourses[ongoingCourseIndex] = updatedCourse;
-  // console.log("ongoingCourses set", ongoingCourses);
-  db.collection("students")
-    .doc(userId)
-    .collection("ongoingCourses")
-    .doc(ongoingDocIds[ongoingDocIds.length - 1])
-    .update({
-      courses: ongoingCourses
-    })
-    .then(() => console.log("successfully set the latest section and topic"))
-    .catch((e) => {
-      console.log("singleCourseDB", e);
-      if (e.code.includes("exceeds")) {
-        // if max doc size is reached, create new doc and update there
-      } else {
-      }
+  // last section & last topic
+  let percentageCompleted = 0;
+  console.log("ongoigCourse", ongoingCourse);
+  if (ongoingCourse.isCourseCompleted) {
+    // percentageCompleted = 100;
+    console.log("Course Already compelted, dont again set db to 100%");
+  } else {
+    // before last section & last topic
+    let sectionLength = sectionTopics.length;
+    let sectionIndex = sectionTopics.findIndex((secTop) => {
+      return secTop.section.id === latestData.sectionId;
     });
+    // add 1 to sectionIndex bcs  array.length, sectionLength
+    sectionIndex += 1;
+    // formula
+    // ((completedBeforeSection + currentSection, how many topics completed)/totalSectionsLength) * 100
+    let completedBeforeSection = sectionIndex - 1;
+    let currentCompletedSectionTopic = 0;
+    let sectionTopic = sectionTopics[sectionIndex - 1];
+    // console.log("sectionTopic", sectionTopic);
+    let topics = sectionTopic.topics;
+    let topicsLength = topics.length;
+    let topicIndex = topics.findIndex((topic) => {
+      // console.log("topInx", topic.id, latestData.topic.topicId);
+      return topic.id === latestData.topic.topicId;
+    });
+    topicIndex += 1;
+
+    console.log("topicIndex", topicIndex);
+    currentCompletedSectionTopic = (topicIndex - 1) / topicsLength;
+    console.log("completedBeforeSection", completedBeforeSection);
+    console.log("currentCompletedSectionTopic", currentCompletedSectionTopic);
+    console.log("sectionLength", sectionLength);
+    percentageCompleted =
+      ((completedBeforeSection + currentCompletedSectionTopic) * 100) /
+      sectionLength;
+
+    // else, get the last doc id and update in there
+    let ongoingCourses = authCtx.user.ongoingCourses;
+    let ongoingCourseIndex = ongoingCourses.findIndex(
+      (c) => c.id === course.id
+    );
+    // let completedCourses = authCtx.user.completedCourses;
+    let updatedCourse = {
+      ...ongoingCourses[ongoingCourseIndex],
+      currentSectionTopic: latestData,
+      completedPercent: percentageCompleted
+    };
+    console.log("updatedCourse", updatedCourse);
+    ongoingCourses[ongoingCourseIndex] = updatedCourse;
+    // console.log("ongoingCourses set", ongoingCourses);
+    // let completedIndex = completedCourses.findIndex((courses) => {
+    //   return courses.id === course.id;
+    // });
+    // completedCourses[completedIndex] = updatedCourse;
+
+    // // update ongoingCourses in auth-context
+    authCtx.setUser({
+      ...authCtx.user,
+      ongoingCourses: ongoingCourses
+      // completedCourses: completedCourses
+    });
+
+    db.collection("students")
+      .doc(userId)
+      .collection("userCourseDetails")
+      .doc("courseDetails")
+      .update({
+        ongoingCourses: ongoingCourses
+      })
+      .then(() => console.log("successfully set the latest section and topic"))
+      .catch((e) => {
+        console.log("singleCourseDB", e);
+        if (e.code.includes("exceeds")) {
+          // if max doc size is reached, create new doc and update there
+        } else {
+        }
+      });
+  }
 };
 
 const getReviews = (reviews, subcategoryId, courseId) => {
@@ -135,6 +251,7 @@ const getReviews = (reviews, subcategoryId, courseId) => {
     .collection("courses")
     .doc(courseId)
     .collection("reviews")
+    .limit(5) // check this out later
     .get()
     .then((docs) => {
       docs.forEach((doc) => {
@@ -153,27 +270,35 @@ const getReviews = (reviews, subcategoryId, courseId) => {
 const setCourseCompleted = (authCtx, course) => {
   console.log("authCtx", authCtx.user, course);
   let ongoingCourses = authCtx.user.ongoingCourses;
+  let completedCourses = authCtx.user.completedCourses;
   let updatedCourse = {
     ...course,
+    completedPercent: 100,
     isCourseCompleted: true
   };
   let index = ongoingCourses.findIndex((courses) => {
     return courses.id === course.id;
   });
   ongoingCourses[index] = updatedCourse;
+  let completedIndex = completedCourses.findIndex((courses) => {
+    return courses.id === course.id;
+  });
+  completedCourses[completedIndex] = updatedCourse;
 
   // update ongoingCourses in auth-context
   authCtx.setUser({
     ...authCtx.user,
-    ongoingCourses: ongoingCourses
+    ongoingCourses: ongoingCourses,
+    completedCourses: completedCourses
   });
   // set in db
   db.collection("students")
     .doc(authCtx.user.id)
-    .collection("ongoingCourses")
-    .doc(authCtx.user.ongoingDocIds[authCtx.user.ongoingDocIds.length - 1])
+    .collection("userCourseDetails")
+    .doc("courseDetails")
     .update({
-      courses: ongoingCourses
+      ongoingCourses: ongoingCourses,
+      completedCourses: firebase.firestore.FieldValue.arrayUnion(updatedCourse)
     })
     .then(() => console.log("successfully updated!!!"))
     .catch((e) => console.log(e));
@@ -211,10 +336,10 @@ const addReview = (authCtx, ongoingCourse, course, reviewDet, setReview) => {
   // set in db
   db.collection("students")
     .doc(authCtx.user.id)
-    .collection("ongoingCourses")
-    .doc(authCtx.user.ongoingDocIds[authCtx.user.ongoingDocIds.length - 1])
+    .collection("userCourseDetails")
+    .doc("courseDetails")
     .update({
-      courses: ongoingCourses
+      ongoingCourses: ongoingCourses
     })
     .then(() => {
       console.log("successfully updated review in ongoingCourse!!!");
@@ -313,10 +438,10 @@ const setQuizAnswers = (authCtx, course, sectionId, answers) => {
   // ongoingDocIds - find the docIds, for this current specific course
   db.collection("students")
     .doc(authCtx.user.id)
-    .collection("ongoingCourses")
-    .doc(authCtx.user.ongoingDocIds[0])
+    .collection("userCourseDetails")
+    .doc("courseDetails")
     .update({
-      courses: ongoingCourses
+      ongoingCourses: ongoingCourses
     })
     .then(() => console.log("successfully updated in db - quiz"))
     .catch((e) => console.log(e));
@@ -330,5 +455,6 @@ export {
   setLatestSectionTopicDB,
   setCourseCompleted,
   addReview,
-  setQuizAnswers
+  setQuizAnswers,
+  postQuestion
 };

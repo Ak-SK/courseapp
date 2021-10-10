@@ -68,11 +68,17 @@ const VideoPlayer = (props) => {
       video.currentTime = time;
     }
   }, [props.caption]);
-
+  $(document).ready(function () {
+    $("#vbn").bind("contextmenu", function () {
+      return false;
+    });
+  });
   // https://stackoverflow.com/questions/41303012/updating-source-url-on-html5-video-with-react
   return (
     <video
+      id="vbn"
       className="videoframe"
+      controlsList="nodownload"
       controls
       // key={props.topic.video}
       ref={videoRef}

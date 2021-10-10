@@ -19,6 +19,7 @@ institute.analytics();
 // firebase.analytics();
 const db = institute.firestore();
 const auth = institute.auth();
+// const storage = institute.storage();
 db.enablePersistence({ experimentalTabSynchronization: true })
   .then(() => {
     console.log("Woohoo! Multi-Tab Persistence!");

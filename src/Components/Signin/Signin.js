@@ -6,6 +6,7 @@ import classes from "./Signin.module.css";
 import $ from "jquery";
 import AuthContext from "../../Context/auth-context";
 import ForgotPassModal from "../../UI/ForgotPassword/ForgotPassModal";
+import { Link } from "react-router-dom";
 
 const Signin = (props) => {
   // useEffect(() => {
@@ -60,13 +61,15 @@ const Signin = (props) => {
     };
   });
 
-  const [error, setError] = useState();
+  const [error, setError] = useState(null);
   const [userCred, setUserCred] = useState({
     email: "",
     password: ""
   });
   const [forgotModal, setForgotModal] = useState(false);
+  const [userId, setUserId] = useState(null);
   const authCtx = useContext(AuthContext);
+  // let userId = null;
 
   const changeHandler = (event) => {
     let val = event.target.value;
@@ -81,7 +84,6 @@ const Signin = (props) => {
   const submitHandler = (event) => {
     event.preventDefault();
     // firebase signin auth
-
     auth
       .signInWithEmailAndPassword(
         userCred.email.trim(),
@@ -90,7 +92,8 @@ const Signin = (props) => {
       .then((userCredential) => {
         // Signed in
         let userId = userCredential.user.uid;
-        let photoUrl = userCredential.user.photoURL;
+        setUserId(userId);
+        let photoUrl = "";
         console.log("userId", userId);
 
         // get the particular user, using the
@@ -99,59 +102,69 @@ const Signin = (props) => {
           .get()
           .then((doc) => {
             let user = doc.data();
+            console.log("signin", user);
+            photoUrl = user.photoUrl;
             if (user.isLoggedIn) {
               // if already one person is logged in
               setError(
                 "Already logged in, logout from other device to login again..."
               );
             } else {
+              let data = {
+                isLoggedIn: true
+              };
+              // if password is reset, then that password should be update in firestore
+              if (user.password !== userCred.password.trim()) {
+                data = {
+                  isLoggedIn: true,
+                  password: userCred.password.trim()
+                };
+              }
               db.collection("students")
                 .doc(userId)
-                .update({
-                  isLoggedIn: true
-                })
+                .update(data)
                 .then(() => {
                   // may use it later for refresh or some edge cases
                   localStorage.setItem("userId", userId);
                   // to identify, whether reloading or closing the tab
                   sessionStorage.setItem("userId", userId);
                   authCtx.setIsLoggedIn(true);
-                  let list = [];
-                  let ongoingIds = [];
+                  // props.history.replace(`/home?userId=${userId}`);
+                  props.history.replace("/dashboard/home"); // redirect it to home
+                  let ongoingCourses = [];
+                  let bookmarks = [];
+                  let preferences = [];
+                  let orders = [];
+                  let completedCourses = [];
+
                   db.collection("students")
                     .doc(userId)
-                    .collection("ongoingCourses")
+                    .collection("userCourseDetails")
+                    .doc("courseDetails")
                     .get()
-                    .then((docs) => {
-                      docs.forEach((doc) => {
-                        // console.log("ongoingCourses", doc.courses);
-                        let docId = doc.id;
-                        let ongoingCourses = doc.data().courses;
-                        list = [...list, ...ongoingCourses];
-                        // mostly it will be one, but for future safety purpose, has egiven like array
-                        ongoingIds.push(docId);
-                      });
+                    .then((doc) => {
+                      let courseDetails = doc.data();
+                      ongoingCourses = courseDetails.ongoingCourses;
+                      bookmarks = courseDetails.bookmarks;
+                      preferences = courseDetails.preferences;
+                      orders = courseDetails.orders;
+                      completedCourses = courseDetails.completedCourses;
                     })
                     .then(() => {
                       authCtx.setUser({
                         ...user,
                         isLoggedIn: true,
+                        password: userCred.password,
                         photoUrl: photoUrl,
-                        ongoingCourses: list,
-                        ongoingDocIds: ongoingIds
+                        ongoingCourses: ongoingCourses,
+                        preferences: preferences,
+                        bookmarks: bookmarks,
+                        orders: orders,
+                        completedCourses: completedCourses
                       });
-                      // setOngoingCourseIds(ongoingIds);
+                      authCtx.setHistory(props.history);
                     })
                     .catch((e) => console.log("set ongoingCourses", e));
-                  // authCtx.setUser({
-                  //   ...user,
-                  //   isLoggedIn: true,
-                  //   photoUrl: photoUrl
-                  // });
-                  authCtx.setHistory(props.history);
-
-                  // props.history.replace(`/home?userId=${userId}`);
-                  props.history.replace("/dashboard/home"); // redirect it to home
                 })
                 .catch((e) => console.log("signin-submitHandler", e));
             }
@@ -186,6 +199,28 @@ const Signin = (props) => {
           alert("Provide Correct Email Address");
         }
       });
+  };
+
+  const forceLogout = () => {
+    if (
+      window.confirm(
+        "Are u sure want to logout from other device?. If 'yes', press OK. Else press cancel."
+      )
+    ) {
+      console.log("forceLogout", userId);
+      db.collection("students")
+        .doc(userId)
+        .update({
+          isLoggedIn: false
+        })
+        .then(() => {
+          console.log("successfully update");
+          setError(false);
+          alert("Logged out from other devices, Please login now!!!");
+        });
+    } else {
+      console.log("you pressed cancel!!!");
+    }
   };
 
   return (
@@ -225,10 +260,35 @@ const Signin = (props) => {
         </div>
         <div className="right-slide">
           <div className="container-fluid">
+            <Link className={classes.homebtt} to="/dashboard/home">
+              <i class="fas fa-home"></i>
+              {/* Home */}
+            </Link>
             <div className="container">
               <form onSubmit={submitHandler}>
                 <div className="title">Student Login</div>
-                {error && <Alert variant="danger">{error}</Alert>}
+                {error && (
+                  <>
+                    <Alert
+                      variant="danger"
+                      dismissible
+                      onClose={() => setError(false)}
+                    >
+                      {error}
+                    </Alert>
+                    {/* force logout from all other devices */}
+                    {error ===
+                      "Already logged in, logout from other device to login again..." && (
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={forceLogout}
+                      >
+                        Force Logout From All Other devices
+                      </button>
+                    )}
+                  </>
+                )}
                 <div className="input-box underline">
                   <input
                     type="email"
@@ -254,25 +314,23 @@ const Signin = (props) => {
                   <div className="underline"></div>
                 </div>
                 <div className="input-box button">
-                  <input
-                    type="submit"
-                    name=""
-                    value="Login"
-                    // onClick="login(document.getElementById('usem').value,document.getElementById('pass').value)"
-                  />
+                  <input type="submit" name="" value="Login" />
                 </div>
-                <p className="or">
-                  <span>or</span>
-                </p>
-                <p className="subtitle">
-                  <button type="button" onClick={() => setForgotModal(true)}>
-                    Forget Password
-                  </button>
-                </p>
-                <p className="subtitle">
-                  Don't have an account? <a href="/StudentsSignup"> sign Up</a>
-                </p>
-                {/* <div className="social-login">
+              </form>
+              <p className="or">
+                <span>or</span>
+              </p>
+              <p className="subtitle">
+                <button type="button" onClick={() => setForgotModal(true)}>
+                  Forget Password
+                </button>
+              </p>
+              <p className="subtitle">
+                Don't have an account?
+                <Link to="/StudentsSignup">sign Up</Link>
+                {/* <a href="/StudentsSignup">sign Up</a> */}
+              </p>
+              {/* <div className="social-login">
                   <button className="google-btn">
                     <img
                       alt="Google"
@@ -290,7 +348,6 @@ const Signin = (props) => {
                     <p className="btn-text">Sign in with Facebook</p>
                   </button>
                 </div> */}
-              </form>
             </div>
           </div>
           <div className="container-fluid">
@@ -320,7 +377,7 @@ const Signin = (props) => {
                     type="submit"
                     name=""
                     value="Login"
-                    onClick="login(document.getElementById('usem').value,document.getElementById('pass').value)"
+                    // onClick="login(document.getElementById('usem').value,document.getElementById('pass').value)"
                   />
                   <p className="or">
                     <span>or</span>
@@ -335,10 +392,10 @@ const Signin = (props) => {
           </div>
         </div>
         <div className="action-buttons">
-          <button className="down-button">
+          <button type="button" className="down-button">
             <i className="fas fa-arrow-down"></i>
           </button>
-          <button className="up-button">
+          <button type="button" className="up-button">
             <i className="fas fa-arrow-up"></i>
           </button>
         </div>

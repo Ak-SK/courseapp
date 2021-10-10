@@ -16,7 +16,7 @@ const InstitutionCard = (props) => {
         <div className="card">
           <img
             className="card-img"
-            src={props.institution.logoUrl}
+            src={`https://secure--storage.s3.ap-south-1.amazonaws.com/${props.institution.logoUrl}`}
             alt={props.institution.instituteName}
             // src={props.institution.Logourl}
             // alt={props.institution.InstituteName}

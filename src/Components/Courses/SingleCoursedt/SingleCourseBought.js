@@ -1,4 +1,3 @@
-// import { get } from "jquery";
 import React, { useEffect, useState } from "react";
 import NavigationTabs from "../../../UI/NavigationTabs/NavigationTabs";
 import SectionPanel from "../../../UI/SectionPanel/SectionPanel";
@@ -19,7 +18,8 @@ const SingleCourseBought = (props) => {
     topicName: "",
     topicDesc: "",
     captions: [],
-    materials: []
+    materials: [],
+    qa: []
   });
   const [currentTime, setCurrentTime] = useState(0);
   const [ongoingCourse, setOngoingCourse] = useState(null);
@@ -30,37 +30,65 @@ const SingleCourseBought = (props) => {
 
   // when this component unmounts, this useEffect will run
   useEffect(() => {
-    return () => {
+    const beforeUnload = (ev) => {
+      ev.preventDefault();
       let lat = JSON.parse(localStorage.getItem("latestSectionTopic"));
+      let sectionTopics = JSON.parse(sessionStorage.getItem("sectionTopics"));
       // console.log("latest", lat);
 
       let ongoingIndex = props.ongoingIndex;
       let ongoingCourse = props.authCtx.user.ongoingCourses[ongoingIndex];
+
       let curTime = ongoingCourse.currentSectionTopic.topic.currentTime;
       // console.log("currentTime", curTime);
-      if (lat.topic.currentTime !== curTime) {
-        setLatestSectionTopicDB(lat, props.authCtx, props.course);
+      if (lat !== null) {
+        if (lat.topic.currentTime !== curTime) {
+          setLatestSectionTopicDB(
+            lat,
+            props.authCtx,
+            props.course,
+            sectionTopics,
+            ongoingCourse
+          );
+        }
+        localStorage.removeItem("latestSectionTopic");
+        sessionStorage.removeItem("updatedQues");
+      }
+      return (ev.returnValue = "Are you sure you want to close?");
+    };
+
+    window.addEventListener("beforeunload", beforeUnload);
+
+    return () => {
+      // why used localStorage instead of variables,
+      // bcs when componentUnmounted, not data will be there
+      // so store in localStorage or in sessionStorage
+      let lat = JSON.parse(localStorage.getItem("latestSectionTopic"));
+      let sectionTopics = JSON.parse(sessionStorage.getItem("sectionTopics"));
+      // console.log("latest", lat);
+
+      let ongoingIndex = props.ongoingIndex;
+      let ongoingCourse = props.authCtx.user.ongoingCourses[ongoingIndex];
+
+      let curTime = ongoingCourse.currentSectionTopic.topic.currentTime;
+      // console.log("currentTime", curTime);
+      if (lat !== null) {
+        if (lat.topic.currentTime !== curTime) {
+          setLatestSectionTopicDB(
+            lat,
+            props.authCtx,
+            props.course,
+            sectionTopics,
+            ongoingCourse
+          );
+        }
       }
       // when this unmounts then clear that in localStorage.
       localStorage.removeItem("latestSectionTopic");
+      sessionStorage.removeItem("updatedQues");
+      window.removeEventListener("beforeunload", beforeUnload);
     };
   }, []);
-
-  window.addEventListener("beforeunload", (ev) => {
-    ev.preventDefault();
-    return (ev.returnValue = "Are you sure you want to close?");
-  });
-
-  // window.addEventListener("beforeunload", (ev) => {
-  //   ev.preventDefault();
-  //   // reloading
-  //   // if (sessionStorage.getItem("userId") !== null) {
-  //   //   console.log("page reloaded!!!");
-  //   // } else {
-  //   return (ev.returnValue = "Are you sure you want to close?");
-  //   // ev.returnValue = "Are";
-  //   // }
-  // });
 
   useEffect(() => {
     console.log("latestSectionTopic", latestSectionTopic, currentTime);
@@ -76,17 +104,7 @@ const SingleCourseBought = (props) => {
     }
   }, [latestSectionTopic, currentTime]);
 
-  // window.addEventListener("beforeunload", function (e) {
-  //   console.log("unload operation");
-  // });
-
   useEffect(() => {
-    // console.log(
-    //   "courseBought",
-    //   props.course,
-    //   props.courseId,
-    //   props.subcategoryId
-    // );
     let sectionIds = props.course.sections;
     getSectionsTopics((sectionTopics) => {
       // console.log("courseBought-SectionTopics", sectionTopics);
@@ -102,53 +120,58 @@ const SingleCourseBought = (props) => {
         }
         return 0;
       });
+      console.log("sectionTopics", sectionTopics);
+      sessionStorage.setItem("sectionTopics", JSON.stringify(sectionTopics));
       setSectionTopics(sectionTopics);
       let ongoingIndex = props.ongoingIndex;
       let ongoingCourse = props.authCtx.user.ongoingCourses[ongoingIndex];
       setOngoingCourse(ongoingCourse);
-      if (ongoingCourse.currentSectionTopic.sectionId === "") {
-        // if currentSection === '', setFirst topic
-        console.log(
-          "no current section id, that means this course bought now only"
-        );
-        let currentSecTop = {
-          section: sectionTopics[0].section,
-          topic: sectionTopics[0].topics[0]
-        };
-        // console.log("currentSecTOP", currentSecTop);
-        // it will happen only once, when initially the course is bought
-        setLatestSectionTopic(currentSecTop);
-        setCurrentSectionTopic(currentSecTop);
-        setTopic(sectionTopics[0].topics[0]);
-        setCurrentTime(ongoingCourse.currentSectionTopic.topic.currentTime);
-        // setVideoPlayTime(ongoingCourse.currentSectionTopic.topic.currentTime);
-      } else {
-        // get last played section & topic from db and set that topic & highlight that topic with some css
-        let sectionTopIndex = sectionTopics.findIndex(
-          (sec) =>
-            sec.section.id === ongoingCourse.currentSectionTopic.sectionId
-        );
-        let topicIndex = sectionTopics[sectionTopIndex].topics.findIndex(
-          (top) => top.id === ongoingCourse.currentSectionTopic.topic.topicId
-        );
-        let section = sectionTopics[sectionTopIndex].section;
-        let topic = sectionTopics[sectionTopIndex].topics[topicIndex];
+      if (sectionTopics.length !== 0) {
+        if (ongoingCourse.currentSectionTopic.sectionId === "") {
+          // if currentSection === '', setFirst topic
+          console.log(
+            "no current section id, that means this course bought now only"
+          );
+          // cannot read property section of undefined
+          let currentSecTop = {
+            section: sectionTopics[0].section,
+            topic: sectionTopics[0].topics[0]
+          };
+          console.log("currentSecTOP", currentSecTop);
+          // it will happen only once, when initially the course is bought
+          setLatestSectionTopic(currentSecTop);
+          setCurrentSectionTopic(currentSecTop);
+          setTopic(sectionTopics[0].topics[0]);
+          setCurrentTime(ongoingCourse.currentSectionTopic.topic.currentTime);
+          // setVideoPlayTime(ongoingCourse.currentSectionTopic.topic.currentTime);
+        } else {
+          // get last played section & topic from db and set that topic & highlight that topic with some css
+          let sectionTopIndex = sectionTopics.findIndex(
+            (sec) =>
+              sec.section.id === ongoingCourse.currentSectionTopic.sectionId
+          );
+          let topicIndex = sectionTopics[sectionTopIndex].topics.findIndex(
+            (top) => top.id === ongoingCourse.currentSectionTopic.topic.topicId
+          );
+          let section = sectionTopics[sectionTopIndex].section;
+          let topic = sectionTopics[sectionTopIndex].topics[topicIndex];
 
-        let currentSecTop = {
-          section: section,
-          topic: topic
-        };
-
-        setLatestSectionTopic(currentSecTop);
-        setCurrentSectionTopic(currentSecTop);
-        setTopic(topic);
-        setCurrentTime(ongoingCourse.currentSectionTopic.topic.currentTime);
-        // setVideoPlayTime(ongoingCourse.currentSectionTopic.topic.currentTime);
-        // console.log(
-        //   "last played section & topic",
-        //   sectionTop.section.id,
-        //   topic.id
-        // );
+          let currentSecTop = {
+            section: section,
+            topic: topic
+          };
+          console.log("currentSecTOP---", currentSecTop);
+          setLatestSectionTopic(currentSecTop);
+          setCurrentSectionTopic(currentSecTop);
+          setTopic(topic);
+          setCurrentTime(ongoingCourse.currentSectionTopic.topic.currentTime);
+          // setVideoPlayTime(ongoingCourse.currentSectionTopic.topic.currentTime);
+          // console.log(
+          //   "last played section & topic",
+          //   sectionTop.section.id,
+          //   topic.id
+          // );
+        }
       }
       // sectionTopics
     }, sectionIds);

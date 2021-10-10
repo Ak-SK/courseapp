@@ -44,11 +44,20 @@ const CourseContent = (props) => {
         return 0;
       });
       let sum = 0;
+      let totalHours = 0;
       sections.forEach((sec) => {
+        // console.log("asdas", sec.sectionLength);
+        if (sec.sectionLength !== undefined) {
+          totalHours += sec.sectionLength;
+        }
         sum += sec.noOfTopics;
       });
-      console.log("sorted--- from db", sections);
+      // secs to hours
+      totalHours = totalHours / 3600;
+      // totalHours = (totalHours / 3600).toFixed(0);
+      console.log("sorted--- from db", sections, totalHours);
       props.setNoOfLectures(sum);
+      props.setTotalHours(totalHours);
       setSections(sections);
     }, sectionIds);
   }, [props, props.course.sections]);
@@ -57,17 +66,28 @@ const CourseContent = (props) => {
   if (sections === null) {
     sec = <p>Loading...</p>;
   } else {
-    // let sum = 0;
-    // sections.forEach((sec) => {
-    //   sum += sec.noOfTopics;
-    // });
+    let totalHours = props.totalHours;
+    let hour = totalHours.toFixed(0) < 1 ? "00" : totalHours.toFixed(0);
+    let min = totalHours.toFixed(2);
+    let index = min.toString().indexOf(".");
+    min = min.toString().substring(index + 1);
+    let secs = "00";
+    let minInt = parseInt(min);
+    if (minInt < 1) {
+      min = "00";
+    } else if (minInt > 60) {
+      min = "60";
+      secs = minInt - 60;
+    }
+    totalHours = hour + ":" + min + ":" + secs;
     sec = (
       <>
         <div className="course_contents">
           <p className="title">
             Course Content
             <span className="vds_no">
-              {props.noOfLectures}&nbsp;Lectures&emsp;Duration&nbsp;02:11:30
+              {props.noOfLectures}&nbsp;Lectures&emsp;Duration&nbsp;
+              {totalHours}
             </span>
           </p>
           {sections.map((section, i) => {
@@ -93,9 +113,9 @@ const CourseContent = (props) => {
                             {/* 1. Introduction to the Course */}
                             {topicName}
                           </span>
-                          <span className="flt_rt">
+                          {/* <span className="flt_rt">
                             Preview<span className="vedio-length">02:53</span>
-                          </span>
+                          </span> */}
                         </div>
                       );
                     })}

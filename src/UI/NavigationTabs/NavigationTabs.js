@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CourseOverview from "../../Components/Courses/SingleCoursedt/CourseOverview";
 import CourseAddReview from "../../Components/Courses/SingleCoursedt/CourseAddReview";
 import CourseAssesment from "../../Components/Courses/SingleCoursedt/CourseAssesment";
@@ -6,8 +6,10 @@ import CourseCaptions from "../../Components/Courses/SingleCoursedt/CourseCaptio
 import CourseQ from "../../Components/Courses/SingleCoursedt/CourseQ";
 import CourseMaterial from "../../Components/Courses/SingleCoursedt/CourseMaterial";
 
-
 const NavigationTabs = (props) => {
+  // useEffect(() => {
+  //   console.log("topic", props.topic);
+  // }, [props.topic]);
   return (
     <>
       <ul className="nav nav-tabs">
@@ -21,11 +23,11 @@ const NavigationTabs = (props) => {
             About
           </a>
         </li>
-        {/* <li className="nav-item">
+        <li className="nav-item">
           <a className="nav-link" data-toggle="tab" href="#menu1">
             Q & A
           </a>
-        </li> */}
+        </li>
         <li className="nav-item">
           <a className="nav-link" data-toggle="tab" href="#menu2">
             Reviews
@@ -36,11 +38,11 @@ const NavigationTabs = (props) => {
             Assessment: Quiz
           </a>
         </li>
-        {/* <li className="nav-item">
+        <li className="nav-item">
           <a className="nav-link" data-toggle="tab" href="#menu4">
             Materials
           </a>
-        </li> */}
+        </li>
       </ul>
       {/* <!-- Tab panes --> */}
       <div className="tab-content">
@@ -51,7 +53,11 @@ const NavigationTabs = (props) => {
           <CourseOverview course={props.course} />
         </div>
         <div className="tab-pane container" id="menu1">
-          <CourseQ />
+          <CourseQ
+            topic={props.topic}
+            authCtx={props.authCtx}
+            currentSectionTopic={props.currentSectionTopic}
+          />
         </div>
         <div className="tab-pane container" id="menu2">
           <CourseAddReview
@@ -78,7 +84,7 @@ const NavigationTabs = (props) => {
           />
         </div>
         <div className="tab-pane container" id="menu4">
-          <CourseMaterial />
+          <CourseMaterial topic={props.topic} />
         </div>
       </div>
     </>

@@ -1,8 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CourseCard from "./CourseCard";
 
 const MyBookmarks = (props) => {
-  let bookmarks = props.bookmarks;
+  const [bookmarks, setbookmarks] = useState([]);
+  useEffect(() => {
+    setbookmarks(props.bookmarks);
+  }, [props.bookmarks]);
+
+  const getSortedBookmark = () => {
+    if (document.getElementById("bookmarks").value === "recent") {
+      let ong = [...bookmarks];
+      ong.sort((a, b) => {
+        let nameA = a.bookmarkedTimestamp;
+        let nameB = b.bookmarkedTimestamp;
+        // console.log(nameA, nameB);
+        if (nameA > nameB) {
+          return -1;
+        }
+        if (nameA < nameB) {
+          return 1;
+        }
+        return 0;
+      });
+      setbookmarks(ong);
+    } else if (document.getElementById("bookmarks").value === "old") {
+      let ong = [...bookmarks];
+      ong.sort((a, b) => {
+        let nameA = a.bookmarkedTimestamp;
+        let nameB = b.bookmarkedTimestamp;
+        // console.log(nameA, nameB);
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        return 0;
+      });
+      setbookmarks(ong);
+    }
+  };
+
   let bookmarkList = null;
   if (bookmarks.length === 0) {
     bookmarkList = <p>No Bookmarks!!!</p>;
@@ -17,19 +55,24 @@ const MyBookmarks = (props) => {
     <div class="marked">
       <div class="list-header">
         <h4>Browse Your Favourites</h4>
-        <ul class="list dropdown">
-          <li class="dropdown-toggle" id="navbardrop" data-toggle="dropdown">
-            <span>Sort By</span>
-            <ul class="dropdown-menu">
-              <li>
-                <a class="list-item">Recent</a>
-              </li>
-              <li>
-                <a class="list-item">Latest</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
+        <div class="dropdown">
+          <select
+            name="bookmarks"
+            id="bookmarks"
+            class="dropdown-toggle"
+            onChange={getSortedBookmark}
+          >
+            <option class="list-item" value="all">
+              --- Select ---
+            </option>
+            <option class="list-item" value="recent">
+              Recent
+            </option>
+            <option class="list-item" value="old">
+              Latest
+            </option>
+          </select>
+        </div>
       </div>
 
       <div class="row p20">{bookmarkList}</div>

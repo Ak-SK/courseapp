@@ -1,4 +1,5 @@
 import React from "react";
+import AlgoliaSearch from "../../NewFeatureTest/AlgoliaSearch";
 const CarouselImages = () => {
   return (
     <>
@@ -80,6 +81,7 @@ const CarouselImages = () => {
                   Search
                 </button>
               </div>
+              {/* <AlgoliaSearch /> */}
             </div>
             <p className="under_q">
               Technology is bringing a massive way of evolution on Learning
