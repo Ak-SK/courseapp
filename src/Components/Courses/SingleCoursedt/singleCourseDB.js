@@ -393,7 +393,10 @@ const addReview = (authCtx, ongoingCourse, course, reviewDet, setReview) => {
               console.log("updated in course reviews");
               setReview(review);
             })
-            .catch((e) => console.log(e));
+            .catch((e) => {
+              // if we get error due to 1mb limit
+              console.log(e);
+            });
         })
         .catch((e) => console.log(e));
     })

@@ -51,7 +51,7 @@ const TopCourses = (props) => {
       console.log("cour", courses);
       return (
         <div className="item col-sm-6 col-md-4 col-lg-3 col-xl-3">
-          <CourseCard course={courses} key={i} />;
+          <CourseCard course={courses} key={courses.id} />;
         </div>
       );
       // <CourseCard course={courses} key={i} />;

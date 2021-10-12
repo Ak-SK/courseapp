@@ -129,11 +129,24 @@ const CourseCard = (props) => {
           </p>
           <h3 className="card-title">{props.course.courseName}</h3>
           <p className="card-text">
-            <span className="fa fa-star"></span>
-            <span className="fa fa-star"></span>
-            <span className="fa fa-star"></span>
-            <span className="fa fa-star"></span>
-            <span className="fa fa-star"></span>
+            {props.course.totalRating !== undefined ? (
+              <>
+                {/* {props.course.totalRating} */}
+                <span className="fa fa-star"></span>
+                <span className="fa fa-star"></span>
+                <span className="fa fa-star"></span>
+                <span className="fa fa-star"></span>
+                <span className="fa fa-star"></span>
+              </>
+            ) : (
+              <>
+                <span className="fa fa-star"></span>
+                <span className="fa fa-star"></span>
+                <span className="fa fa-star"></span>
+                <span className="fa fa-star"></span>
+                <span className="fa fa-star"></span>
+              </>
+            )}
           </p>
           <hr />
           <p className="card_footer">

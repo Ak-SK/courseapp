@@ -226,6 +226,10 @@ const Signin = (props) => {
   return (
     <>
       <div className="slider-container">
+        <Link className={classes.homebtt} to="/dashboard/home">
+          <i class="fas fa-home"></i>
+          {/* Home */}
+        </Link>
         {forgotModal && (
           <ForgotPassModal
             sendResetMail={sendResetMail}
@@ -260,10 +264,6 @@ const Signin = (props) => {
         </div>
         <div className="right-slide">
           <div className="container-fluid">
-            <Link className={classes.homebtt} to="/dashboard/home">
-              <i class="fas fa-home"></i>
-              {/* Home */}
-            </Link>
             <div className="container">
               <form onSubmit={submitHandler}>
                 <div className="title">Student Login</div>
@@ -379,15 +379,14 @@ const Signin = (props) => {
                     value="Login"
                     // onClick="login(document.getElementById('usem').value,document.getElementById('pass').value)"
                   />
-                  <p className="or">
-                    <span>or</span>
-                  </p>
-                  <p className="subtitle">
-                    Don't have an account?{" "}
-                    <a href="#institutionsignup"> sign Up</a>
-                  </p>
                 </div>
               </form>
+              <p className="or">
+                <span>or</span>
+              </p>
+              <p className="subtitle">
+                Don't have an account? <a href="#institutionsignup"> sign Up</a>
+              </p>
             </div>
           </div>
         </div>

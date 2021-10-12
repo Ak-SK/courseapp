@@ -47,10 +47,10 @@ const UserDashboard = (props) => {
             <div class="row m-0">
               <Sidebar authCtx={authCtx} {...props} />
               <div class="col-md-9 col-lg-10 col-xl-10 scrollbar">
-                <Header />
+                <Header authCtx={authCtx}/>
                 <Switch>
                   <Route path={`${props.match.url}/myProfile`}>
-                    <MyProfile {...props} />
+                    <MyProfile {...props} authCtx={authCtx} />
                   </Route>
                   <Route path={`${props.match.url}/mycourses`}>
                     <MyCourses authCtx={authCtx} />

@@ -51,8 +51,10 @@ const SingleCourseBought = (props) => {
             ongoingCourse
           );
         }
+        // alert("removing updatedQues from session");
         localStorage.removeItem("latestSectionTopic");
         sessionStorage.removeItem("updatedQues");
+        sessionStorage.removeItem("sectionTopics");
       }
       return (ev.returnValue = "Are you sure you want to close?");
     };
@@ -60,6 +62,7 @@ const SingleCourseBought = (props) => {
     window.addEventListener("beforeunload", beforeUnload);
 
     return () => {
+      console.log("cleanup");
       // why used localStorage instead of variables,
       // bcs when componentUnmounted, not data will be there
       // so store in localStorage or in sessionStorage
@@ -86,6 +89,7 @@ const SingleCourseBought = (props) => {
       // when this unmounts then clear that in localStorage.
       localStorage.removeItem("latestSectionTopic");
       sessionStorage.removeItem("updatedQues");
+      sessionStorage.removeItem("sectionTopics");
       window.removeEventListener("beforeunload", beforeUnload);
     };
   }, []);
@@ -197,7 +201,7 @@ const SingleCourseBought = (props) => {
   };
 
   const getNextTopic = () => {
-    // console.log("sectionTopic", sectionTopics);
+    console.log("getNextTopic");
     let currentSectionIndex = sectionTopics.findIndex(
       (secTop) => secTop.section.id === currentSectionTopic.section.id
     );
@@ -209,6 +213,7 @@ const SingleCourseBought = (props) => {
       currentSectionIndex < sectionTopics.length - 1 &&
       currentTopicIndex < section.topics.length - 1
     ) {
+      console.log("if 1");
       // same section, topic index < lenth, play/set next index topic
       let currentSecTop = {
         section: section.section,
@@ -229,6 +234,7 @@ const SingleCourseBought = (props) => {
         }
       }
       // if it is less than that, dont set
+      console.log("currentSecTop ---- check", currentSecTop);
       setCurrentSectionTopic(currentSecTop);
       setTopic(section.topics[currentTopicIndex + 1]);
       setCurrentTime(0);

@@ -13,6 +13,7 @@ body {
 }
 
 .left-slide {
+  display: none;
   height: 100%;
   width: 35%;
   position: absolute;
@@ -67,7 +68,10 @@ body {
 .left-slide p:hover {
   cursor: pointer;
 }
-
+.left-slide p,
+.left-slide p span {
+  display: none;
+}
 .left-slide p span img {
   position: absolute;
   /* width: 30px;
@@ -95,8 +99,8 @@ body {
   height: 100%;
   position: absolute;
   top: 0;
-  left: 35%;
-  width: 65%;
+  left: 0;
+  width: 100%;
   transition: transform 0.5s ease-in-out;
 }
 
@@ -109,15 +113,16 @@ body {
 .right-slide .container-fluid .container {
   position: absolute;
   margin: auto;
-  width: 350px;
-  top: 0;
+  min-width: 200px;
+  width: fit-content;
+  top: 10%;
   bottom: 0;
   right: 0;
   left: 0;
   background-color: #fff;
   padding: 15px 30px;
   border-radius: 5px;
-  height: 50%;
+  height: fit-content;
   box-shadow: 0 5px 15px 3px rgba(0, 0, 0, 0.15);
 }
 
@@ -149,19 +154,20 @@ button:focus {
 
 .slider-container .action-buttons button {
   position: absolute;
-  left: 35%;
-  top: 50%;
+  left: 0;
+  bottom: 0;
   z-index: 100;
 }
 
 .slider-container .action-buttons .down-button {
-  transform: translateX(-100%);
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
+  transform: translateX(-0%);
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  box-shadow: 3px 2px 6px;
 }
 
 .slider-container .action-buttons .up-button {
-  transform: translateY(-100%);
+  transform: translateY(-120%);
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   box-shadow: 3px 2px 6px;
@@ -194,20 +200,20 @@ button:focus {
   border-radius: 5px;
   background: linear-gradient(to right, #99004d 0%, #ff0080 100%);
 }
-.container form .input-box {
+.slider-container .container form .input-box {
   width: 100%;
   height: 45px;
   margin-top: 25px;
   position: relative;
 }
-.container form .input-box input {
+.slider-container .container form .input-box input {
   width: 100%;
   height: 100%;
   outline: none;
   font-size: 16px;
   border: none;
 }
-.container form .underline::before {
+.slider-container .container form .underline::before {
   content: "";
   position: absolute;
   height: 2px;
@@ -234,7 +240,7 @@ button:focus {
   transform-origin: left;
 }
 .container form .button {
-  margin: 40px 0 20px 0;
+  margin: 15px 0;
 }
 .container .input-box input[type="submit"] {
   background: -webkit-linear-gradient(
@@ -304,11 +310,91 @@ button:focus {
   text-align: center;
   font-size: 14px;
   font-weight: bold;
-  border-bottom: 2px solid rgb(245 239 239);
+  /* border-bottom: 2px solid rgb(245 239 239); */
+  border-bottom: 1px solid #7d7d7d;
   line-height: 0.1em;
-  margin: 25px 0;
+  margin: 10px 0;
 }
 .or span {
   background: #fff;
   padding: 0 10px;
+}
+/* ============================== */
+
+@media only screen and (min-width: 400px) {
+  .right-slide .container-fluid .container {
+    width: 350px;
+  }
+}
+
+@media only screen and (min-width: 576px) {
+  .left-slide {
+    display: block;
+    height: 100%;
+    width: 40%;
+  }
+  .right-slide {
+    left: 40%;
+    width: 60%;
+  }
+  .right-slide .container-fluid .container {
+    top: 0;
+  }
+  .slider-container .action-buttons button {
+    left: 40%;
+    top: 50%;
+    bottom: inherit;
+  }
+  .slider-container .action-buttons .down-button {
+    transform: translateX(-100%);
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    box-shadow: 0 0 0;
+  }
+  .slider-container .action-buttons .up-button {
+    transform: translateY(-100%);
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .left-slide {
+    display: block;
+    height: 100%;
+    width: 50%;
+  }
+  .right-slide {
+    left: 50%;
+    width: 50%;
+  }
+  .left-slide p {
+    display: block;
+  }
+  .container form .button {
+    margin: 40px 0 20px 0;
+  }
+  .slider-container .action-buttons button {
+    left: 50%;
+  }
+  .or {
+    margin: 25px 0;
+  }
+}
+@media only screen and (min-width: 900px) {
+  .left-slide {
+    display: block;
+    height: 100%;
+    width: 35%;
+  }
+  .left-slide p span {
+    display: block;
+  }
+  .right-slide {
+    left: 35%;
+    width: 65%;
+  }
+  .slider-container .action-buttons button {
+    left: 35%;
+  }
 }

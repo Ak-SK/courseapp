@@ -7,15 +7,15 @@ const InstitutionInfo = (props) => {
         <h1>Institution Details</h1>
         <div className="row m-0">
           <div className="col-sm-12 col-md-10 col-lg-8 col-xl-9 bb">
-            <h3 className="incharge">Owner info</h3>
-            <p>{props.institute.ownerInfo}</p>
-            <h3>Address</h3>
+            {/* <h3 className="incharge">Owner info</h3> */}
+            {/* <p>{props.institute.ownerInfo}</p> */}
+            {/* <h3>Address</h3>
             <p className="address">
               329 Queensberry Street, North Melbourne <br /> VIC 3051,
               Australia.
               <br /> 123 456 7890
               <br /> support@smartedu.com
-            </p>
+            </p> */}
             <h3>About Us</h3>
             <p>
               <span>&emsp;</span>

@@ -378,8 +378,8 @@ const Courses = (props) => {
     coursesLists = <h1>No courses!!!</h1>;
   } else {
     coursesLists = courses.map((course, i) => (
-      <div className="item col-sm-6 col-md-6 col-lg-4 col-xl-4">
-        <CourseCard course={course} key={i} {...props} />
+      <div key={course.id} className="item col-sm-6 col-md-6 col-lg-4 col-xl-4">
+        <CourseCard course={course} {...props} />
       </div>
     ));
   }
@@ -452,7 +452,7 @@ const Courses = (props) => {
       </section>
       <section className="sect3_courses">
         <div className="container-fluid p-0">
-          <details className="mobile-filter">
+          {/* <details className="mobile-filter">
             <summary className="sum">
               Filter<i class="fas fa-sort-down"></i>
             </summary>
@@ -460,7 +460,7 @@ const Courses = (props) => {
               filter={filterOptions}
               getFilteredCourses={getFilteredCourses}
             />
-          </details>
+          </details> */}
           {/* {mobileFilter} */}
           <div className="row" style={{ margin: "0" }}>
             <CoursesFilter

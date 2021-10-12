@@ -14,30 +14,28 @@ const CourseQ = (props) => {
       // if() {
       // session - get
       if (items === null || items === undefined) {
+        // console.log("if items", items);
         if (props.topic.qa === undefined || props.topic.qa === null) {
+          // console.log("if items if", items);
           setPosts("No Questions Yet!!!");
         } else {
+          // console.log("if items else", items);
           setPosts(props.topic.qa);
         }
       } else {
+        // console.log("else items", items);
         let fileteredValues = items.filter((item) => {
           return (
             currentSectionTopic.section.id === item.sectionId &&
             currentSectionTopic.topic.id === item.topicId
           );
         });
-        let values = [...fileteredValues, props.topic.qa];
+        let values = [...fileteredValues, ...props.topic.qa];
         setPosts(values);
       }
       // else (props.topic.qa === undefined || props.topic.qa === null) {
     }
   }, [props.topic, props.currentSectionTopic]);
-
-  // useEffect(() => {
-  //   return () => {
-  //     sessionStorage.removeItem("updatedQues");
-  //   };
-  // }, []);
 
   const postHandler = () => {
     // console.log("questionPosted", ques);
@@ -61,7 +59,7 @@ const CourseQ = (props) => {
         });
         setQues("");
         // persistance
-        console.log("isUpdated", isUpdated);
+        // console.log("isUpdated", isUpdated);
         let items = JSON.parse(sessionStorage.getItem("updatedQues"));
         if (items === null || items === undefined) {
           // no new questions

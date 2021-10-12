@@ -22,6 +22,7 @@ const AuthContext = React.createContext({
   setUser: (user) => {},
   setIsLoggedIn: () => {},
   logout: () => {},
+  history: "",
   setHistory: () => {}
 });
 
@@ -182,6 +183,8 @@ export const AuthContextProvider = (props) => {
     let userId = localStorage.getItem("userId");
     localStorage.removeItem("userId");
     sessionStorage.removeItem("userId");
+    localStorage.removeItem("latestSectionTopic");
+    sessionStorage.removeItem("updatedQues");
     try {
       db.collection("students")
         .doc(user.id)
@@ -219,6 +222,7 @@ export const AuthContextProvider = (props) => {
         isLoggedIn: isLoggedIn,
         setIsLoggedIn: setLoggedIn,
         logout: logoutHandler,
+        history: history,
         setHistory: setHistoryProp
       }}
     >

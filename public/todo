@@ -14,7 +14,7 @@
 - invoice
 - remainingDays, -1 -> lifetime, - UI in courseBought, how many days remaining.
 - insitutes -> noOfStudents, when buying the course of that particular institute
-
+- rating balance iruku
 - doubt: noOfStudents in courses, should not be removed, 
 if the course is expired
 - expired, completed courses are only in orders, should

@@ -6,7 +6,10 @@ import "./Signup.css";
 const InstitutionSignup = () => {
   return (
     <>
-      <section className="signup-page">
+      <section
+        className="signup-page"
+        style={{ backgroundImage: "url(/images/error.jpg)" }}
+      >
         <div className="container-fluid">
           <div className="container">
             <div className="title">Institution Signup</div>

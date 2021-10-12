@@ -57,6 +57,9 @@ const Dashboard = (props) => {
     authCtx.setUser(null);
     localStorage.removeItem("userId");
     sessionStorage.removeItem("userId");
+    localStorage.removeItem("latestSectionTopic");
+    sessionStorage.removeItem("updatedQues");
+    // sessionStorage.removeItem("updatedQues");
     db.collection("students")
       .doc(authCtx.user.id)
       .update({

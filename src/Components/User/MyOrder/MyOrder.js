@@ -78,6 +78,7 @@ const MyOrder = (props) => {
   if (orders !== null) {
     orderUi = orders.map((order) => {
       return (
+        
         <tr key={order.orderId}>
           <td>{order.courseName}</td>
           <td>{order.category}</td>
@@ -133,7 +134,8 @@ const MyOrder = (props) => {
                 <td>Action</td>
               </tr>
             </thead>
-            {orderUi}
+            <tbody>{orderUi}</tbody>
+            
           </table>
         </div>
       </div>

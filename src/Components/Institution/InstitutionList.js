@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom"
 import InstitutionFilter from "./InstitutionFilter";
 import CarouselView from "../../Reusable/CarouselView";
 
@@ -14,7 +15,7 @@ const InstitutionList = (props) => {
             <div className="inner_container">
               <h1>INSTITUTION</h1>
               <p>
-                <a href="index.html">Home</a>&ensp;/&ensp;Institutions
+                <Link to="/home">Home</Link>&ensp;/&ensp;Institutions
               </p>
             </div>
           </div>

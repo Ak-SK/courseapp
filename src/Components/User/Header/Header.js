@@ -49,9 +49,9 @@ const Header = (props) => {
 
   return (
     <div class="dashboard">
-      <p class="title m-0">My Profile</p>
+      <p class="title m-0">{props.authCtx.user.name}</p>
       <p class="link m-0">
-        <a href="#l">Home</a>
+        <Link to="/home">Home</Link>
         &ensp;/&ensp;Dashboard
       </p>
       <p class="button" onClick={overlayHandler}>
