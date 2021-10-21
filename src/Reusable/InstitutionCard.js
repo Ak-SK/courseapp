@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import InstitutionContext from "../Context/institution-context";
+import RatingStar from "../UI/Ratings/RatingStar";
 // import { Link } from "react-router-dom";
 const InstitutionCard = (props) => {
   const ctx = useContext(InstitutionContext);
@@ -28,11 +29,12 @@ const InstitutionCard = (props) => {
           <div className="card-body text-center">
             <h3 className="card-title">{props.institution.instituteName}</h3>
             <p className="card-text">
+              <RatingStar rating={props.institution.ratings} />
+              {/* <span className="fa fa-star"></span>
               <span className="fa fa-star"></span>
               <span className="fa fa-star"></span>
               <span className="fa fa-star"></span>
-              <span className="fa fa-star"></span>
-              <span className="fa fa-star"></span>
+              <span className="fa fa-star"></span> */}
             </p>
             {/* <p className="inst_place">{props.institution.address.district}</p> */}
             <hr />

@@ -42,36 +42,40 @@ const CourseQ = (props) => {
     // console.log("authCtx", props.authCtx);
     let user = props.authCtx.user;
     let currentSectionTopic = props.currentSectionTopic;
-    postQuestion(ques, user, currentSectionTopic, (isUpdated) => {
-      if (isUpdated === false) {
-        alert("Some Network Issues. Try Posting Questions Later.");
-      } else {
-        // console.log("elseeeeee");
-        // let pts = posts;
-        // pts.push(isUpdated);
-
-        setPosts((prevState) => {
-          if (prevState === "No Questions Yet!!!") {
-            return [isUpdated];
-          } else {
-            return [...prevState, isUpdated];
-          }
-        });
-        setQues("");
-        // persistance
-        // console.log("isUpdated", isUpdated);
-        let items = JSON.parse(sessionStorage.getItem("updatedQues"));
-        if (items === null || items === undefined) {
-          // no new questions
-          let arr = [isUpdated];
-          sessionStorage.setItem("updatedQues", JSON.stringify(arr));
+    if (ques === "") {
+      alert("You didn't ask any question!!!");
+    } else {
+      postQuestion(ques, user, currentSectionTopic, (isUpdated) => {
+        if (isUpdated === false) {
+          alert("Some Issues. Try Posting Questions Later.");
         } else {
-          // some ques posted in any section or topic may be
-          let arr = [...items, isUpdated];
-          sessionStorage.setItem("updatedQues", JSON.stringify(arr));
+          // console.log("elseeeeee");
+          // let pts = posts;
+          // pts.push(isUpdated);
+
+          setPosts((prevState) => {
+            if (prevState === "No Questions Yet!!!") {
+              return [isUpdated];
+            } else {
+              return [...prevState, isUpdated];
+            }
+          });
+          setQues("");
+          // persistance
+          // console.log("isUpdated", isUpdated);
+          let items = JSON.parse(sessionStorage.getItem("updatedQues"));
+          if (items === null || items === undefined) {
+            // no new questions
+            let arr = [isUpdated];
+            sessionStorage.setItem("updatedQues", JSON.stringify(arr));
+          } else {
+            // some ques posted in any section or topic may be
+            let arr = [...items, isUpdated];
+            sessionStorage.setItem("updatedQues", JSON.stringify(arr));
+          }
         }
-      }
-    });
+      });
+    }
   };
 
   const onChangeHandler = (event) => {

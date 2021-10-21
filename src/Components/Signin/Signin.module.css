@@ -12,7 +12,7 @@
 }
 
 .leftbg1 {
-  background-image: url("images/16.jpg");
+  background-image: url("../../others/16.jpg");
   background-position: 50% 0;
   background-size: 1172px 100% !important;
 }
@@ -30,7 +30,7 @@
 }
 
 .leftbg2 {
-  background-image: url("images/17.jpg");
+  background-image: url("../../others/17.jpg");
 }
 
 .leftbg2::after {

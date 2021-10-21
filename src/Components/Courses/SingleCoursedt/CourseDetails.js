@@ -178,6 +178,7 @@ const CourseDetails = (props) => {
         course={course}
         subcategoryId={subcategoryId}
         courseId={params.courseId}
+        authCtx={authCtx}
       />
     );
   }

@@ -12,14 +12,13 @@ const CourseAssesment = (props) => {
 
   useEffect(() => {
     if (props.currentSectionTopic !== null) {
-      console.log("Quiz", props.currentSectionTopic);
+      // console.log("Quiz", props.currentSectionTopic);
       setQuiz(props.currentSectionTopic.section.quiz);
-      console.log("showQuiz", props.showQuiz);
+      // console.log("showQuiz", props.showQuiz);
       setShowQuiz(props.showQuiz);
       setPercentage(null);
-      setIsCompleted(false);
     }
-  }, [props.currentSectionTopic, props.showQuiz]);
+  }, [props.currentSectionTopic, props.showQuiz, props.ongoingCourse]);
 
   const onChangeHandler = (e) => {
     console.log(e.target.name, e.target.value, e.target.type);

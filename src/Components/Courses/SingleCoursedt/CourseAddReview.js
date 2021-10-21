@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import CourseReview from "./CourseReview";
 import Rating from "../../../UI/Ratings/Rating";
 import UserReview from "../../../UI/SingleUserReview/UserReview";
-import { addReview } from "./singleCourseDB";
+import { addReview, deleteReview, getReviews } from "./singleCourseDB";
 
-// import StudentFeedbackList from "./StudentFeedback";
+import StudentFeedbackList from "./StudentFeedback";
 
 const CourseAddReview = (props) => {
   const [reviewDet, setReviewDet] = useState({
@@ -17,6 +17,7 @@ const CourseAddReview = (props) => {
   // form, else true, then show user review, no form,
   // then in useEffect, need to check if the review is already given
   const [review, setReview] = useState(false);
+  const [reviews, setReviews] = useState(null);
 
   useEffect(() => {
     // console.log("ongoingCourse", props.ongoingCourse);
@@ -25,13 +26,29 @@ const CourseAddReview = (props) => {
       if (
         reviewDet !== null &&
         reviewDet !== undefined &&
-        reviewDet.review !== ""
+        reviewDet.reviewContent !== ""
       ) {
+        // setting user review from ongoingCourse
         setReview(reviewDet);
-        console.log("rev", reviewDet);
+        console.log("getReviews-CourseAddReview");
       }
+
+      getReviews(
+        (revs) => {
+          console.log("reviews", revs);
+          setReviews(revs);
+        },
+        props.course.subcategoryId,
+        props.course.id,
+        props.authCtx
+      );
     }
-  }, [props.ongoingCourse]);
+  }, [
+    props.ongoingCourse,
+    props.course.subcategoryId,
+    props.course.id,
+    props.authCtx
+  ]);
 
   const onChangeHandler = (e) => {
     // console.log("addReview", e.target.value);
@@ -47,18 +64,51 @@ const CourseAddReview = (props) => {
     e.preventDefault();
     // console.log("reviewDet", reviewDet);
     // set to db
-    addReview(
-      props.authCtx,
-      props.ongoingCourse,
-      props.course,
-      reviewDet,
-      (reviewDet) => {
-        // console.log("addReview-callback", reviewDet);
-        setReview({
-          ...reviewDet
-        });
-      }
-    );
+    if (reviewDet.rating <= 0) {
+      alert("Select rating to save your review!!!");
+    } else if (reviewDet.reviewTitle === "") {
+      alert("Title Missing!!!");
+    } else if (reviewDet.reviewContent === "") {
+      alert("Don't miss to ask question!!!");
+    } else {
+      addReview(
+        props.authCtx,
+        props.ongoingCourse,
+        props.course,
+        reviewDet,
+        (review) => {
+          console.log("addReview-callback", review);
+          setReview({
+            ...review
+          });
+
+          setReviews((prev) => {
+            let reviewsList = prev;
+            let index = reviewsList.findIndex((rev) => {
+              return rev.userId === props.authCtx.user.id;
+            });
+            if (index === -1) {
+              // no reviews yet
+              let data = {
+                ...review,
+                userId: props.authCtx.user.id,
+                username: props.authCtx.user.name
+              };
+              return [data];
+            } else {
+              // already reviews are there
+              reviewsList[index] = {
+                ...review,
+                userId: props.authCtx.user.id,
+                username: props.authCtx.user.name
+              };
+              return [...reviewsList];
+            }
+          });
+        },
+        reviews
+      );
+    }
 
     // reset the state
     setReviewDet((prev) => {
@@ -70,6 +120,31 @@ const CourseAddReview = (props) => {
     });
   };
 
+  const updateReviewHandler = (rev) => {
+    console.log("update", rev);
+    setReview(false);
+    setReviewDet(rev);
+  };
+
+  const deleteReviewHandler = () => {
+    deleteReview(
+      props.authCtx,
+      props.ongoingCourse,
+      props.course,
+      reviews,
+      (revs) => {
+        setReviews(revs);
+        setReview(false);
+        setReviewDet({
+          rating: -1,
+          reviewTitle: "",
+          reviewContent: "",
+          uploadedDT: ""
+        });
+      }
+    );
+  };
+
   // let ui = null;
   // if (review === false) {
   // }
@@ -77,8 +152,8 @@ const CourseAddReview = (props) => {
   return (
     <>
       <div class="user_review">
-        <CourseReview />
-        {/* <StudentFeedbackList /> */}
+        <CourseReview reviews={reviews} />
+        <StudentFeedbackList reviews={reviews} />
       </div>
       {props.ongoingCourse !== null && props.ongoingCourse.isCourseCompleted && (
         <>
@@ -131,7 +206,11 @@ const CourseAddReview = (props) => {
               </form>
             </div>
           ) : (
-            <UserReview review={review} onChangeHandler={onChangeHandler} />
+            <UserReview
+              review={review}
+              deleteReview={deleteReviewHandler}
+              updateReview={updateReviewHandler}
+            />
           )}
         </>
       )}

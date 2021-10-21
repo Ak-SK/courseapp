@@ -1,6 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const Registration = () => {
+const Registration = (props) => {
+  let ui = null;
+  if (props.authCtx !== null) {
+    if (props.authCtx.isLoggedIn) {
+      ui = (
+        <Link className="reg_btn" to="/userDashboard/myprofile">
+          Get Started Now With Your Dashboard
+        </Link>
+      );
+    } else {
+      ui = (
+        <Link className="reg_btn" to="/login">
+          Get Started Now
+        </Link>
+      );
+    }
+  }
+
   return (
     <>
       <section className="reg_sect">
@@ -12,11 +29,9 @@ const Registration = () => {
               <br />
               ONLINE COURSES
             </h3>
-            <form action="#blankpage" method="get">
-              <Link className="reg_btn" to="/login">
-                Get Started Now
-              </Link>
-            </form>
+            {/* <form action="#blankpage" method="get"> */}
+            {ui}
+            {/* </form> */}
           </div>
         </div>
       </section>

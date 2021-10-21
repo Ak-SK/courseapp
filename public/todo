@@ -1,4 +1,4 @@
-// 23/09/2021
+ // 23/09/2021
 - completed review adding on courses and to the user ongoing course
 
 // 24/09/2021
@@ -12,15 +12,20 @@
 // 28/09/2020
 // todo
 - invoice
-- remainingDays, -1 -> lifetime, - UI in courseBought, how many days remaining.
-- insitutes -> noOfStudents, when buying the course of that particular institute
-- rating balance iruku
 - doubt: noOfStudents in courses, should not be removed, 
 if the course is expired
 - expired, completed courses are only in orders, should
 that be in completedOrders?
-- replace spinners wherever needed
 
+first priority:
+- course name is not visible inside the courseBought video
+- student feedback - 5,4,3,2,1 should work if poosible
+
+// uiseful links:
+to reduce load time: https://hackernoon.com/improving-first-time-load-of-a-production-react-app-part-1-of-2-e7494a7c7ab0
+https://www.infoq.com/articles/reduce-react-load-time/
+https://medium.com/hackernoon/how-i-made-my-react-app-4-times-faster-7b929479cac4
+https://hasgeek.com/reactfoo/2017/sub/improving-load-time-of-a-production-react-app-DeFWCbF1kB2qfZ23hJnr7H
 
 last priority:
 - payment gateway
@@ -28,32 +33,38 @@ last priority:
 payment is integrated)
   ii) add status and other details, this can be done only after payment,
 based on the status only, the course should be registered
-- review edit & delete (bcs no one will access this immediatly)
-
 - adding lazy loading to the routes in App.js(this made some, styling errors, need to check deeply)
 - add lazy loading to the components
 - adding ErrorBoundary to the place, where we feel error may occur. 
-- put everything into user doc itself, to reduce 
-writes and max a user can buy is 20-50 course, and 
-a single doc can handle atleast 2000elements of array
+- rating balance iruku
 
 sanjay:
+- inside institute need facult and courses horizantally
+- topic and its description should be visible on the video when 
+hover inside the video tag
 - materials(jpg, png)
 
 akhil:
 - about us, static data, later we can add
 - footer
 - search bar - algolia(UI)
+- UI in courseBought & courseLive, how many days remaining
 
 ishu:
 - show faculty carousel in institution
 - contact us(submit button - send email)//completed have to change email id
 (smtp.js or mailto)
+- replace spinners wherever needed
 
 // learnings:
  tabIndex="0" - to make keyboard events work in react
 
 completed:
+- noOfInstituion in instituion page, is 85 change to dynamic
+- delete profile image after replacing it.
+- insitutes -> noOfStudents, when buying the course of that particular institute
+- review edit & delete (bcs no one will access this immediatly)
+- show only verified courses in home, course page
 - user dashboard remaining
 i) persnal detail update, remove the previous image from storage
 - FAQ
@@ -96,3 +107,26 @@ experiments:
 next update:
 - only videos can be viewed in the topics, what if it is a pdf?
 - (no screenshot should be taken) - on hold
+
+
+
+
+
+-----bugs--------
+dashboard/   -> route to dashboard/home - completed
+hrs in before by page - its due to data from db, so no issues
+post empty - completed
+hide API keys
+setting,filter in mobile 
+
+
+--- payment related links ---
+getting ip address:
+https://ipdata.co/blog/how-to-get-the-ip-address-in-javascript/
+
+https://dashboard.ipdata.co/index.html
+
+https://www.davedoesdev.com/json-web-signatures-on-node-js/
+
+https://npm.io/package/jws
+

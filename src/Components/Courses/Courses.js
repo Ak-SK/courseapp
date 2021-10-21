@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CoursesFilter from "./CoursesFilter";
 import CourseCard from "../../Reusable/CourseCard";
-import Spinner from "../../UI/Spinner/Spinner";
+import Spinners from "../../UI/Spinner/spinBackdrop";
 import { getCourses, getFilterOptions } from "./CoursesDB";
 import ReactPaginate from "react-paginate";
 import AlgoliaSearch from "../../NewFeatureTest/AlgoliaSearch";
@@ -13,7 +13,7 @@ const Courses = (props) => {
   const [all, setAll] = useState(null);
   const [pageCount, setPageCount] = useState(0);
   const [pageNumber, setPageNumber] = useState(0);
-  const perPage = 2;
+  const perPage = 6;
   const pagesVisited = pageNumber * perPage;
 
   useEffect(() => {
@@ -373,7 +373,7 @@ const Courses = (props) => {
 
   let coursesLists = null;
   if (courses === null) {
-    coursesLists = <Spinner />;
+    coursesLists = <p>Loading!!!</p>;
   } else if (courses.length === 0) {
     coursesLists = <h1>No courses!!!</h1>;
   } else {

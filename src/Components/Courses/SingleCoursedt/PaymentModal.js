@@ -23,10 +23,15 @@ const ModalOverlay = (props) => {
         Course Provided by <span>{props.course.instituteName}</span>
       </p>
       <p class="duration">
-        Duration of the Course: <span>{props.price.period} Days</span>
+        Duration of the Course:{" "}
+        <span>
+          {props.price.period === -1
+            ? "Lifetime"
+            : props.price.period + " Days"}
+        </span>
       </p>
       <p class="amount">
-        Amout to be paid: <span>{props.price.discountedPrice}</span>
+        Amout to be paid: <span>Rs. {props.price.discountedPrice}</span>
       </p>
       <div class="btn-set">
         <button type="submit" class="btn" onClick={props.purchaseCourse}>

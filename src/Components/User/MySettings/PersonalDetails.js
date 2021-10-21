@@ -16,7 +16,7 @@ const PersonalDetails = (props) => {
 
     $("#img").change(function () {
       var file = this.files[0];
-      console.log(file);
+      // console.log(file);
       var reader = new FileReader();
       reader.onloadend = function () {
         $("#uploadButton").css(
@@ -71,7 +71,6 @@ const PersonalDetails = (props) => {
                   name="prfl_img"
                   id="img"
                   accept=".gif, .jpg, .png"
-                  value={newData.img}
                   onChange={onChangeHandler}
                 />
                 <label

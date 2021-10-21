@@ -30,6 +30,15 @@ const Overlay = () => {
             <i class="fas fa-receipt"></i>My Orders
           </Link>
         </li>
+        <li>
+          <Link
+            action="push"
+            class="list-link"
+            to={`/userdashboard/mysettings`}
+          >
+            <i class="fas fa-user-cog"></i>My Settings
+          </Link>
+        </li>
       </ul>
     </div>
   );

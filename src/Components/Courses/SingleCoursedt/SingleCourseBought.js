@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import NavigationTabs from "../../../UI/NavigationTabs/NavigationTabs";
 import SectionPanel from "../../../UI/SectionPanel/SectionPanel";
 import VideoPlayer from "../../../UI/VideoPlayer/VideoPlayer";
+import $ from "jquery";
+
 import {
   getSectionsTopics,
   setCourseCompleted,
@@ -77,6 +79,7 @@ const SingleCourseBought = (props) => {
       // console.log("currentTime", curTime);
       if (lat !== null) {
         if (lat.topic.currentTime !== curTime) {
+          console.log("setting into db");
           setLatestSectionTopicDB(
             lat,
             props.authCtx,
@@ -328,13 +331,27 @@ const SingleCourseBought = (props) => {
     // console.log("currentTopicIndex", currentTopicIndex);
   };
 
+  $(document).ready(function () {
+    $("#hide").click(function () {
+      $("#indicator").hide();
+    });
+  });
+
   let UI = null;
   if (sectionTopics === null) {
     UI = <p>Loading!!!</p>;
   } else {
     UI = (
       <>
-        <div className="col-sm-8 col-md-9 col-lg-9 col-xl-9">
+        <div className="col-sm-8 col-md-9 col-lg-9 col-xl-9 inner-row-left">
+          <div id="indicator">
+            No Of Days Remaining:
+            <span>
+              {" "}
+              {props.remainingDays === -1 ? "Lifetime" : props.remainingDays}
+            </span>
+            <b id="hide">&#88;</b>
+          </div>
           <VideoPlayer
             topic={topic}
             sections={sectionTopics}

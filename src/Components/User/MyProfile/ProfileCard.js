@@ -1,10 +1,36 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import AuthContext from "../../../Context/auth-context";
 
 const ProfileCard = (props) => {
   const authCtx = useContext(AuthContext);
   console.log("authCtx", authCtx.user);
+
+  const [length, setLength] = useState({
+    ongoingCoursesLength: 0,
+    completedCoursesLength: 0
+  });
+
+  useEffect(() => {
+    if (props.authCtx.user !== null) {
+      // console.log("user----", props.user);
+      let courses = props.authCtx.user.ongoingCourses;
+      let ong = 0;
+      let com = 0;
+      courses.forEach((c) => {
+        if (c.isCourseCompleted) {
+          com++;
+        } else {
+          ong++;
+        }
+      });
+      console.log(ong, com);
+      setLength({
+        ongoingCoursesLength: ong,
+        completedCoursesLength: com
+      });
+    }
+  }, [props.authCtx.user]);
   // authCtx.user === null && Spinner
   return (
     <>
@@ -87,7 +113,7 @@ const ProfileCard = (props) => {
               Ongoing
             </NavLink>
             <p class="counter value" data-target="4">
-              {authCtx.user !== null && authCtx.user.ongoingCourses.length}
+              {length.ongoingCoursesLength}
             </p>
           </div>
           <div class="icon style4">
@@ -104,7 +130,7 @@ const ProfileCard = (props) => {
               Completed
             </NavLink>
             <p class="counter value" data-target="26">
-              {authCtx.user !== null && authCtx.user.completedCourses.length}
+              {length.completedCoursesLength}
             </p>
           </div>
           <div class="icon style5">

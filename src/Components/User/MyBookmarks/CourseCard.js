@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import AuthContext from "../../../Context/auth-context";
 import CoursesContext from "../../../Context/courses-context";
+import RatingStar from "../../../UI/Ratings/RatingStar";
 import { removeBookmark } from "../../Courses/CoursesDB";
 
 const CourseCard = (props) => {
@@ -73,18 +74,31 @@ const CourseCard = (props) => {
           <p>
             Author's Name: {facs.join()}
             <span>
-              <a class="view_more" href="#">
+              <a class="view_more" onClick={() => courseUpdate(course)}>
                 view more
               </a>
             </span>
           </p>
           <h3 class="card-title">{course.courseName}</h3>
           <p class="card-text">
+            {course.totalRating !== undefined ? (
+              <>
+                <RatingStar rating={props.course.totalRating} />
+                &nbsp;
+                {/* <small class="value">({props.course.totalRating})</small> */}
+              </>
+            ) : (
+              <>
+                <RatingStar rating={2.5} />
+                &nbsp;
+                {/* <small class="value">(2.5)</small> */}
+              </>
+            )}
+            {/* <span class="fa fa-star"></span>
             <span class="fa fa-star"></span>
             <span class="fa fa-star"></span>
             <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span> */}
           </p>
           <hr />
           <p class="card_footer">

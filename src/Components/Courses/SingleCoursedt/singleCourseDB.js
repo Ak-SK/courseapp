@@ -169,6 +169,7 @@ const setLatestSectionTopicDB = (
     console.log("Course Already compelted, dont again set db to 100%");
   } else {
     // before last section & last topic
+    // console.log();
     let sectionLength = sectionTopics.length;
     let sectionIndex = sectionTopics.findIndex((secTop) => {
       return secTop.section.id === latestData.sectionId;
@@ -211,7 +212,7 @@ const setLatestSectionTopicDB = (
     };
     console.log("updatedCourse", updatedCourse);
     ongoingCourses[ongoingCourseIndex] = updatedCourse;
-    // console.log("ongoingCourses set", ongoingCourses);
+    console.log("ongoingCourses set", ongoingCourses);
     // let completedIndex = completedCourses.findIndex((courses) => {
     //   return courses.id === course.id;
     // });
@@ -242,27 +243,35 @@ const setLatestSectionTopicDB = (
   }
 };
 
-const getReviews = (reviews, subcategoryId, courseId) => {
+const getReviews = (reviews, subcategoryId, courseId, authCtx) => {
   courseId = courseId.trim();
   subcategoryId = subcategoryId.trim();
+  console.log("getReviews--db");
   let list = [];
   db.collection("subCategories")
     .doc(subcategoryId)
     .collection("courses")
     .doc(courseId)
     .collection("reviews")
-    .limit(5) // check this out later
+    .doc("reviews")
+    // .limit(5) // check this out later
     .get()
-    .then((docs) => {
-      docs.forEach((doc) => {
-        doc.data().reviews.forEach((review) => {
-          list.push(review);
-        });
-      });
+    .then((doc) => {
+      // docs.forEach((doc) => {
+      //   doc.data().reviews.forEach((review) => {
+      //     list.push(review);
+      //   });
+      // });
+      // the user review will not be shown
+      let reviews = doc.data().reviews;
+      // let reviews = doc.data().reviews.filter((rev) => {
+      //   return rev.userId !== authCtx.user.id;
+      // });
+      list = [...reviews];
     })
     .catch((e) => console.log(e))
     .finally(() => {
-      console.log("listReviews", list);
+      // console.log("listReviews", list);
       reviews(list);
     });
 };
@@ -305,7 +314,16 @@ const setCourseCompleted = (authCtx, course) => {
   // console.log("updated", ongoingCourses);
 };
 
-const addReview = (authCtx, ongoingCourse, course, reviewDet, setReview) => {
+// basic one, one doc 2000 to 4000 reviews can be there
+// for advance one next function which is in comment
+const addReview = (
+  authCtx,
+  ongoingCourse,
+  course,
+  reviewDet,
+  setReview,
+  reviewsList
+) => {
   // add review to that particular user/student ongoigncourse
   // console.log("course", authCtx.user, course, reviewDet);
   // setReview(reviewDet);
@@ -329,11 +347,197 @@ const addReview = (authCtx, ongoingCourse, course, reviewDet, setReview) => {
     ongoingCourses: ongoingCourses
   });
 
-  // ongoingDocIds, like the below shouldnt not be given,
-  // we must get all the ongoignCourses docs, and find which doc,
-  // the current course is there, and update only that doc
-  // not other document
-  // set in db
+  db.collection("students")
+    .doc(authCtx.user.id)
+    .collection("userCourseDetails")
+    .doc("courseDetails")
+    .update({
+      ongoingCourses: ongoingCourses
+    })
+    .then(() => {
+      console.log("successfully updated review in ongoingCourse!!!");
+      // db.collection("subCategories")
+      //   .doc(course.subcategoryId)
+      //   .collection("courses")
+      //   .doc(course.id)
+      //   .collection("reviews")
+      //   .doc("reviews")
+      //   .get()
+      //   .then((doc) => {
+      // let reviews = doc.data().reviews;
+      let reviews = reviewsList;
+      let index = reviews.findIndex((rev) => {
+        return rev.userId === authCtx.user.id;
+      });
+      let rev = {
+        rating: review.rating,
+        reviewContent: review.reviewContent,
+        reviewTitle: review.reviewTitle,
+        uploadedDT: review.uploadedDT,
+        userId: authCtx.user.id,
+        username: authCtx.user.name
+      };
+      if (index === -1) {
+        // new review
+        reviews.push(rev);
+      } else {
+        // udpate review
+        reviews[index] = rev;
+      }
+      db.collection("subCategories")
+        .doc(course.subcategoryId)
+        .collection("courses")
+        .doc(course.id)
+        .collection("reviews")
+        .doc("reviews")
+        .update({
+          reviews: reviews
+        })
+        .then(() => {
+          console.log("updated in course reviews");
+          setReview(review);
+        })
+        .catch((e) => {
+          // if we get error due to 1mb limit
+          console.log(e);
+        });
+    })
+    .catch((e) => console.log(e));
+  // })
+  // .catch((e) => console.log(e));
+};
+
+// next update
+// const addReview = (authCtx, ongoingCourse, course, reviewDet, setReview) => {
+//   // add review to that particular user/student ongoigncourse
+//   // console.log("course", authCtx.user, course, reviewDet);
+//   // setReview(reviewDet);
+//   let review = {
+//     ...reviewDet,
+//     uploadedDT: new Date().getTime().toString()
+//   };
+//   let ongoingCourses = authCtx.user.ongoingCourses;
+//   let updatedCourse = {
+//     ...ongoingCourse,
+//     reviewDet: review // {rating: 3, review: ''}
+//   };
+//   let index = ongoingCourses.findIndex((courses) => {
+//     return courses.id === ongoingCourse.id;
+//   });
+//   ongoingCourses[index] = updatedCourse;
+
+//   // update ongoingCourses in auth-context
+//   authCtx.setUser({
+//     ...authCtx.user,
+//     ongoingCourses: ongoingCourses
+//   });
+
+//   // ongoingDocIds, like the below shouldnt not be given,
+//   // we must get all the ongoignCourses docs, and find which doc,
+//   // the current course is there, and update only that doc
+//   // not other document
+//   // set in db
+//   db.collection("students")
+//     .doc(authCtx.user.id)
+//     .collection("userCourseDetails")
+//     .doc("courseDetails")
+//     .update({
+//       ongoingCourses: ongoingCourses
+//     })
+//     .then(() => {
+//       console.log("successfully updated review in ongoingCourse!!!");
+
+//       // this will happen, if we give docIds in course - 1write in ongoingcourse, 1write in course-reviews, 1write in course(docIds)
+//       // in course check, there is reviewIds are there,
+//       // if it is there, just get the last id and set the
+//       // review to that id
+
+//       // if reviewIds, is not there, then add new doc to
+//       // the review collection
+
+//       // below will happen, if we dont want to give docIds - n doc reads in course-reviews, 1 write in reviews, 1 write in ongoingcourse
+//       // read all docs from reviews, and update in last doc.
+//       let reviewDocs = [];
+//       db.collection("subCategories")
+//         .doc(course.subcategoryId)
+//         .collection("courses")
+//         .doc(course.id)
+//         .collection("reviews")
+//         .get()
+//         .then((docs) => {
+//           // console.log("reviewDoc", docs, course.id, course.subcategoryId);
+//           docs.forEach((doc) => {
+//             // console.log("reviews", doc.data());
+//             reviewDocs.push(doc.data());
+//           });
+//         })
+//         .then(() => {
+//           console.log("reviewDocs", reviewDocs);
+//           let cur = reviewDocs[reviewDocs.length - 1];
+//           // this will show an error, if there is no review collection
+//           // and no docs in that collection
+//           console.log("cur", cur);
+//           db.collection("subCategories")
+//             .doc(course.subcategoryId)
+//             .collection("courses")
+//             .doc(course.id)
+//             .collection("reviews")
+//             .doc(cur.id)
+//             .update({
+//               reviews: firebase.firestore.FieldValue.arrayUnion({
+//                 rating: review.rating,
+//                 review: review.reviewContent,
+//                 reviewTitle: review.reviewTitle,
+//                 uploadedDT: review.uploadedDT,
+//                 userId: authCtx.user.id,
+//                 username: authCtx.user.name
+//               })
+//             })
+//             .then(() => {
+//               console.log("updated in course reviews");
+//               setReview(review);
+//             })
+//             .catch((e) => {
+//               // if we get error due to 1mb limit
+//               console.log(e);
+//             });
+//         })
+//         .catch((e) => console.log(e));
+//     })
+//     .catch((e) => console.log(e));
+// };
+
+const deleteReview = (
+  authCtx,
+  ongoingCourse,
+  course,
+  reviewsList,
+  setReviews
+) => {
+  console.log("user", authCtx.user);
+  console.log("course", course);
+  let ongoingCourses = authCtx.user.ongoingCourses;
+
+  let index = ongoingCourses.findIndex((courses) => {
+    return courses.id === ongoingCourse.id;
+  });
+  let updatedCourse = {
+    ...ongoingCourse,
+    reviewDet: {
+      rating: 0,
+      reviewContent: "",
+      reviewTitle: "",
+      uploadedDT: ""
+    }
+  };
+  ongoingCourses[index] = updatedCourse;
+
+  // update ongoingCourses in auth-context
+  authCtx.setUser({
+    ...authCtx.user,
+    ongoingCourses: ongoingCourses
+  });
+
   db.collection("students")
     .doc(authCtx.user.id)
     .collection("userCourseDetails")
@@ -344,61 +548,28 @@ const addReview = (authCtx, ongoingCourse, course, reviewDet, setReview) => {
     .then(() => {
       console.log("successfully updated review in ongoingCourse!!!");
 
-      // this will happen, if we give docIds in course - 1write in ongoingcourse, 1write in course-reviews, 1write in course(docIds)
-      // in course check, there is reviewIds are there,
-      // if it is there, just get the last id and set the
-      // review to that id
+      let reviews = reviewsList;
+      let filteredCourses = reviews.filter((rev) => {
+        return rev.userId !== authCtx.user.id;
+      });
 
-      // if reviewIds, is not there, then add new doc to
-      // the review collection
-
-      // below will happen, if we dont want to give docIds - n doc reads in course-reviews, 1 write in reviews, 1 write in ongoingcourse
-      // read all docs from reviews, and update in last doc.
-      let reviewDocs = [];
       db.collection("subCategories")
         .doc(course.subcategoryId)
         .collection("courses")
         .doc(course.id)
         .collection("reviews")
-        .get()
-        .then((docs) => {
-          // console.log("reviewDoc", docs, course.id, course.subcategoryId);
-          docs.forEach((doc) => {
-            reviewDocs.push(doc.data());
-          });
+        .doc("reviews")
+        .update({
+          reviews: filteredCourses
         })
         .then(() => {
-          // console.log("reviewDocs", reviewDocs);
-          let cur = reviewDocs[reviewDocs.length - 1];
-          // this will show an error, if there is no review collection
-          // and no docs in that collection
-          // console.log("cur", cur);
-          db.collection("subCategories")
-            .doc(course.subcategoryId)
-            .collection("courses")
-            .doc(course.id)
-            .collection("reviews")
-            .doc(cur.id)
-            .update({
-              reviews: firebase.firestore.FieldValue.arrayUnion({
-                rating: review.rating,
-                review: review.reviewContent,
-                reviewTitle: review.reviewTitle,
-                uploadedDT: review.uploadedDT,
-                userId: authCtx.user.id,
-                username: authCtx.user.name
-              })
-            })
-            .then(() => {
-              console.log("updated in course reviews");
-              setReview(review);
-            })
-            .catch((e) => {
-              // if we get error due to 1mb limit
-              console.log(e);
-            });
+          console.log("deleted from course reviews");
+          setReviews(filteredCourses);
         })
-        .catch((e) => console.log(e));
+        .catch((e) => {
+          // if we get error due to 1mb limit
+          console.log(e);
+        });
     })
     .catch((e) => console.log(e));
 };
@@ -459,5 +630,6 @@ export {
   setCourseCompleted,
   addReview,
   setQuizAnswers,
-  postQuestion
+  postQuestion,
+  deleteReview
 };

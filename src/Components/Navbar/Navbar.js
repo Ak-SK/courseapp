@@ -77,7 +77,7 @@ const Navbar = (props) => {
           $("#navigation").css("box-shadow", "0px 0px 30px rgb(0 0 0 / 10%)");
           $(".navbar_img").css(
             "background-image",
-            "url(/images/logo_black.png)"
+            "url(../../others/Bodhi1.png)"
           );
           $(".navbar-brand").css(
             "border-right",
@@ -276,7 +276,6 @@ const Navbar = (props) => {
                     action="push"
                     className="dropdown-item"
                     to={`/dashboard/courses`}
-                    style={{ paddingLeft: "0px" }}
                   >
                     View All
                   </Link>

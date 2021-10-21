@@ -88,14 +88,12 @@ const PdfViewer = (props) => {
   // };
 
   return (
-    <div class="pdf" tabIndex="0">
-      <i
-        class="fas fa-times"
-        style={{ cursor: "pointer" }}
-        onClick={props.close}
-      ></i>
+    <div className="pdf" tabIndex="0">
+      <span style={{ cursor: "pointer" }} onClick={props.close}>
+        <i className="fas fa-times"></i>Close
+      </span>
       <Document
-        class="viewer"
+        className="viewer"
         file={`https://secure--storage.s3.ap-south-1.amazonaws.com/${props.material.materialURL}`}
         onLoadSuccess={onDocumentLoadSuccess}
       >
@@ -104,7 +102,7 @@ const PdfViewer = (props) => {
       <p>
         Page {pageNumber} of {numPages}
       </p>
-      <div class="pdf-controls">
+      <div className="pdf-controls">
         <span
           onClick={() =>
             setPageNumber((prevState) => {
@@ -117,7 +115,7 @@ const PdfViewer = (props) => {
             })
           }
         >
-          <i class="fas fa-chevron-left"></i>
+          <i className="fas fa-chevron-left"></i>
         </span>
         <span
           onClick={() =>
@@ -130,7 +128,7 @@ const PdfViewer = (props) => {
             })
           }
         >
-          <i class="fas fa-chevron-right"></i>
+          <i className="fas fa-chevron-right"></i>
         </span>
       </div>
     </div>

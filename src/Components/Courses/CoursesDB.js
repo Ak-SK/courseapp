@@ -15,9 +15,12 @@ const getCourses = (courses, subcatId) => {
   db.collection("subCategories")
     .doc(subcatId)
     .collection("courses")
+    .where("status", "==", "Verified")
     // .limit(9)
     .get()
     .then((data) => {
+      // console.log("9999999", data);
+
       let fromCache = data.metadata.fromCache;
       let list = [];
       data.forEach((doc) => {
@@ -26,7 +29,7 @@ const getCourses = (courses, subcatId) => {
       });
       courses(list, fromCache);
     })
-    .catch((e) => console.log(e));
+    .catch((e) => console.log("/////", e));
 };
 
 const addBookmark = (user, course) => {
@@ -105,7 +108,9 @@ const buyCourse = (user, course, subcategoryId, price, setOngoingCourse) => {
     completedPercent: 0,
     reviewDet: {
       rating: -1,
-      review: ""
+      reviewContent: "",
+      reviewTitle: "",
+      uploadedDT: ""
     },
     quizAnswers: [], // based on sections
     courseDuration: price.period // how many days this course last for this user
@@ -147,6 +152,14 @@ const buyCourse = (user, course, subcategoryId, price, setOngoingCourse) => {
       // db.collection("students").doc(user.id).update({
       //   orders: firebase.firestore.FieldValue.arrayUnion(data)
       // }).then().catch();
+      // increment noOfStudents in institute
+      db.collection("institute")
+        .doc(course.instituteId)
+        .update({
+          noOfStudents: firebase.firestore.FieldValue.increment(1)
+        })
+        .then(() => console.log("update"))
+        .catch((e) => console.log(e));
     })
     .catch((e) => {
       // if 1mb limit error, then create new doc here
@@ -166,6 +179,7 @@ const removeExpiredCourse = (authCtx, ongoingCourse) => {
     ...user,
     ongoingCourses: filteredOngoingCourses
   };
+
   db.collection("students")
     .doc(user.id)
     .collection("userCourseDetails")

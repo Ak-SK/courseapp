@@ -14,7 +14,7 @@
   position: relative;
 }
 .navbar-expand-md .navbar-brand .navbar_img {
-  background-image: url(../images/logo_white.png);
+  background-image: url("../../others/Bodhi1.png");
   width: 96px;
   height: 50px;
 }
@@ -146,6 +146,42 @@
 .navbar-expand-md .navbar-nav li.prfl_img .btn {
   display: none;
 }
+.navbar-nav .dropdown-menu {
+  max-height: 350px;
+  overflow-y: auto;
+}
+.navbar-expand-md .dropdown-menu a.dropdown-item {
+  color: #0a0a0a;
+  background: none;
+  font-size: 16px;
+  margin: 0;
+  padding-top: 10px;
+  transition: all 0.3s ease 0s;
+  text-transform: uppercase;
+}
+.navbar-expand-md .dropdown-menu .sub-menu a.dropdown-item {
+  padding-top: 4px;
+  border-bottom: 0;
+}
+.navbar-expand-md .dropdown-menu a.dropdown-item i {
+  display: none;
+}
+.navbar-expand-md .dropdown-menu > li:last-child a.dropdown-item,
+.navbar-expand-md .dropdown-menu .sub-menu > li:last-child a.dropdown-item {
+  border-bottom: 0;
+  font-size: 12px;
+  color: #007bff;
+  border-top: 1px solid #dedede;
+}
+.navbar-expand-md .dropdown-menu .sub-menu > li:last-child a.dropdown-item {
+  border-top: none;
+}
+.navbar-expand-md .dropdown-menu .sub-menu {
+  list-style-type: none;
+  padding: 0 0 10px;
+  padding-left: 15px;
+  border-bottom: 1px solid #dedede;
+}
 /*========================================== / / =================================================*/
 .navbar .prfl_img img.img-fluid {
   width: 50px;
@@ -166,7 +202,6 @@
   font-weight: normal;
   font-size: 12px;
 }
-
 /*===========================================Media Query==================================*/
 @media only screen and (min-width: 768px) {
   .fixed-top {
@@ -195,7 +230,7 @@
     margin-top: 14px;
   }
   .navbar-expand-md .navbar-brand .navbar_img {
-    background-image: url(../images/logo_white.png);
+    background-image: url("../../others/Bodhi1.png");
     width: 96px;
     height: 50px;
     margin-right: 20px;
@@ -237,6 +272,8 @@
     width: 240px;
     height: inherit;
     padding: 15px 0;
+    max-height: initial;
+    overflow-y: initial;
     box-shadow: 0px 0px 50px 0px rgb(32 32 32 / 15%);
   }
   .navbar-expand-md .dropdown-menu:before {
@@ -284,9 +321,13 @@
     font-size: 16px;
     padding: 10px 0;
     margin: 0;
-    border-bottom: 1px solid #dedede;
     transition: all 0.3s ease 0s;
     text-transform: uppercase;
+    border-bottom: 1px solid #dedede;
+  }
+  .navbar-expand-md .dropdown-menu .sub-menu a.dropdown-item {
+    padding-top: 10px;
+    border-bottom: 1px solid #dedede;
   }
   .navbar-expand-md .dropdown-menu > li:last-child a.dropdown-item,
   .navbar-expand-md .dropdown-menu .sub-menu > li:last-child a.dropdown-item {
@@ -295,6 +336,7 @@
   .navbar-expand-md .dropdown-menu > li:last-child a.dropdown-item,
   .navbar-expand-md .dropdown-menu .sub-menu > li:last-child a.dropdown-item {
     border-bottom: 0;
+    border-top: 0;
     font-size: 12px;
     padding: 20px 0 0;
     color: #007bff;
@@ -302,6 +344,7 @@
 
   .navbar-expand-md .dropdown-menu a.dropdown-item i.fas {
     float: right;
+    display: initial;
     font-size: 11px;
     margin-top: 6px;
     color: #0a0a0a;

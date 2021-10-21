@@ -110,8 +110,10 @@ html {
 }
 .dashboard p.title {
   font-size: 22px;
+  font-weight: 100;
   color: #0a0a0a;
   line-height: 26px;
+  letter-spacing: 1px;
 }
 .dashboard p.button {
   font-size: 20px;
@@ -380,7 +382,7 @@ html {
 .end {
   padding: 20px;
   border-top: 1px solid #eee;
-  xt-align: center;
+  text-align: center;
 }
 /*==================================================================================================*/
 
@@ -502,6 +504,7 @@ html {
 
 /*========================================== Course Contents ========================================*/
 .cover-nav {
+  display: none;
   height: 85px;
   background-image: -webkit-linear-gradient(
     0deg,
@@ -512,7 +515,31 @@ html {
 }
 
 .crs-bought .container-fluid {
-  padding: 50px 20px;
+  top: -3px;
+  padding: 15px;
+}
+.inner-row-left {
+  padding: 0;
+}
+#indicator {
+  font-size: 14px;
+  position: relative;
+  background: #fff;
+  color: #0a0a0a;
+  margin: 0 0 10px;
+  padding: 5px 10px;
+  z-index: 100;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 7px #7d7d7d;
+}
+#indicator span {
+  font-weight: 600;
+}
+#indicator b {
+  float: right;
+  color: #ff1053;
+  padding: 0 8px;
+  cursor: pointer;
 }
 .videoframe {
   width: inherit;
@@ -614,10 +641,17 @@ html {
 }
 .video .nav-tabs {
   margin: 15px 0 0;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  flex-wrap: no-wrap;
   border-bottom: 1px solid #dcdacb;
 }
+.video .nav-tabs .nav-item {
+  padding: 5px 10px;
+}
 .video .nav-tabs .nav-link {
-  font-size: 20px;
+  font-size: 14px;
+  padding: 0;
   font-weight: 500;
   color: #3452ff;
   border: 1px solid transparent;
@@ -717,6 +751,40 @@ html {
   line-height: 2.8;
   margin-bottom: 0;
 }
+
+/* =========== */
+@media only screen and (min-width: 768px) {
+  .cover-nav {
+    display: block;
+  }
+  .crs-bought .container-fluid {
+    top: 0;
+    padding: 50px 20px;
+  }
+  .inner-row-left {
+    padding: 0 15px;
+  }
+  #indicator {
+    font-size: 20px;
+  }
+  #indicator b {
+    padding: 1px 8px;
+  }
+  .video .nav-tabs {
+    margin: 15px 0 0;
+    overflow: initial;
+    flex-wrap: nowrap;
+    border-bottom: 1px solid #dcdacb;
+  }
+  .video .nav-tabs .nav-item {
+    padding: 0;
+  }
+  .video .nav-tabs .nav-link {
+    font-size: 20px;
+    padding: 8px 16px;
+  }
+}
+
 /*=========================================================================*/
 .video .tab-content .tab-pane .course_requirements p {
   font-size: 18px;
@@ -807,6 +875,7 @@ html {
 }
 
 .video .tab-content .tab-pane .comment .post summary {
+  position: relative;
   padding: 10px 20px;
   margin-bottom: 8px;
   font-size: 18px;
@@ -821,6 +890,26 @@ html {
   border: none;
   outline: none;
 }
+
+.video .tab-content .tab-pane .comment .post summary:after {
+  content: "\f107";
+  position: absolute;
+  font-size: 10px;
+  font-weight: 900;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  right: 20px;
+  width: fit-content;
+  height: fit-content;
+}
+
+/* ::after {
+  position: absolute;
+  content: "\f107";
+  right: 10px;
+  align-items: center; */
+/* } */
 
 .video .tab-content .tab-pane .comment .post summary p.quest {
   font-size: 16px;
@@ -960,6 +1049,9 @@ html {
 }
 .user_review .review .review-card .row span {
   float: right;
+}
+.user_review .review .review-card .row span > span {
+  float: left;
 }
 .user_review .review .review-card .row .fa {
   font-size: 11px;
@@ -1414,7 +1506,8 @@ html {
   display: inline-block;
   width: 100%;
   height: 100%;
-  max-height: 200px;
+  min-height: 200px;
+  max-height: 250px;
   text-align: center;
 }
 .settings .personal-details .upload-img input[type="file"] {
@@ -1438,7 +1531,7 @@ html {
   overflow: hidden;
   cursor: pointer;
   background-color: #000;
-  background-image: url();
+  /* background-image: url(); */
   background-size: 100%;
   background-position-x: center;
   background-repeat: no-repeat;

@@ -3,6 +3,7 @@ import { useHistory } from "react-router";
 import { addBookmark, removeBookmark } from "../Components/Courses/CoursesDB";
 import AuthContext from "../Context/auth-context";
 import CoursesContext from "../Context/courses-context";
+import RatingStar from "../UI/Ratings/RatingStar";
 // import { Link } from "react-router-dom";
 const CourseCard = (props) => {
   const ctx = useContext(CoursesContext);
@@ -131,20 +132,22 @@ const CourseCard = (props) => {
           <p className="card-text">
             {props.course.totalRating !== undefined ? (
               <>
+                <RatingStar rating={props.course.totalRating} />
                 {/* {props.course.totalRating} */}
+                {/* <span className="fa fa-star"></span>
                 <span className="fa fa-star"></span>
                 <span className="fa fa-star"></span>
                 <span className="fa fa-star"></span>
-                <span className="fa fa-star"></span>
-                <span className="fa fa-star"></span>
+                <span className="fa fa-star"></span> */}
               </>
             ) : (
               <>
+                <RatingStar rating={2.5} />
+                {/* <span className="fa fa-star"></span>
                 <span className="fa fa-star"></span>
                 <span className="fa fa-star"></span>
                 <span className="fa fa-star"></span>
-                <span className="fa fa-star"></span>
-                <span className="fa fa-star"></span>
+                <span className="fa fa-star"></span> */}
               </>
             )}
           </p>

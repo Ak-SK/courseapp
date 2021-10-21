@@ -3,6 +3,7 @@ import { db, auth, firebase } from "../../../Services/firebase";
 // import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import PersonalDetails from "./PersonalDetails";
 import ChangePassword from "./ChangePassword";
+import $ from "jquery";
 
 const MySettings = (props) => {
   const updateUser = (newData) => {
@@ -18,8 +19,10 @@ const MySettings = (props) => {
       let img = newData.prfl_img;
       let storageRef = firebase.storage().ref();
       let timestamp = +new Date().getTime() + "-" + newData.prfl_img.name;
+      console.log("timestamp", timestamp);
       let imgRef = storageRef.child(`${bucketName}/${timestamp}`);
       // let photoUrl = "";
+      // delete previous photo from storage, but not the default photo
       imgRef
         .put(img)
         .then((snapshot) => {
@@ -33,6 +36,20 @@ const MySettings = (props) => {
                 photoUrl: imgUrl
               })
               .then(() => {
+                if (
+                  authUser.photoUrl !==
+                  "https://www.w3schools.com/howto/img_avatar.png"
+                ) {
+                  firebase
+                    .storage()
+                    .refFromURL(authUser.photoUrl)
+                    .delete()
+                    .then(() =>
+                      console.log(
+                        "image deleted successfullty from firebase storage"
+                      )
+                    );
+                }
                 alert("successfully updated");
                 // console.log("successfully updated data to db");
                 props.authCtx.setUser({
@@ -41,6 +58,9 @@ const MySettings = (props) => {
                   phone: newData.mno,
                   photoUrl: imgUrl
                 });
+
+                document.getElementById("img").value = "";
+                $("#uploadButton").css("background-image", 'url("")');
               })
               .catch((e) => console.log("getDownloadUrl", e));
           });

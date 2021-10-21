@@ -11,7 +11,7 @@ const ChangePassword = (props) => {
     newPassword: "",
     confirmPassword: ""
   });
-  const [correct, setCorrect] = useState(false);
+  const [correct, setCorrect] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
 
   const onChangeHandler = (event) => {
@@ -42,6 +42,7 @@ const ChangePassword = (props) => {
         newPassword: "",
         confirmPassword: ""
       });
+      setCorrect(null);
     } else {
       setShowAlert(true);
     }
@@ -62,18 +63,22 @@ const ChangePassword = (props) => {
           <div className="row">
             <div className="col-lg-6">
               <label for="oldpass">Old Password</label>
-              {correct ? (
-                <>
-                  <i className="icon far fa-check-circle"></i>
-                  <span className="old-alert">Old Password Is Correct</span>
-                </>
+              {correct !== null ? (
+                correct === true ? (
+                  <>
+                    <i className="icon far fa-check-circle"></i>
+                    <span className="old-alert">Old Password Is Correct</span>
+                  </>
+                ) : (
+                  <>
+                    <i class="far fa-times-circle"></i>
+                    <span className="old-alert">
+                      Old Password Is Wrong, try Again
+                    </span>
+                  </>
+                )
               ) : (
-                <>
-                  <i class="far fa-times-circle"></i>
-                  <span className="old-alert">
-                    Old Password Is Wrong, try Again
-                  </span>
-                </>
+                ""
               )}
               <input
                 type="password"

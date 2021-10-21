@@ -25,7 +25,7 @@ const NavigationTabs = (props) => {
         </li>
         <li className="nav-item">
           <a className="nav-link" data-toggle="tab" href="#menu1">
-            Q & A
+            Q&nbsp;&&nbsp;A
           </a>
         </li>
         <li className="nav-item">
@@ -35,7 +35,7 @@ const NavigationTabs = (props) => {
         </li>
         <li className="nav-item">
           <a className="nav-link" data-toggle="tab" href="#menu3">
-            Assessment: Quiz
+            Assessment:&nbsp;Quiz
           </a>
         </li>
         <li className="nav-item">

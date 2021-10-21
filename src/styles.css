@@ -80,17 +80,51 @@ body {
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-weight: bold;
 }
-.home_sect .input-group {
-  border-radius: 4px;
+.home_sect .aa-Autocomplete {
+  margin: auto;
+  width: 70%;
+}
+.aa-Panel {
+  z-index: 900;
+}
+.aa-ItemTitle {
+  display: flex;
+  align-items: center;
+}
+.aa-ItemTitle img {
+  width: 40px !important;
+  height: 40px !important;
+}
+.aa-ItemTitle h5 {
+  font-size: 16px;
+  margin: 0 10px;
+}
+.home_sect .aa-Form {
+  border-radius: 20px;
   width: 50%;
   margin: auto;
+  border: none;
+  box-shadow: 0 0 0;
+  outline: none;
 }
-.home_sect .input-group .form-control {
+.home_sect .aa-Form .aa-InputWrapperPrefix {
+  order: 4;
+}
+.home_sect .aa-Form > .aa-InputWrapperSuffix:last-child .aa-ClearButton {
+  display: none;
+}
+.home_sect .aa-Form .aa-Label {
+  margin: 0;
+}
+.home_sect .aa-Form .aa-Label svg {
+  display: none;
+}
+.home_sect .aa-Form .aa-Input {
   border-radius: 20px 0 0 20px;
   font-size: 12px;
   padding: 0 7px;
 }
-.home_sect .input-group .form-control:focus {
+.home_sect .aa-Form .aa-Input:focus {
   box-shadow: 0 0 0 0;
 }
 .carousel-control-next-icon,
@@ -98,20 +132,29 @@ body {
   width: 10px;
   height: 10px;
 }
-.home_sect .input-group .btn {
-  background-color: #a3ce4e;
-  color: #fff;
+.home_sect .aa-Form .aa-SubmitButton {
   font-size: 8px;
-  padding: 0px 6px;
+  font-weight: 100;
+  font-family: initial;
+  width: auto;
+  color: #fff;
+  background-color: #a3ce4e;
+  padding: 5px 15px;
+  letter-spacing: 2px;
+  text-align: center;
   text-transform: uppercase;
   border-radius: 0 20px 20px 0;
-  font-weight: 100;
 }
-.home_sect .input-group .btn:hover {
+.home_sect .aa-Form .aa-SubmitButton::after {
+  position: relative;
+  content: "search";
+  text-transform: uppercase;
+}
+.home_sect .aa-Form .aa-SubmitButton:hover {
   background-color: #8ab23f;
   color: #fff;
 }
-.home_sect .input-group .btn:focus {
+.home_sect .aa-Form .aa-SubmitButton:focus {
   box-shadow: 0 0 0 0;
 }
 .home_sect .carousel-inner .carousel-item .img-fluid {
@@ -150,16 +193,19 @@ body {
   .home_sect .over_content p {
     font-size: 19px;
   }
-  .home_sect .input-group {
-    width: 65%;
+  .aa-Autocomplete {
+    margin: auto;
+    width: 80%;
   }
-  .home_sect .input-group .form-control {
+  .home_sect .aa-Form {
+    width: 75%;
+  }
+  .home_sect .aa-Form .aa-Input {
     font-size: 14px;
     padding: 5px 10px;
   }
-  .home_sect .input-group .btn {
-    font-size: 10px;
-    padding: 6px 20px;
+  .home_sect .aa-Form .aa-SubmitButton {
+    font-size: 14px;
   }
   .home_sect .over_content .under_q {
     font-size: 16px;
@@ -175,7 +221,7 @@ body {
 }
 /*  */
 @media only screen and (min-width: 576px) {
-  .home_sect .input-group .form-control {
+  .home_sect .aa-Form .aa-Input {
     font-size: 16px;
     padding: 5px 10px;
   }
@@ -183,9 +229,6 @@ body {
     display: block;
     bottom: 0;
     padding: 0;
-  }
-  .home_sect .input-group .btn {
-    padding: 6px 30px;
   }
   .home_sect .over_content {
     top: 0%;
@@ -218,7 +261,7 @@ body {
   .home_sect {
     margin-top: 0;
   }
-  .home_sect .input-group .form-control {
+  .home_sect .aa-Form .aa-Input {
     font-size: 18px;
     padding: 5px 15px;
   }
@@ -241,12 +284,11 @@ body {
   .home_sect .carousel-inner .carousel-item .carousel-caption {
     bottom: 50px;
   }
-  .home_sect .input-group {
+  .home_sect .aa-Form {
     width: 100%;
   }
-  .home_sect .input-group .btn {
+  .home_sect .aa-Form .aa-SubmitButton {
     font-size: 16px;
-    padding: 6px 30px;
   }
   .home_sect .over_content .under_q {
     font-size: 17px;
@@ -275,13 +317,12 @@ body {
     font-size: 34px;
     margin-bottom: 15px;
   }
-  .home_sect .input-group .form-control {
+  .home_sect .aa-Form .aa-Input {
     font-size: 22px;
     padding: 20px;
   }
-  .home_sect .input-group .btn {
+  .home_sect .aa-Form .aa-SubmitButton {
     font-size: 22px;
-    padding: 6px 50px;
   }
 }
 /*  */
@@ -1631,7 +1672,7 @@ body {
 .footer_one .container-fluid {
   position: relative;
   width: 100%;
-  padding: 80px 30px;
+  padding: 50px 30px;
   background-color: #151515;
 }
 .footer_contact_widget h4,
@@ -1642,7 +1683,7 @@ body {
   color: #ffffff;
   font-size: 20px;
   font-family: inherit;
-  margin-bottom: 30px;
+  margin: 20px 0;
 }
 .footer_contact_widget p {
   color: #969696;
@@ -2682,6 +2723,19 @@ summary::-webkit-details-marker {
   border: 1px solid #ddd;
   outline-width: 0px;
   border-radius: 5px;
+}
+.sect3_courses .container-fluid .course-grid .row_head .aa-Autocomplete {
+  width: 100%;
+}
+.sect3_courses .container-fluid .course-grid .row_head .aa-Form .aa-Label {
+  margin: 0;
+}
+.sect3_courses .container-fluid .course-grid .row_head .aa-Form {
+  box-shadow: 0 0 0;
+  outline: none;
+}
+.sect3_courses .container-fluid .course-grid .row_head .aa-Form .aa-SubmitButton {
+  padding: 5px;
 }
 .sect3_courses .course-grid .row {
   margin: 0;

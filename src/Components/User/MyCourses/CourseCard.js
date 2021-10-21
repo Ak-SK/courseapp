@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router";
 import CoursesContext from "../../../Context/courses-context";
+import RatingStar from "../../../UI/Ratings/RatingStar";
 
 const CourseCard = (props) => {
   const history = useHistory();
@@ -57,12 +58,19 @@ const CourseCard = (props) => {
               <small class="value">25</small>
             </p> */}
             <p>
-              <span class="fa fa-star"></span>
-              <span class="fa fa-star"></span>
-              <span class="fa fa-star"></span>
-              <span class="fa fa-star"></span>
-              <span class="fa fa-star"></span>
-              <small class="value">(5)</small>
+              {props.course.totalRating !== undefined ? (
+                <>
+                  <RatingStar rating={props.course.totalRating} />
+                  &nbsp;
+                  <small class="value">({props.course.totalRating})</small>
+                </>
+              ) : (
+                <>
+                  <RatingStar rating={2.5} />
+                  &nbsp;
+                  <small class="value">(2.5)</small>
+                </>
+              )}
             </p>
           </div>
         </div>

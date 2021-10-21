@@ -1,7 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../../styles.css";
 
-const Footer = () => {
+const Footer = (props) => {
   return (
     <>
       <section className="footer_one">
@@ -24,10 +25,10 @@ const Footer = () => {
                     <a href="#">About Us</a>
                   </li>
                   <li>
-                    <a href="#">Blog</a>
+                    <a href="">Contact Us</a>
                   </li>
                   <li>
-                    <a href="page-contact.html">Contact</a>
+                    <a href="#">Institution</a>
                   </li>
                   <li>
                     <a href="#">Become a Teacher</a>
@@ -37,20 +38,22 @@ const Footer = () => {
             </div>
             <div className="col-sm-6 col-md-4 col-md-3 col-lg-2">
               <div className="footer_program_widget">
-                <h4>PROGRAMS</h4>
+                <h4>COURSES</h4>
                 <ul className="list-unstyled">
-                  <li>
-                    <a href="#">Nanodegree Plus</a>
-                  </li>
-                  <li>
-                    <a href="#">Veterans</a>
-                  </li>
-                  <li>
-                    <a href="#">Georgia</a>
-                  </li>
-                  <li>
-                    <a href="#">Self-Driving Car</a>
-                  </li>
+                  {props.category !== null &&
+                    props.category !== undefined &&
+                    props.category.map((cat) => {
+                      return (
+                        <li key={cat.categoryName}>
+                          <Link
+                            style={{ textTransform: "uppercase" }}
+                            to={`/dashboard/courses?categoryName=${cat.categoryName}`}
+                          >
+                            {cat.categoryName}
+                          </Link>
+                        </li>
+                      );
+                    })}
                 </ul>
               </div>
             </div>
@@ -73,7 +76,7 @@ const Footer = () => {
                 </ul>
               </div>
             </div>
-            <div className="col-sm-6 col-md-6 col-md-3 col-lg-3">
+            {/* <div className="col-sm-6 col-md-6 col-md-3 col-lg-3">
               <div className="footer_apps_widget">
                 <h4>MOBILE</h4>
                 <div className="app_grid">
@@ -99,7 +102,7 @@ const Footer = () => {
                   </button>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
@@ -111,10 +114,9 @@ const Footer = () => {
               <div className="logo-widget home1">
                 <img
                   className="img-fluid"
-                  src="/images/header-logo.png"
-                  alt="header-logo.png"
+                  src="../../others/Bodhi1.png"
+                  alt="bodhi"
                 />
-                <span>SMART</span>
               </div>
             </div>
             <div className="col-sm-8 col-md-5 col-lg-6 col-xl-6 p25 brdr_left_right">
@@ -183,7 +185,7 @@ const Footer = () => {
           <div className="row">
             <div className="col-lg-6 offset-lg-3">
               <div className="copyright-widget text-center">
-                <p>Copyright Smart Education © 2019. All Rights Reserved.</p>
+                <p>Copyright Merit Bodhi © 2021. All Rights Reserved.</p>
               </div>
             </div>
           </div>

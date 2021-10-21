@@ -148,8 +148,12 @@ const CoursePriceBox = (props) => {
           </small>
         </div>
         <div className="days">
-          {offers.map((offer) => (
-            <div className="pill" onClick={() => updatePrice(offer.discount)}>
+          {offers.map((offer, i) => (
+            <div
+              key={i}
+              className="pill"
+              onClick={() => updatePrice(offer.discount)}
+            >
               {offer.period === -1 ? "LifeTime" : offer.period + " Days"}
             </div>
           ))}

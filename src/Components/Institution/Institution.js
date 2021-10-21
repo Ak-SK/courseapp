@@ -7,7 +7,7 @@ import CarouselView from "../../Reusable/CarouselView";
 import Toast from "../../UI/Toast/Toast";
 // import $ from "jquery";
 // import AWS from "../../Services/AWS";
-
+import Spinner from "../../UI/Spinner/Spinner";
 const Institution = (props) => {
   const [institutions, setInstitutions] = useState(null);
   const [fromCache, setFromCache] = useState(false);
@@ -24,7 +24,7 @@ const Institution = (props) => {
   let institutionsLists = null;
   if (institutions === null) {
     // console.log("null");
-    institutionsLists = <p>Loading...</p>;
+    institutionsLists = <Spinner />;
   } else {
     // console.log("else");
     institutionsLists = institutions.map((institution, i) => (
@@ -66,7 +66,8 @@ const Institution = (props) => {
             <div className="inst-view">
               <p className="row_head">
                 <span className="noi">
-                  85&ensp;<i>Institutions</i>
+                  {institutions !== null && institutions.length}&ensp;
+                  <i>Institutions</i>
                 </span>
                 {/* <input
                   type="text"

@@ -21,7 +21,7 @@ const Home = (props) => {
       {props.category !== null && (
         <Category category={props.category} {...props} />
       )}
-      <Registration />
+      <Registration authCtx={props.authCtx} />
       {ui}
       {/* <Application /> */}
       <Testimonal />

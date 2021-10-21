@@ -70,19 +70,7 @@ const CarouselImages = () => {
             <p>
               Choose From A Range Of <span>Online Courses</span>
             </p>
-            <div className="input-group">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="What are of courses would you like for search?"
-              />
-              <div className="input-group-append">
-                <button className="btn" type="submit">
-                  Search
-                </button>
-              </div>
-              {/* <AlgoliaSearch /> */}
-            </div>
+            {/* <AlgoliaSearch /> */}
             <p className="under_q">
               Technology is bringing a massive way of evolution on Learning
               Things on different ways.

@@ -40,14 +40,14 @@ const UserDashboard = (props) => {
         category={JSON.parse(sessionStorage.getItem("categories"))}
         {...props}
       />
-      <div class="nav-backdrop"></div>
-      <section style={{ backgroundColor: "#f9fafc;" }}>
+      <div className="nav-backdrop"></div>
+      <section style={{ backgroundColor: "#f9fafc" }}>
         <CoursesContextProvider>
-          <div class="container-fluid mt60">
-            <div class="row m-0">
+          <div className="container-fluid mt60">
+            <div className="row m-0">
               <Sidebar authCtx={authCtx} {...props} />
-              <div class="col-md-9 col-lg-10 col-xl-10 scrollbar">
-                <Header authCtx={authCtx}/>
+              <div className="col-md-9 col-lg-10 col-xl-10 scrollbar">
+                <Header authCtx={authCtx} />
                 <Switch>
                   <Route path={`${props.match.url}/myProfile`}>
                     <MyProfile {...props} authCtx={authCtx} />

@@ -69,6 +69,8 @@ const SingleCourseLive = (props) => {
             <img class="img-fluid" src="" alt="courseimage" />
           </div>
           <div class="col-sm-6">
+            No Of Days Remaining:{" "}
+            {props.remainingDays === -1 ? "Lifetime" : props.remainingDays}
             <p id="meetstatus"></p>
             <p>Meeting Id: {meetingDetails.meetingId}</p>
             <p>Meeting Topic: {meetingDetails.meetingName}</p>

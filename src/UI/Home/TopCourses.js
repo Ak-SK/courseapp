@@ -11,6 +11,7 @@ const TopCourses = (props) => {
     db.collection("subCategories")
       .doc(props.category[0].subcategoryList[0].subCategoryId)
       .collection("courses")
+      .where("status", "==", "Verified")
       .limit(4)
       .get()
       .then((data) => {
@@ -31,6 +32,7 @@ const TopCourses = (props) => {
     db.collection("subCategories")
       .doc(cate.subcategoryList[0].subCategoryId)
       .collection("courses")
+      .where("status", "==", "Verified")
       .limit(4)
       .get()
       .then((data) => {
@@ -47,11 +49,14 @@ const TopCourses = (props) => {
 
   let ui = null;
   if (topCourses !== null) {
-    ui = topCourses.map((courses, i) => {
+    ui = topCourses.map((courses) => {
       console.log("cour", courses);
       return (
-        <div className="item col-sm-6 col-md-4 col-lg-3 col-xl-3">
-          <CourseCard course={courses} key={courses.id} />;
+        <div
+          className="item col-sm-6 col-md-4 col-lg-3 col-xl-3"
+          key={courses.id}
+        >
+          <CourseCard course={courses} />;
         </div>
       );
       // <CourseCard course={courses} key={i} />;
